@@ -11,7 +11,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JonathanMischuk/NodePress.git"
+    "url": "https://github.com/JonathanMischuk/NodePress.0.1.0.git"
   },
   "dependencies": {
     "angular": "^1.4.8",

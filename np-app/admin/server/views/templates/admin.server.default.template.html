@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>NodePress</title>
+    <base href="/np-admin/">
+    <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+        integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="/public/css/app.min.css" />
+
+    <script src="/public/vendors/ckeditor/ckeditor.js"></script>
+</head>
+<body ng-controller="AdminUserAuthenticationController as user">
+
+<script type="text/javascript">
+    var auth = {{ user | json | safe }};
+    var exists = {{ exists }};
+    var themes = "{{ themes }}".split(",");
+</script>
+
+{% block primaryMenu %}{% endblock %}
+
+{% block content %}{% endblock %}
+
+<script src="/public/js/bundle.js"></script>
+
+</body>
+</html>

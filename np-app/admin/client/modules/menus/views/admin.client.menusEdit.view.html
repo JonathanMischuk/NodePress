@@ -1,0 +1,103 @@
+<div
+    class="half ng-cloak"
+    ng-controller="AdminUpdateMenuController as menu"
+    ng-init="menu.getMenu()">
+
+    <div
+        alert-panel
+        class="alert alert-success success">
+            Menu updated successfully
+    </div>
+
+    <h1>Edit Menu
+        <a ui-sref="newMenu" class="btn btn-default">New Menu</a>
+    </h1>
+
+    <form role="form" name="updateMenuForm" ng-submit="menu.updateMenu()" novalidate>
+
+        <div class="form-group">
+            <label for="title">Menu Title</label>
+            <input
+                type="text"
+                ng-model="menu.menu.title"
+                class="form-control"
+                id="title"
+                name="title"
+                required
+            />
+
+            <div ng-show="updateMenuForm.$submitted">
+                <div class="error" ng-show="updateMenuForm.title.$error.required">
+                    {{ menu.errorMessages.title.invalid }}
+                </div>
+
+                <div class="error" ng-show="menu.errorTitle">
+                    {{ menu.errorMessages.title.unique }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Pages</h4>
+
+                    <div class="list-group" ng-init="limit = 5">
+                        <div
+                            class="list-group-item"
+                            ng-repeat="page in menu.pages | limitTo: limit as results">
+
+                            <input
+                                type="checkbox"
+                                ng-value="page.title"
+                                ng-click="menu.addMenuItemToProxy(page, page.menuItemId)"
+                                ng-model="page.Selected"
+                            />
+                            {{ page.title }}
+                        </div>
+
+                        <a
+                            class="show-more-less"
+                            ng-hide="results.length === menu.pages.length"
+                            ng-click="limit = limit + 5">show more
+                        </a>
+                        <a
+                            class="show-more-less"
+                            ng-hide="results.length <= 5 && results.length !== menu.pages.length || results.length <= 5 && results.length === menu.pages.length"
+                            ng-click="limit = limit - 5">show less
+                        </a>
+
+                    </div>
+
+                    <a class="btn btn-success" ng-click="menu.addMenuItems()">Add Menu Items</a>
+                </div>
+
+                <div class="col-md-6">
+                    <h4>Menu Items</h4>
+                    <div ui-sortable class="list-group sortable" ng-model="menu.menuItems">
+                        <div
+                            class="list-group-item ui-state-default"
+                            ng-repeat="menuItem in menu.menuItems">
+                                <i class="glyphicon glyphicon-sort"></i>
+                                <span ng-click="menu.removeMenuItem(menuItem)" class="badge remove">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </span>
+                                {{ menuItem.title }}
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                        ng-disabled="updateMenuForm.$invalid">Update Menu
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a ui-sref="menus" class="btn btn-default">Back to All Menus</a>
+
+        </div>
+    </form>
+</div>

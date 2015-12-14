@@ -1,0 +1,64 @@
+<div ng-controller="AdminGetMenusController as menus" ng-init="menus.getMenus()">
+    <h1>Menus</h1>
+
+    <div class="form-group">
+        <a ui-sref="newMenu" class="btn btn-default">New Menu</a>
+        <a ui-sref="manageMenus" class="btn btn-default">Manage Menu Locations</a>
+    </div>
+
+    <div class="list-group">
+        <div class="list-group-item">
+            <div class="row">
+                <div class="col-md-2">
+                    <h4>Menu Title</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <h4>Location</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <h4>Author</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <h4>Last Modified</h4>
+                </div>
+            </div>
+        </div>
+
+        <div ng-repeat="menu in menus.menus" class="list-group-item">
+            <span ng-click="menus.removeMenu(menu)" class="badge remove">
+                <i class="glyphicon glyphicon-trash"></i>
+            </span>
+
+            <span class="badge edit">
+                <a ng-href="/np-admin/menus/{{ menu._id }}">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+            </span>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <p class="page-title">
+                        <a ng-href="/np-admin/menus/{{ menu._id }}">
+                            {{ menu.title }}
+                        </a>
+                    </p>
+                </div>
+
+                <div class="col-md-2">
+                    <p class="page-category">{{ menu.title || "Uncategorized" }}</p>
+                </div>
+
+                <div class="col-md-2">
+                    <p class="page-category">{{ menu.createdBy }}</p>
+                </div>
+
+                <div class="col-md-2">
+                    <p class="page-category">{{ menu.modifiedDate }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

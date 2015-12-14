@@ -1,0 +1,44 @@
+{% extends "templates/theme.server.default.template.html" %}
+
+{% block primaryMenu %}
+<nav class="primary-menu navbar navbar-default ng-cloak">
+    <div class="collapse navbar-collapse">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li ng-repeat="page in settings.primaryMenu.items">
+                    <a ng-href="/{% raw %}{{ page.slug }}{% endraw %}">
+                        {% raw %}{{ page.title }}{% endraw %}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block hero %}
+<div class="hero">
+    <img src="{{ coreSettingsSource[0].theme }}/client/img/background-header-banner.jpg" />
+</div>
+{% endblock %}
+
+{% block secondaryMenu %}
+<nav class="secondary-menu navbar navbar-default ng-cloak">
+    <div class="collapse navbar-collapse">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li ng-repeat="page in settings.secondaryMenu.items">
+                    <a ng-href="/{% raw %}{{ page.slug }}{% endraw %}">
+                        {% raw %}{{ page.title }}{% endraw %}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block view %}
+<div class="view-fade-in page-content"ui-view></div>
+{% endblock %}
+

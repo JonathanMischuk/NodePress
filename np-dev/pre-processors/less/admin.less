@@ -1,0 +1,321 @@
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
+}
+
+.ng-hide.ng-hide-animate{
+    display: none !important;
+}
+
+.ng-invalid-add-active {
+    //opacity: 0;
+}
+
+input, select, textarea {
+    .transition();
+}
+
+ul, ol {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    .transition();
+    cursor: pointer;
+}
+
+h1 {
+    margin: 50px 0;
+    color: #1c8023;
+}
+
+.half {
+    margin: 0 auto;
+    width: 50%;
+}
+
+.error {
+    margin: 5px 0 0;
+    color: red;
+}
+
+.page-title a {
+    color: #1c8023;
+    font-size: 16px;
+}
+
+.page-title a.dashboard-pages-frontend-link {
+    color: #ff861b;
+    font-size: 14px;
+    float: right;
+}
+
+.page-category {
+    color: #666;
+}
+
+.change-password {
+    margin-bottom: 30px;
+
+    a {
+        font-weight: bold;
+    }
+}
+
+.content {
+    .main-view {
+        margin: 0 auto;
+        width: 80%;
+    }
+    .row {
+        .col {
+            &:first-child {
+                margin-right: 2%;
+                width: 10%;
+            }
+
+            &:last-child {
+                width: 80%;
+                max-width: 90%;
+            }
+        }
+    }
+}
+
+.vertical-navbar {
+    margin: 20px 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+
+    ul {
+        li {
+            list-style: none;
+
+            a {
+                display: block;
+                padding: 20px;
+                color: #666;
+
+                &:hover {
+                    text-decoration: none;
+                    background: rgba(0, 0, 0, 0.1);
+                }
+            }
+        }
+    }
+}
+
+.html-editor {
+    font-family: "Courier New", Courier, sans-serif;
+    padding: 10px;
+    min-height: 400px;
+    max-width: 100%;
+}
+
+.dashboard-header-link {
+    color: #1c8023;
+    font-size: 14px;
+    line-height: 18px;
+    float: right;
+}
+
+.admin-view-page {
+    color: #ff861b;
+    font-size: 14px;
+    .transition();
+
+    &:hover {
+        text-decoration: none;
+        color: #1c8023;
+    }
+}
+
+.show-more-less {
+    display: block;
+    margin-top: 10px;
+    color: #ff861b;
+
+    &:hover {
+        text-decoration: none;
+        color: #1c8023;
+    }
+}
+
+/************************************************
+ ***** CKEditor
+ ***********************************************/
+
+.cke_contents {
+    min-height: 350px;
+}
+
+/************************************************
+ ***** jQuery Sortable
+ ***********************************************/
+
+.sortable {
+    div {
+        cursor: move;
+    }
+}
+
+/************************************************
+ ***** Custom BootStrap Styles
+ ***********************************************/
+
+.btn-success {
+    background-color: #34e941;
+    .transition();
+}
+
+.glyphicon {
+    &.glyphicon-sort {
+        margin-right: 10px;
+    }
+}
+
+.alert {
+    margin-bottom: 0;
+    padding: 13px 0;
+    text-align: center;
+    border-radius: 0;
+
+    &.success {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        max-height: 50px;
+    }
+
+    .close {
+        margin-right: 15px;
+    }
+}
+
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+}
+
+.navbar-default {
+    background-color: #34e941;
+    border: none;
+
+    .navbar-brand,
+    .navbar-nav > li > a {
+        color: #fff;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus,
+    .navbar-nav > li > a:hover,
+    .navbar-nav > li > a:focus {
+        color: #f1f1f1;
+    }
+
+    .navbar-nav > .open > a,
+    .navbar-nav > .open > a:hover,
+    .navbar-nav > .open > a:focus {
+        background-color: #fff;
+        color: #1c8023;
+    }
+
+    .dropdown-menu {
+        .transition();
+        border: 1px solid rgba(0, 0, 0, 0.025);
+        border-top: none;
+        box-shadow: 0 10px 12px -10px rgba(0, 0, 0, .175);
+    }
+
+    .dropdown-menu > li > a {
+        color: #1c8023;
+    }
+
+    .dropdown-toggle {
+        transition: none;
+    }
+}
+
+.badge {
+    .transition();
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.75;
+    }
+
+    i {
+        color: #fff;
+    }
+
+    &.edit {
+        background: #34e941;
+    }
+
+    &.remove {
+        background-color: red;
+    }
+}
+
+.list-group {
+    h1, .h1, h2, .h2, h3, .h3, h4, .h4, p, .p {
+        margin: 0;
+    }
+}
+
+/************************************************
+ ***** Mixins
+ ***********************************************/
+
+.transition(@style: all, @duration: 0.15s, @effect: ease-in-out) {
+    -webkit-transition: @style @duration @effect;
+    -moz-transition: @style @duration @effect;
+    -ms-transition: @style @duration @effect;
+    -o-transition: @style @duration @effect;
+    transition: @style @duration @effect;
+}
+
+.default-clear() {
+    display: block;
+    height: 0;
+    content: " ";
+    font-size: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+/************************************************
+ ***** AngularJS View Transition Effects
+ ***********************************************/
+
+.view-fade-in {
+    &.ng-enter {
+        position: relative;
+        opacity: 0;
+        .transition();
+
+        &.ng-enter-active {
+            top: 0; left: 0; opacity: 1;
+        }
+    }
+
+    &.ng-leave {
+        top: 0;
+        left: 0;
+        opacity: 0;
+
+        &.ng-leave-active {
+            top: 0;
+            left: 0;
+            opacity: 1;
+        }
+    }
+}

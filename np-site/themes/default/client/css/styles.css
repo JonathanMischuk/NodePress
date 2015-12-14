@@ -1,0 +1,104 @@
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
+}
+
+a {
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+}
+
+.primary-menu {
+    margin-bottom: 0;
+    border: none;
+    border-radius: 0;
+}
+
+.primary-menu .navbar-nav > li > a:hover {
+    color: #fff;
+    background: #333;
+}
+
+.secondary-menu {
+    margin: 0;
+    background: #34e941;
+    border: none;
+    border-radius: 0;
+}
+
+.secondary-menu.navbar {
+    min-height: 0;
+}
+
+.secondary-menu .navbar-nav > li > a {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    color: #fff;
+}
+
+.secondary-menu .navbar-nav > li > a:hover {
+    background: #e5e5e5;
+}
+
+.third-menu {
+    margin: 0;
+    background: #333;
+    border: none;
+    border-radius: 0;
+}
+
+.third-menu.navbar {
+    min-height: 0;
+}
+
+.third-menu .navbar-nav > li > a {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    color: #fff;
+}
+
+.third-menu .navbar-nav > li > a:hover {
+    background: #e5e5e5;
+}
+
+.hero img {
+    max-width: 100%;
+}
+
+.container {
+    width: 960px;
+}
+
+.page-content .container {
+    padding: 25px;
+}
+
+.view-fade-in.ng-enter {
+    position: relative;
+    opacity: 0;
+    -webkit-transition: all .15s ease-in-out;
+    -moz-transition: all .15s ease-in-out;
+    -ms-transition: all .15s ease-in-out;
+    -o-transition: all .15s ease-in-out;
+    transition: all .15s ease-in-out;
+}
+
+.view-fade-in.ng-enter.ng-enter-active {
+    top: 0;
+    left: 0;
+    opacity: 1;
+}
+
+.view-fade-in.ng-leave {
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+.view-fade-in.ng-leave.ng-leave-active {
+    top: 0;
+    left: 0;
+    opacity: 1;
+}

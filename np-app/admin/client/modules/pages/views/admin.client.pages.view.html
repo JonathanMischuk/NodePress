@@ -1,0 +1,68 @@
+<div ng-controller="AdminGetPagesController as pages">
+    <h1>Pages</h1>
+
+    <div class="form-group">
+        <a ui-sref="newPage" class="btn btn-default">New Page</a>
+    </div>
+
+    <div class="list-group">
+        <div class="list-group-item">
+            <div class="row">
+                <div class="col-md-2">
+                    <h4>Page Title</h4>
+                </div>
+                <div class="col-md-2">
+                    <h4>Category</h4>
+                </div>
+                <div class="col-md-2">
+                    <h4>Author</h4>
+                </div>
+                <div class="col-md-2">
+                    <h4>Last Modified</h4>
+                </div>
+                <div class="col-md-2">
+                    <h4>View Page</h4>
+                </div>
+            </div>
+        </div>
+
+        <div ng-repeat="page in pages.pages" class="list-group-item">
+            <span ng-click="pages.removePage(page)" class="badge remove">
+                <i class="glyphicon glyphicon-trash"></i>
+            </span>
+
+            <span class="badge edit">
+                <a ng-href="/np-admin/pages/{{ page._id }}">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+            </span>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <p class="page-title">
+                        <a ng-href="/np-admin/pages/{{ page._id }}">
+                            {{ page.title }}
+                        </a>
+                    </p>
+                </div>
+                <div class="col-md-2">
+                    <p class="page-category">{{ page.category || "Uncategorized" }}</p>
+                </div>
+                <div class="col-md-2">
+                    <p class="page-category">{{ page.createdBy }}</p>
+                </div>
+                <div class="col-md-2">
+                    <p class="page-category">{{ page.modifiedDate }}</p>
+                </div>
+                <div class="col-md-2">
+                    <p class="page-category">
+                        <a
+                            href="{{ pages.frontEndURL }}/{{ page.slug }}"
+                            target="_blank">/{{ page.slug }}
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

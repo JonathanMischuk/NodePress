@@ -1,0 +1,72 @@
+<div
+    class="half"
+    ng-controller="AdminUpdateCategoryController as category"
+    ng-init="category.getCategory()"
+>
+
+    <div
+        alert-panel
+        class="alert alert-success success">
+            Category updated successfully
+    </div>
+
+    <h1>Edit Category</h1>
+
+    <form name="updateCategoryForm" role="form" ng-submit="category.updateCategory()" novalidate>
+
+        <div class="form-group">
+            <label for="title">Category Title</label>
+            <input
+                type="text"
+                ng-model="category.category.title"
+                class="form-control"
+                id="title"
+                name="title"
+                required
+            />
+
+            <div ng-show="updateCategoryForm.$submitted">
+                <div class="error" ng-show="updateCategoryForm.title.$error.required">
+                    {{ category.errorMessages.title.invalid }}
+                </div>
+
+                <div class="error" ng-show="category.errorTitle">
+                    {{ category.errorMessages.title.unique }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="slug">Slug</label>
+            <input
+                type="text"
+                ng-model="category.category.slug"
+                class="form-control"
+                id="slug"
+                create-slug="category.category.title"
+                readonly="readonly"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea
+                ng-model="category.category.description"
+                class="form-control"
+                id="description">
+            </textarea>
+        </div>
+
+        <div class="form-group">
+            <button
+                type="submit"
+                class="btn btn-default"
+                ng-disabled="updateCategoryForm.$invalid">
+                    Update Category
+            </button>
+            <a ui-sref="categories" class="btn btn-default">Back to all categories</a>
+        </div>
+
+    </form>
+
+</div>

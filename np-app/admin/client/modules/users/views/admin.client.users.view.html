@@ -1,0 +1,59 @@
+<div ng-controller="AdminGetUsersController as users" ng-init="users.getUsers()">
+    <h1>Users</h1>
+
+    <div class="form-group">
+        <a ui-sref="newUser" class="btn btn-default">New User</a>
+    </div>
+
+    <div class="list-group">
+        <div class="list-group-item">
+            <div class="row">
+                <div class="col-md-2">
+                    <h4>Username</h4>
+                </div>
+                <div class="col-md-3">
+                    <h4>Role</h4>
+                </div>
+                <div class="col-md-3">
+                    <h4>E-mail</h4>
+                </div>
+                <div class="col-md-3">
+                    <h4>Last Modified</h4>
+                </div>
+            </div>
+        </div>
+
+        <div ng-repeat="user in users.users" class="list-group-item">
+            <span
+                ng-click="users.removeUser(user)"
+                class="badge remove">
+                <i class="glyphicon glyphicon-trash"></i>
+            </span>
+
+            <span class="badge edit">
+                <a ng-href="/np-admin/users/{{ user.username }}">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+            </span>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <p class="page-title">
+                        <a ng-href="/np-admin/users/{{ user.username }}">
+                            {{ user.username }}
+                        </a>
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <p class="page-category">{{ user.role }}</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="page-category">{{ user.email }}</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="page-category">{{ user.modifiedDate }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+{
+  "name": "nodepress",
+  "description": "A simple CMS made with the MEAN stack",
+  "main": "server.js",
+  "authors": [
+    "Jonathan Mischuk"
+  ],
+  "license": "ISC",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-tinymce": "~0.0.10",
+    "angular-ui-sortable": "~0.13.4",
+    "angular": "1.5.0-beta.2"
+  }
+}

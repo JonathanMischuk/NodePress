@@ -1,0 +1,195 @@
+<div class="half ng-cloak" ng-controller="AdminUpdateUserController as user"
+     ng-init="user.getUser()">
+
+    <div
+        alert-panel
+        class="alert alert-success success">
+            User updated successfully
+    </div>
+
+    <h1>Edit User Information</h1>
+
+    <form role="form" name="userForm" ng-submit="user.updateUser()" novalidate>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label for="firstName">First Name</label>
+                    <input type="text"
+                           ng-model="user.user.firstName"
+                           class="form-control"
+                           id="firstName"
+                           name="firstName"
+                           required />
+
+                    <div ng-show="userForm.$submitted">
+                        <div class="error"
+                             ng-show="userForm.firstName.$error.required">
+                            {{ user.errorMessages.firstName.invalid }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="lastName">Last Name</label>
+                    <input type="text"
+                           ng-model="user.user.lastName"
+                           class="form-control"
+                           id="lastName"
+                           name="lastName"
+                           required />
+
+                    <div ng-show="userForm.$submitted">
+                        <div class="error"
+                             ng-show="userForm.lastName.$error.required">
+                            {{ user.errorMessages.lastName.invalid }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="username">Usernames cannot be changed</label>
+            <input type="text"
+                   ng-model="user.user.username"
+                   class="form-control"
+                   id="username"
+                   name="username"
+                   readonly="readonly"
+                   required />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="text"
+                   ng-model="user.user.email"
+                   class="form-control"
+                   id="email"
+                   name="email"
+                   required />
+
+            <div ng-show="userForm.$submitted">
+                <div class="error"
+                     ng-show="userForm.email.$error.required">
+                    {{ user.errorMessages.email.invalid }}
+                </div>
+
+                <div class="error" ng-show="user.errorEmail">
+                    {{ user.errorMessages.email.unique }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="user.user.username !== auth.username">
+            <label for="role">Role</label>
+            <select ng-model="user.user.role" class="form-control" id="role">
+                <option value="">Select a Role</option>
+                <option value="Administration">Administration</option>
+                <option value="Editor">Editor</option>
+            </select>
+
+            <div ng-show="userForm.$submitted">
+                <div class="error"
+                     ng-show="userForm.role.$error.required">
+                    {{ user.errorMessages.role.invalid }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group change-password">
+            <p><a data-toggle="modal" data-target="#myModal">Change Password</a></p>
+        </div>
+
+        <div class="form-group">
+            <button
+                type="submit"
+                class="btn btn-default"
+                ng-disabled="userForm.$invalid">
+                    Update user account
+            </button>
+            <a ui-sref="users" class="btn btn-default">Back to all users</a>
+        </div>
+    </form>
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Change your password</h4>
+                </div>
+                <div class="modal-body">
+                    <form ng-show="!user.success" role="form" name="updateUserPasswordForm"
+                           ng-submit="user.updateUserPassword()" novalidate>
+                        <div class="form-group">
+                            <label for="password">New password</label>
+                            <input type="password"
+                                   ng-model="user.user.password"
+                                   class="form-control"
+                                   id="password"
+                                   name="password"
+                                   required />
+
+                            <div ng-show="updateUserPasswordForm.$submitted">
+                                <div class="error"
+                                     ng-show="updateUserPasswordForm.password.$error.required">
+                                    {{ user.errorMessages.password.invalid }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cpassword">Confirm your password</label>
+                            <input type="password"
+                                   ng-model="user.user.cpassword"
+                                   class="form-control"
+                                   id="cpassword"
+                                   name="cpassword"
+                                   confirm-password="user.user.password"
+                                   required />
+
+                            <div ng-show="updateUserPasswordForm.$submitted">
+                                <div class="error"
+                                     ng-show="updateUserPasswordForm.cpassword.$error.required">
+                                    {{ user.errorMessages.cpassword.invalid }}
+                                </div>
+                            </div>
+
+                            <div
+                                class="error"
+                                ng-show="updateUserPasswordForm.cpassword.$error.passwordsMatch">
+                                {{ user.errorMessages.cpassword.unique }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button
+                                type="submit"
+                                class="btn btn-default"
+                                ng-disabled="updateUserPasswordForm.$invalid">
+                                    Update password
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="alert alert-success" ng-show="user.success">
+                        <p>Password updated successfully!</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-default"
+                        ng-click="user.closeModal()">
+                            Close
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+</div>

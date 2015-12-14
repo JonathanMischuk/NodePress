@@ -1,0 +1,18 @@
+{% extends
+"../../../../../../np-app/site/server/views/templates/site.server.default.template.html" %}
+
+{% block content %}
+
+    {% block primaryMenu %}{% endblock %}
+
+    {% block hero %}{% endblock %}
+
+    {% if secondaryMenuSource %}
+        {% block secondaryMenu %}{% endblock %}
+    {% endif %}
+
+    {% block thirdMenu %}{% endblock %}
+
+    {% block view %}{% endblock %}
+
+{% endblock %}

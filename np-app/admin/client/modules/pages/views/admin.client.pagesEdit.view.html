@@ -1,0 +1,81 @@
+<div
+    class="half ng-cloak"
+    ng-controller="AdminUpdatePageController as page">
+
+    <div
+        alert-panel
+        class="alert alert-success success">
+            Page updated successfully
+    </div>
+
+    <h1>Edit Page
+        <a class="admin-view-page" href="{{ page.frontEndURL + page.page.slug }}"
+           target="_blank"
+            ng-model="page.page.slug"
+            class="form-control"
+            id="slug"
+            create-slug="page.page.title">{{ page.frontEndURL + page.page.slug }}
+        </a>
+    </h1>
+
+    <form role="form" name="updatePageForm" ng-submit="page.updatePage()" novalidate>
+
+        <div class="form-group">
+            <label for="title">Page Title</label>
+            <input
+                type="text"
+                ng-model="page.page.title"
+                class="form-control"
+                id="title"
+                name="title"
+                required />
+
+            <div ng-show="updatePageForm.$submitted">
+                <div class="error" ng-show="updatePageForm.title.$error.required">
+                    {{ page.errorMessages.title.invalid }}
+                </div>
+
+                <div class="error" ng-show="page.errorTitle">
+                    {{ page.errorMessages.title.unique }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="slug">Slug</label>
+            <input
+                type="text"
+                ng-model="page.page.slug"
+                class="form-control"
+                id="slug"
+                create-slug="page.page.title"
+                readonly="readonly" />
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select ng-model="page.page.category" class="form-control" id="category"
+                    ng-options="category.title as category.title for category in page.categories">
+                <option value="">Uncategorized</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="body">Content Body</label>
+            <textarea ng-model="page.page.body" name="html-editor" class="form-control html-editor"
+                      id="body"></textarea>
+        </div>
+
+        <div class="form-group">
+            <button
+                type="submit"
+                class="btn btn-default"
+                ng-disabled="updatePageForm.$invalid">
+                    Update Page
+            </button>
+            <a ui-sref="pages" class="btn btn-default">Back to All Pages</a>
+        </div>
+
+    </form>
+
+</div>

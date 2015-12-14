@@ -1,0 +1,87 @@
+<div class="half" ng-controller="AdminNewPageController as page">
+
+    <h1>New Page
+        <span
+            class="admin-view-page" href="{{ page.frontEndURL + page.page.slug }}"
+            target="_blank"
+            ng-model="page.page.slug"
+            class="form-control"
+            id="slug"
+            create-slug="page.page.title">{{ page.frontEndURL + page.page.slug }}
+        </span>
+    </h1>
+
+    <form role="form" name="newPageForm" ng-submit="page.newPage()" novalidate>
+
+        <div class="form-group">
+            <label for="title">Page Title</label>
+            <input
+                type="text"
+                ng-model="page.page.title"
+                class="form-control"
+                id="title"
+                name="title"
+                required />
+
+            <div ng-show="newPageForm.$submitted">
+                <div class="error" ng-show="newPageForm.title.$error.required">
+                    {{ page.errorMessages.title.invalid }}
+                </div>
+
+                <div class="error" ng-show="page.errorTitle">
+                    {{ page.errorMessages.title.unique }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="slug">Slug</label>
+            <input
+                type="text"
+                ng-model="page.page.slug"
+                class="form-control"
+                id="slug"
+                create-slug="page.page.title"
+                readonly="readonly"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select
+                ng-model="page.page.category"
+                class="form-control"
+                id="category"
+                ng-options="category.title as category.title for category in page.categories"
+            >
+                <option value="">Uncategorized</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="body">Content Body</label>
+            <textarea
+                ng-model="page.page.body"
+                name="html-editor"
+                class="form-control html-editor"
+                id="body">
+            </textarea>
+        </div>
+
+        <div class="form-group">
+            <button
+                type="submit"
+                class="btn btn-default"
+                ng-disabled="newPageForm.$invalid">
+                    Create Page
+            </button>
+            <a ui-sref="pages" class="btn btn-default">Cancel</a>
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+    CKEDITOR.replace("html-editor", { extraPlugins : "divarea" });
+</script>

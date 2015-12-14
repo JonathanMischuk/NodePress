@@ -1,0 +1,130 @@
+<div ng-controller="AdminDashboardController as dashboard">
+    <h1>Dashboard
+        <a ui-sref="settings" class="btn btn-default">NodePress Settings</a>
+    </h1>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="list-group" ng-init="limit = 5">
+                <div class="list-group-item">
+                    <h4>Pages</h4>
+                </div>
+
+                <div
+                    ng-repeat="page in dashboard.pages | limitTo: limit as results"
+                    class="list-group-item">
+
+                    <p class="page-title">
+                        <a ng-href="/np-admin/pages/[[ page._id }}">
+                            {{ page.title }}
+                        </a>
+                        <a href="{{ dashboard.frontEndURL + page.slug }}"
+                           class="dashboard-pages-frontend-link"
+                           target="_blank">
+                            <i class="glyphicon glyphicon-link"></i>
+                        </a>
+                    </p>
+                </div>
+
+                <a
+                    class="show-more-less"
+                    ng-hide="results.length === dashboard.pages.length"
+                    ng-click="limit = limit + 5">show more
+                </a>
+                <a
+                    class="show-more-less"
+                    ng-hide="results.length <= 5 && results.length !== menu.pages.length || results.length <= 5 && results.length === menu.pages.length"
+                    ng-click="limit = limit - 5">show less
+                </a>
+            </div>
+
+            <div ng-if="!dashboard.pages.length">
+                <p>No pages exist yet.</p>
+                <a ui-sref="newPage" class="btn btn-default">Create a Page</a>
+            </div>
+
+            <div ng-if="dashboard.pages.length">
+                <a ui-sref="pages" class="btn btn-default">All Pages</a>
+                <a ui-sref="newPage" class="btn btn-default">Create a Page</a>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="list-group">
+                <div class="list-group-item">
+                    <h4>Categories</h4>
+                </div>
+
+                <div ng-repeat="category in dashboard.categories" class="list-group-item">
+                    <p class="page-title">
+                        <a ng-href="/np-admin/categories/{{ category._id }}">
+                            {{ category.title }}
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <div ng-if="!dashboard.categories.length">
+                <p>No categories exist yet.</p>
+                <a ui-sref="newCategory" class="btn btn-default">Create a Category</a>
+            </div>
+
+            <div ng-if="dashboard.categories.length">
+                <a ui-sref="categories" class="btn btn-default">All Categories</a>
+                <a ui-sref="newCategory" class="btn btn-default">Create a Category</a>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="list-group">
+                <div class="list-group-item">
+                    <h4>Users</h4>
+                </div>
+
+                <div ng-repeat="user in dashboard.users" class="list-group-item">
+                    <p class="page-title">
+                        <a ng-href="/np-admin/users/{{ user.username }}">
+                            {{ user.username }}
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <a ui-sref="users" class="btn btn-default">All Users</a>
+            <a ui-sref="newUser" class="btn btn-default">Create a User</a>
+        </div>
+
+        <div class="col-md-3">
+            <div class="list-group">
+                <div class="list-group-item">
+                    <h4>Menus
+                        <a
+                            class="dashboard-header-link"
+                            ng-if="dashboard.menus.length"
+                            ui-sref="manageMenus">
+                            Manage Menu Locations
+                        </a>
+                    </h4>
+                </div>
+
+                <div ng-repeat="menu in dashboard.menus" class="list-group-item">
+                    <p class="page-title">
+                        <a ng-href="/np-admin/menus/{{ menu._id }}">
+                            {{ menu.title }}
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <div ng-if="!dashboard.menus.length">
+                <p>No menus exist yet.</p>
+                <a ui-sref="newMenu" class="btn btn-default">Create a Menu</a>
+            </div>
+
+            <div ng-if="dashboard.menus.length">
+                <a ui-sref="menus" class="btn btn-default">All Menus</a>
+                <a ui-sref="newMenu" class="btn btn-default">Create a Menu</a>
+            </div>
+        </div>
+    </div>
+</div>

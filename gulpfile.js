@@ -12,6 +12,11 @@ gulp.task('watch:bundleAdmin', ['bundleAdmin'], function () {
     gulp.watch('np-app/admin/client/modules/**/*.js', ['bundleAdmin']);
 });
 
+// Admin LESS compilation
+gulp.task('watch:adminCSS', function () {
+    gulp.watch('np-dev/pre-processors/less/**/*.less', ['adminCSS']);
+});
+
 // Site Browserify bundle
 fs.readdirSync(__dirname + '/np-dev/automation/gulp/site').forEach(function (task) {
     require('./np-dev/automation/gulp/site/' + task);

@@ -10,6 +10,10 @@ var db = require('../../../config/admin.server.db'),
             type: String,
             default: 'home'
         },
+        siteHomePageString: {
+            type: String,
+            default: 'Home'
+        },
         theme: {
             type: String,
             default: 'default'

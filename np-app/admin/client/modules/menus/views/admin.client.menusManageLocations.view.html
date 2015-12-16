@@ -2,43 +2,34 @@
     class="half ng-cloak"
     ng-controller="AdminManageMenuLocationsController as menus">
 
-    <div
-    alert-panel
-    class="alert alert-success success">
-        Menu updated successfully
-    </div>
-
     <h1>Manage Menu Locations</h1>
 
     <form
-        role="form"
         name="updateMenuLocationsForm"
         ng-submit="menus.updateMenuLocations()"
         novalidate>
 
-        <div class="form-group">
+        <div class="site-primary-menu">
             <label for="primary">Primary Menu</label>
             <select
                 ng-model="menus.menuLocations.primary"
-                class="form-control"
                 id="primary"
                 ng-options="menu.title as menu.title for menu in menus.menus">
                     <option value="">No Menu</option>
             </select>
         </div>
 
-        <div class="form-group">
+        <div class="site-secondary-menu">
             <label for="secondary">Secondary Menu</label>
             <select
                 ng-model="menus.menuLocations.secondary"
-                class="form-control"
                 id="secondary"
                 ng-options="menu.title as menu.title for menu in menus.menus">
                     <option value="">No Menu</option>
             </select>
         </div>
 
-        <div class="form-group">
+        <div>
             <button
                 type="submit"
                 class="btn btn-default"

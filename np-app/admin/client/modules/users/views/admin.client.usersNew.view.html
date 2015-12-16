@@ -1,12 +1,12 @@
-<div class="half" ng-controller="AdminNewUserController as user">
+<div class="page-gutter-right" ng-controller="AdminNewUserController as user">
 
     <h1>New User</h1>
 
-    <form role="form" name="userForm" ng-submit="user.newUser()" novalidate>
+    <div class="row">
+        <form class="col s12" name="userForm" ng-submit="user.newUser()" novalidate>
 
-        <div class="form-horizontal">
-            <div class="form-group">
-                <div class="col-md-6">
+            <div class="row">
+                <div class="col s6">
                     <label for="firstName">First Name</label>
                     <input type="text"
                            ng-model="user.user.firstName"
@@ -17,12 +17,12 @@
 
                     <div ng-show="userForm.$submitted">
                         <div class="error" ng-show="userForm.firstName.$error.required">
-                            {{ user.errorMessages.firstName.invalid }}
+                            {{ user.errors.firstName.invalid }}
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col s6">
                     <label for="lastName">Last Name</label>
                     <input type="text"
                            ng-model="user.user.lastName"
@@ -34,118 +34,127 @@
                     <div ng-show="userForm.$submitted">
                         <div class="error"
                              ng-show="userForm.lastName.$error.required">
-                            {{ user.errorMessages.lastName.invalid }}
+                            {{ user.errors.lastName.invalid }}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="username">Choose your username</label>
-            <input type="text"
-                   ng-model="user.user.username"
-                   class="form-control"
-                   id="username"
-                   name="username"
-                   required />
+            <div class="row">
+                <div class="col s12">
+                    <label for="username">Choose your username</label>
+                    <input type="text"
+                           ng-model="user.user.username"
+                           class="form-control"
+                           id="username"
+                           name="username"
+                           required />
 
-            <div ng-show="userForm.$submitted">
-                <div class="error"
-                     ng-show="userForm.username.$error.required">
-                    {{ user.errorMessages.username.invalid }}
-                </div>
+                    <div ng-show="userForm.$submitted">
+                        <div class="error"
+                             ng-show="userForm.username.$error.required">
+                            {{ user.errors.username.invalid }}
+                        </div>
 
-                <div class="error" ng-show="user.errorUsername">
-                    {{ user.errorMessages.username.unique }}
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="text"
-                   ng-model="user.user.email"
-                   class="form-control"
-                   id="email"
-                   name="email"
-                   required />
-
-            <div ng-show="userForm.$submitted">
-                <div class="error" ng-show="userForm.email.$error.required">
-                    {{ user.errorMessages.email.invalid }}
-                </div>
-
-                <div class="error" ng-show="user.errorEmail">
-                    {{ user.errorMessages.email.unique }}
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="role">Role</label>
-            <select ng-model="user.user.role" class="form-control" id="role">
-                <option value="">Select a Role</option>
-                <option value="Administration">Administration</option>
-                <option value="Editor">Editor</option>
-            </select>
-
-            <div ng-show="userForm.$submitted">
-                <div class="error"
-                     ng-show="userForm.role.$error.required">
-                    {{ user.errorMessages.role.invalid }}
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="password">Create a password</label>
-            <input type="password"
-                   ng-model="user.user.password"
-                   class="form-control"
-                   id="password"
-                   name="password"
-                   required />
-
-            <div ng-show="userForm.$submitted">
-                <div class="error"
-                     ng-show="userForm.password.$error.required">
-                    {{ user.errorMessages.password.invalid }}
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="cpassword">Confirm your password</label>
-            <input type="password"
-                   ng-model="user.user.cpassword"
-                   class="form-control"
-                   id="cpassword"
-                   name="cpassword"
-                   confirm-password="user.user.password"
-                   required />
-
-            <div ng-show="userForm.$submitted">
-                <div class="error" ng-show="userForm.cpassword.$error.required">
-                    {{ user.errorMessages.cpassword.invalid }}
+                        <div class="error" ng-show="user.errorUsername">
+                            {{ user.errors.username.unique }}
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="error" ng-show="userForm.cpassword.$error.passwordsMatch">
-                {{ user.errorMessages.cpassword.unique }}
+            <div class="row">
+                <div class="col s12">
+                    <label for="email">Email address</label>
+                    <input type="text"
+                           ng-model="user.user.email"
+                           class="form-control"
+                           id="email"
+                           name="email"
+                           required />
+
+                    <div ng-show="userForm.$submitted">
+                        <div class="error" ng-show="userForm.email.$error.required">
+                            {{ user.errors.email.invalid }}
+                        </div>
+
+                        <div class="error" ng-show="user.errorEmail">
+                            {{ user.errors.email.unique }}
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <button
-                type="submit"
-                class="btn btn-default"
-                ng-disabled="userForm.$invalid">
-                Create user account
-            </button>
-            <a ui-sref="users" class="btn btn-default">Cancel</a>
-        </div>
+            <div class="row">
+                <div class="col s12">
+                    <label for="role">Role</label>
+                    <select ng-model="user.user.role" id="role">
+                        <option value="Administration">Administration</option>
+                        <option value="Editor">Editor</option>
+                    </select>
 
-    </form>
+                    <div ng-show="userForm.$submitted">
+                        <div class="error"
+                             ng-show="userForm.role.$error.required">
+                            {{ user.errors.role.invalid }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12">
+                    <label for="password">Create a password</label>
+                    <input type="password"
+                           ng-model="user.user.password"
+                           class="form-control"
+                           id="password"
+                           name="password"
+                           required />
+
+                    <div ng-show="userForm.$submitted">
+                        <div class="error"
+                             ng-show="userForm.password.$error.required">
+                            {{ user.errors.password.invalid }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12">
+                    <label for="cpassword">Confirm your password</label>
+                    <input type="password"
+                           ng-model="user.user.cpassword"
+                           class="form-control"
+                           id="cpassword"
+                           name="cpassword"
+                           confirm-password="user.user.password"
+                           required />
+
+                    <div ng-show="userForm.$submitted">
+                        <div class="error" ng-show="userForm.cpassword.$error.required">
+                            {{ user.errors.cpassword.invalid }}
+                        </div>
+                    </div>
+
+                    <div class="error" ng-show="userForm.cpassword.$error.passwordsMatch">
+                        {{ user.errors.cpassword.unique }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-field">
+                <button
+                    type="submit"
+                    class="waves-effect waves-light btn blue"
+                    ng-disabled="userForm.$invalid">
+                    Create user account
+                </button>
+                <a ui-sref="users" class="waves-effect waves-light btn pink">Cancel</a>
+            </div>
+
+        </form>
+    </div>
 
 </div>

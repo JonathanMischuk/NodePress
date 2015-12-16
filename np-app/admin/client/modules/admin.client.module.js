@@ -7,7 +7,6 @@ module.exports = angular.module('admin', [
     require('angular-resource'),
     require('angular-ui-router'),
     require('angular-animate'),
-    require('angular-ui-bootstrap'),
     require('./utils'),
     require('./settings'),
     require('./dashboard'),

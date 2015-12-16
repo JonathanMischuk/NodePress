@@ -40,8 +40,8 @@ function AdminUpdateCategoryController(
             vm.category.$update()
                 .then(function () {
 
-                    // display success alert panel
-                    $scope.$emit('updatedStatus', true);
+                    // display success dialog
+                    Materialize.toast('Category updated successfully', 4000, 'success');
 
                     $scope.updateCategoryForm.$setPristine();
                 })

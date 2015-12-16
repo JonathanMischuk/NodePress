@@ -38,8 +38,8 @@ function AdminUpdateUserController(
             vm.user.$update()
                 .then(function () {
 
-                    // display success alert panel
-                    $scope.$emit('updatedStatus', true);
+                    // display success dialog
+                    Materialize.toast('User updated successfully', 4000, 'success');
 
                     vm.user.password = '';
                     vm.user.cpassword = '';

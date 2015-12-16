@@ -1,61 +1,97 @@
 <div ng-controller="AdminDashboardController as dashboard">
     <h1>Dashboard
-        <a ui-sref="settings" class="btn btn-default">NodePress Settings</a>
     </h1>
 
+    <a ui-sref="settings"
+       class="waves-effect waves-light btn blue">
+        NodePress Settings
+    </a>
+
     <div class="row">
-        <div class="col-md-3">
-            <div class="list-group" ng-init="limit = 5">
-                <div class="list-group-item">
-                    <h4>Pages</h4>
+
+        <!-- Pages section -->
+        <div class="col s12 m12 l3">
+            <div class="collection with-header" ng-init="limit = 5">
+                <div class="collection-header">
+                    <h5>Pages
+
+                        <span ng-if="dashboard.pages.length" class="dashboard-actions">
+                            <a ui-sref="pages"
+                               class="btn-floating btn-small waves-effect waves-dark pink tooltipped"
+                               data-position="top"
+                               data-delay="50"
+                               data-tooltip="View all pages">
+                                <i class="material-icons">view_list</i>
+                            </a>
+                            <a ui-sref="newPage"
+                               class="btn-floating btn-small waves-effect waves-light blue tooltipped"
+                               data-position="top"
+                               data-delay="50"
+                               data-tooltip="Add new page">
+                                <i class="material-icons">add</i>
+                            </a>
+                        </span>
+                    </h5>
                 </div>
 
-                <div
-                    ng-repeat="page in dashboard.pages | limitTo: limit as results"
-                    class="list-group-item">
+                <div ng-repeat="page in dashboard.pages | limitTo: limit as results"
+                     class="collection-item">
 
                     <p class="page-title">
-                        <a ng-href="/np-admin/pages/[[ page._id }}">
+                        <a ng-href="/np-admin/pages/{{ page._id }}">
                             {{ page.title }}
                         </a>
                         <a href="{{ dashboard.frontEndURL + page.slug }}"
                            class="dashboard-pages-frontend-link"
                            target="_blank">
-                            <i class="glyphicon glyphicon-link"></i>
+                            <i class="material-icons">open_in_browser</i>
                         </a>
                     </p>
                 </div>
-
-                <a
-                    class="show-more-less"
-                    ng-hide="results.length === dashboard.pages.length"
-                    ng-click="limit = limit + 5">show more
-                </a>
-                <a
-                    class="show-more-less"
-                    ng-hide="results.length <= 5 && results.length !== menu.pages.length || results.length <= 5 && results.length === menu.pages.length"
-                    ng-click="limit = limit - 5">show less
-                </a>
             </div>
+
+            <a class="dashboard-extra-link"
+               ng-hide="results.length === dashboard.pages.length"
+               ng-click="limit = limit + 5">Show more
+            </a>
+            <a class="dashboard-extra-link"
+               ng-hide="results.length <= 5 && results.length !== menu.pages.length || results.length <= 5 && results.length === menu.pages.length"
+               ng-click="limit = limit - 5">Show less
+            </a>
 
             <div ng-if="!dashboard.pages.length">
                 <p>No pages exist yet.</p>
-                <a ui-sref="newPage" class="btn btn-default">Create a Page</a>
-            </div>
-
-            <div ng-if="dashboard.pages.length">
-                <a ui-sref="pages" class="btn btn-default">All Pages</a>
-                <a ui-sref="newPage" class="btn btn-default">Create a Page</a>
+                <a ui-sref="newPage"
+                   class="waves-effect waves-light btn blue">Create a Page</a>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="list-group">
-                <div class="list-group-item">
-                    <h4>Categories</h4>
+        <!-- Categories section -->
+        <div class="col s12 m12 l3">
+            <div class="collection with-header">
+                <div class="collection-header">
+                    <h5>Categories
+
+                        <span ng-if="dashboard.categories.length" class="dashboard-actions">
+                            <a ui-sref="categories"
+                               class="btn-floating btn-small waves-effect waves-dark pink tooltipped"
+                               data-position="top"
+                               data-delay="50"
+                               data-tooltip="View all categories">
+                                <i class="material-icons">view_list</i>
+                            </a>
+                            <a ui-sref="newCategory"
+                               class="btn-floating btn-small waves-effect waves-light blue tooltipped"
+                               data-position="top"
+                               data-delay="50"
+                               data-tooltip="Add new category">
+                                <i class="material-icons">add</i>
+                            </a>
+                        </span>
+                    </h5>
                 </div>
 
-                <div ng-repeat="category in dashboard.categories" class="list-group-item">
+                <div ng-repeat="category in dashboard.categories" class="collection-item">
                     <p class="page-title">
                         <a ng-href="/np-admin/categories/{{ category._id }}">
                             {{ category.title }}
@@ -66,48 +102,36 @@
 
             <div ng-if="!dashboard.categories.length">
                 <p>No categories exist yet.</p>
-                <a ui-sref="newCategory" class="btn btn-default">Create a Category</a>
-            </div>
-
-            <div ng-if="dashboard.categories.length">
-                <a ui-sref="categories" class="btn btn-default">All Categories</a>
-                <a ui-sref="newCategory" class="btn btn-default">Create a Category</a>
+                <a ui-sref="newCategory" class="waves-effect waves-light btn blue">Create a Category</a>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="list-group">
-                <div class="list-group-item">
-                    <h4>Users</h4>
+        <!-- Menus section -->
+        <div class="col s12 m12 l3">
+            <div class="collection with-header">
+                <div class="collection-header">
+                    <h5>Menus
+
+                        <span ng-if="dashboard.menus.length" class="dashboard-actions">
+                            <a ui-sref="menus"
+                               class="btn-floating btn-small waves-effect waves-dark pink tooltipped"
+                               data-position="top"
+                               data-delay="50"
+                               data-tooltip="View all menus">
+                                <i class="material-icons">view_list</i>
+                            </a>
+                            <a ui-sref="newMenu"
+                               class="btn-floating btn-small waves-effect waves-light blue tooltipped"
+                               data-position="top"
+                               data-delay="50"
+                               data-tooltip="Add new menu">
+                                <i class="material-icons">add</i>
+                            </a>
+                        </span>
+                    </h5>
                 </div>
 
-                <div ng-repeat="user in dashboard.users" class="list-group-item">
-                    <p class="page-title">
-                        <a ng-href="/np-admin/users/{{ user.username }}">
-                            {{ user.username }}
-                        </a>
-                    </p>
-                </div>
-            </div>
-
-            <a ui-sref="users" class="btn btn-default">All Users</a>
-            <a ui-sref="newUser" class="btn btn-default">Create a User</a>
-        </div>
-
-        <div class="col-md-3">
-            <div class="list-group">
-                <div class="list-group-item">
-                    <h4>Menus
-                        <a
-                            class="dashboard-header-link"
-                            ng-if="dashboard.menus.length"
-                            ui-sref="manageMenus">
-                            Manage Menu Locations
-                        </a>
-                    </h4>
-                </div>
-
-                <div ng-repeat="menu in dashboard.menus" class="list-group-item">
+                <div ng-repeat="menu in dashboard.menus" class="collection-item">
                     <p class="page-title">
                         <a ng-href="/np-admin/menus/{{ menu._id }}">
                             {{ menu.title }}
@@ -116,14 +140,50 @@
                 </div>
             </div>
 
+            <a class="dashboard-extra-link"
+               ng-if="dashboard.menus.length"
+               ui-sref="manageMenus">
+                Manage Menu Locations
+            </a>
+
             <div ng-if="!dashboard.menus.length">
                 <p>No menus exist yet.</p>
-                <a ui-sref="newMenu" class="btn btn-default">Create a Menu</a>
+                <a ui-sref="newMenu" class="waves-effect waves-light btn blue">Create a Menu</a>
             </div>
+        </div>
 
-            <div ng-if="dashboard.menus.length">
-                <a ui-sref="menus" class="btn btn-default">All Menus</a>
-                <a ui-sref="newMenu" class="btn btn-default">Create a Menu</a>
+        <!-- Users section -->
+        <div class="col s12 m12 l3">
+            <div class="collection with-header">
+                <div class="collection-header">
+                    <h5>Users
+
+                        <span class="dashboard-actions">
+                            <a ui-sref="users"
+                               class="btn-floating btn-small waves-effect waves-dark pink tooltipped"
+                               data-position="top"
+                               data-delay="50"
+                               data-tooltip="View all users">
+                                <i class="material-icons">view_list</i>
+                            </a>
+                            <a ui-sref="newUser"
+                               class="btn-floating btn-small waves-effect waves-light blue tooltipped"
+                               data-position="top"
+                               data-delay="50"
+                               data-tooltip="Add new user">
+                                <i class="material-icons">add</i>
+                            </a>
+                        </span>
+                    </h5>
+                </div>
+
+                <div ng-repeat="user in dashboard.users" class="collection-item">
+                    <p class="page-title">
+                        <a ng-href="/np-admin/users/{{ user.username }}">
+                            {{ user.username }}
+                        </a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>

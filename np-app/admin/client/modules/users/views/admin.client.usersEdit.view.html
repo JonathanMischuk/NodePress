@@ -1,22 +1,16 @@
 <div class="half ng-cloak" ng-controller="AdminUpdateUserController as user"
      ng-init="user.getUser()">
 
-    <div
-        alert-panel
-        class="alert alert-success success">
-            User updated successfully
-    </div>
-
     <h1>Edit User Information</h1>
 
-    <form role="form" name="userForm" ng-submit="user.updateUser()" novalidate>
-        <div class="form-horizontal">
-            <div class="form-group">
-                <div class="col-md-6">
-                    <label for="firstName">First Name</label>
+    <div class="row">
+        <form class="col s12" name="userForm" ng-submit="user.updateUser()" novalidate>
+
+            <div class="row">
+                <div class="input-field col s6">
+                    <label class="active" for="firstName">First Name</label>
                     <input type="text"
                            ng-model="user.user.firstName"
-                           class="form-control"
                            id="firstName"
                            name="firstName"
                            required />
@@ -29,11 +23,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <label for="lastName">Last Name</label>
+                <div class="input-field col s6">
+                    <label class="active" for="lastName">Last Name</label>
                     <input type="text"
                            ng-model="user.user.lastName"
-                           class="form-control"
                            id="lastName"
                            name="lastName"
                            required />
@@ -46,72 +39,75 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="username">Usernames cannot be changed</label>
-            <input type="text"
-                   ng-model="user.user.username"
-                   class="form-control"
-                   id="username"
-                   name="username"
-                   readonly="readonly"
-                   required />
-        </div>
-
-        <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="text"
-                   ng-model="user.user.email"
-                   class="form-control"
-                   id="email"
-                   name="email"
-                   required />
-
-            <div ng-show="userForm.$submitted">
-                <div class="error"
-                     ng-show="userForm.email.$error.required">
-                    {{ user.errorMessages.email.invalid }}
-                </div>
-
-                <div class="error" ng-show="user.errorEmail">
-                    {{ user.errorMessages.email.unique }}
+            <div class="row">
+                <div class="input-field col s12">
+                    <label class="active" for="username">Usernames cannot be changed</label>
+                    <input type="text"
+                           ng-model="user.user.username"
+                           id="username"
+                           name="username"
+                           readonly="readonly"
+                           required />
                 </div>
             </div>
-        </div>
 
-        <div class="form-group" ng-if="user.user.username !== auth.username">
-            <label for="role">Role</label>
-            <select ng-model="user.user.role" class="form-control" id="role">
-                <option value="">Select a Role</option>
-                <option value="Administration">Administration</option>
-                <option value="Editor">Editor</option>
-            </select>
+            <div class="row">
+                <div class="input-field col s12">
+                    <label class="active" for="email">Email address</label>
+                    <input type="text"
+                       ng-model="user.user.email"
+                       id="email"
+                       name="email"
+                       required />
 
-            <div ng-show="userForm.$submitted">
-                <div class="error"
-                     ng-show="userForm.role.$error.required">
-                    {{ user.errorMessages.role.invalid }}
+                    <div ng-show="userForm.$submitted">
+                        <div class="error"
+                             ng-show="userForm.email.$error.required">
+                            {{ user.errorMessages.email.invalid }}
+                        </div>
+
+                        <div class="error" ng-show="user.errorEmail">
+                            {{ user.errorMessages.email.unique }}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="form-group change-password">
-            <p><a data-toggle="modal" data-target="#myModal">Change Password</a></p>
-        </div>
+            <div class="row" ng-if="user.user.username !== auth.username"><!-- ng-if="user.user.username !== auth.username"-->
+                <div class="input-field col s12">
+                    <select ng-model="user.user.role">
+                        <option value="">Select a Role</option>
+                        <option value="Administration">Administration</option>
+                        <option value="Editor">Editor</option>
+                    </select>
 
-        <div class="form-group">
-            <button
-                type="submit"
-                class="btn btn-default"
-                ng-disabled="userForm.$invalid">
-                    Update user account
-            </button>
-            <a ui-sref="users" class="btn btn-default">Back to all users</a>
-        </div>
-    </form>
+                    <div ng-show="userForm.$submitted">
+                        <div class="error"
+                             ng-show="userForm.role.$error.required">
+                            {{ user.errorMessages.role.invalid }}
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <div class="modal fade" id="myModal" role="dialog">
+            <!--<div class="form-group change-password">
+                <p><a data-toggle="modal" data-target="#myModal">Change Password</a></p>
+            </div>-->
+
+            <div class="form-group">
+                <button
+                    type="submit"
+                    class="btn btn-default"
+                    ng-disabled="userForm.$invalid">
+                        Update user account
+                </button>
+                <a ui-sref="users" class="btn btn-default">Back to all users</a>
+            </div>
+        </form>
+    </div>
+
+    <!--<div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
 
             <div class="modal-content">
@@ -188,8 +184,6 @@
             </div>
 
         </div>
-    </div>
-
-
+    </div>-->
 
 </div>

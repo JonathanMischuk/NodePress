@@ -1,22 +1,14 @@
 <div class="ng-cloak" ng-controller="AdminSettingsController as settings">
-
-    <div
-        alert-panel
-        class="alert alert-success success">
-            NodePress settings updated successfully
-    </div>
-
-    <div class="half">
+    <div class="page-gutter-right">
 
         <h1>NodePress Settings</h1>
 
-        <form role="form" name="appSettingsForm" ng-submit="settings.updateAppSettings()" novalidate>
+        <form name="appSettingsForm" ng-submit="settings.updateAppSettings()" novalidate>
 
-            <div class="form-group">
+            <div class="site-home-page">
                 <label for="home">Select Front End Home Page</label>
                 <select
                     ng-model="settings.settings.siteHomePage"
-                    class="form-control"
                     id="home"
                     name="home"
                     ng-options="page.slug as page.title for page in settings.pages">
@@ -24,20 +16,21 @@
                 </select>
             </div>
 
-            <div class="form-group">
+            <div class="site-theme">
                 <label for="theme">Select Theme</label>
                 <select
                     ng-model="settings.settings.theme"
-                    class="form-control"
                     id="theme"
                     name="theme"
                     ng-options="theme.theme as theme.theme for theme in settings.themes | orderBy:'name'">
                 </select>
             </div>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-default">Save Settings</button>
-                <a ui-sref="dashboard" class="btn btn-default">Back to Dashboard</a>
+            <div>
+                <button type="submit"
+                        class="waves-effect waves-light btn blue">Save Settings</button>
+                <a ui-sref="dashboard"
+                   class="waves-effect waves-dark btn grey lighten-3">Back to Dashboard</a>
             </div>
         </form>
     </div>

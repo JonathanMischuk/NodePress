@@ -8,6 +8,7 @@ module.exports = angular.module('menus')
 function AdminManageMenuLocationsController(
     $scope,
     $rootScope,
+    $timeout,
     AdminMenusAPIService,
     AdminManageMenuLocationsService,
     AdminUtilitiesServices) {
@@ -20,6 +21,12 @@ function AdminManageMenuLocationsController(
     AdminManageMenuLocationsService.getMenuLocations()
         .then(function (menuLocations) {
             vm.menuLocations = menuLocations.data[0];
+
+            // set Materialize select box default value
+            $timeout(function () {
+                angular.element('.site-primary-menu .select-dropdown').val(vm.menuLocations.primary);
+                angular.element('.site-secondary-menu .select-dropdown').val(vm.menuLocations.secondary);
+            });
         });
 
     function updateMenuLocations() {
@@ -27,7 +34,7 @@ function AdminManageMenuLocationsController(
         // create human readable date for modified date
         var date = AdminUtilitiesServices.createHumanReadableDate();
 
-        vm.menuLocations.modifiedBy   = $rootScope.auth.username;
+        vm.menuLocations.modifiedBy = $rootScope.auth.username;
         vm.menuLocations.modifiedDate = date;
 
         if (vm.menuLocations.primary === null) vm.menuLocations.primary = 'No Menu';
@@ -36,11 +43,17 @@ function AdminManageMenuLocationsController(
         AdminManageMenuLocationsService.updateMenuLocations(vm.menuLocations)
             .then(function () {
 
-                // display success alert panel
-                $scope.$emit('updatedStatus', true);
+                // display success dialog
+                Materialize.toast('Menu locations updated successfully', 4000, 'success');
             })
             .catch(function (error) {
                 console.log(error);
             });
+    }
+
+    function convertSlugToString (str) {
+        return str.replace(/-/g,' ').replace(/\w\S*/g, function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
     }
 }

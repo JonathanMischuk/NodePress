@@ -9,6 +9,7 @@ function AdminUpdatePageController(
     $scope,
     $rootScope,
     $stateParams,
+    $timeout,
     AdminCategoriesAPIService,
     AdminPagesAPIService,
     AdminUserAuthenticationService,
@@ -28,7 +29,12 @@ function AdminUpdatePageController(
     function getPage() {
         vm.page = AdminPagesAPIService.get({
             pageId: $stateParams.pageId
-        }, function addCKEditor(page) {
+        }, function (page) {
+
+            // set Materialize select box default value
+            $timeout(function () {
+                angular.element('.site-page-category .select-dropdown').val(page.category);
+            });
 
             // create host url to view front end page
             vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
@@ -55,8 +61,8 @@ function AdminUpdatePageController(
             vm.page.$update()
                 .then(function () {
 
-                    // display success alert panel
-                    $scope.$emit('updatedStatus', true);
+                    // display success dialog
+                    Materialize.toast('Page updated successfully', 4000, 'success');
 
                     $scope.updatePageForm.$setPristine();
                 })

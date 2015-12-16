@@ -3,15 +3,9 @@
     ng-controller="AdminUpdateMenuController as menu"
     ng-init="menu.getMenu()">
 
-    <div
-        alert-panel
-        class="alert alert-success success">
-            Menu updated successfully
-    </div>
+    <h1>Edit Menu</h1>
 
-    <h1>Edit Menu
-        <a ui-sref="newMenu" class="btn btn-default">New Menu</a>
-    </h1>
+    <a ui-sref="newMenu" class="waves-effect waves-light btn blue">New Menu</a>
 
     <form role="form" name="updateMenuForm" ng-submit="menu.updateMenu()" novalidate>
 

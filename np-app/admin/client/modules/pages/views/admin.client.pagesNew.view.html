@@ -1,4 +1,4 @@
-<div class="half" ng-controller="AdminNewPageController as page">
+<div class="page-gutter-right" ng-controller="AdminNewPageController as page">
 
     <h1>New Page
         <span
@@ -11,14 +11,13 @@
         </span>
     </h1>
 
-    <form role="form" name="newPageForm" ng-submit="page.newPage()" novalidate>
+    <form name="newPageForm" ng-submit="page.newPage()" novalidate>
 
-        <div class="form-group">
+        <div class="input-field">
             <label for="title">Page Title</label>
             <input
                 type="text"
                 ng-model="page.page.title"
-                class="form-control"
                 id="title"
                 name="title"
                 required />
@@ -34,26 +33,22 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div>
             <label for="slug">Slug</label>
             <input
                 type="text"
                 ng-model="page.page.slug"
-                class="form-control"
                 id="slug"
                 create-slug="page.page.title"
-                readonly="readonly"
-            />
+                readonly="readonly" />
         </div>
 
-        <div class="form-group">
-            <label for="category">Category</label>
+        <div>
+            <label class="active" for="category">Category</label>
             <select
                 ng-model="page.page.category"
-                class="form-control"
                 id="category"
-                ng-options="category.title as category.title for category in page.categories"
-            >
+                ng-options="category.title as category.title for category in page.categories">
                 <option value="">Uncategorized</option>
             </select>
         </div>
@@ -63,19 +58,19 @@
             <textarea
                 ng-model="page.page.body"
                 name="html-editor"
-                class="form-control html-editor"
+                class="html-editor"
                 id="body">
             </textarea>
         </div>
 
-        <div class="form-group">
+        <div class="input-field">
             <button
                 type="submit"
-                class="btn btn-default"
+                class="waves-effect waves-light btn blue"
                 ng-disabled="newPageForm.$invalid">
                     Create Page
             </button>
-            <a ui-sref="pages" class="btn btn-default">Cancel</a>
+            <a ui-sref="pages" class="waves-effect waves-light btn pink">Cancel</a>
         </div>
 
     </form>

@@ -5,16 +5,25 @@
           content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>NodePress</title>
     <base href="/np-admin/">
-    <link
-        rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-        integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
-        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+
     <link rel="stylesheet" href="/public/css/app.min.css" />
 
     <script src="/public/vendors/ckeditor/ckeditor.js"></script>
 </head>
 <body ng-controller="AdminUserAuthenticationController as user">
+
+<script>
+    $(document).ready(function() {
+        $('.dropdown-button').dropdown();
+        $('.collapsible').collapsible();
+    });
+</script>
 
 <script type="text/javascript">
     var auth = {{ user | json | safe }};
@@ -26,6 +35,7 @@
 
 {% block content %}{% endblock %}
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 <script src="/public/js/bundle.js"></script>
 
 </body>

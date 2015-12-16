@@ -96,8 +96,8 @@ function AdminUpdateMenuController(
 
                     vm.menuItems = vm.menu.items;
 
-                    // display success alert panel
-                    $scope.$emit('updatedStatus', true);
+                    // display success dialog
+                    Materialize.toast('Menu updated successfully', 4000, 'success');
 
                     $scope.updateMenuForm.$setPristine();
                 })

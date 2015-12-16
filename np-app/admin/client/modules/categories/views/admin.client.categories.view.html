@@ -1,48 +1,46 @@
 <div
     ng-controller="AdminGetCategoriesController as categories"
-    ng-init="categories.getCategories()"
->
+    ng-init="categories.getCategories()">
 
     <h1>Categories</h1>
 
-    <div class="form-group">
-        <a ui-sref="newCategory" class="btn btn-default">New Category</a>
+    <div class="input-field">
+        <a ui-sref="newCategory" class="waves-effect waves-light btn blue">New Category</a>
     </div>
 
-    <div class="list-group">
-        <div class="list-group-item">
+    <div class="collection with-header">
+        <div class="collection-header">
             <div class="row">
-                <div class="col-md-2">
-                    <h4>Category</h4>
+                <div class="col s12 m12 l3">
+                    <h5>Category</h5>
                 </div>
 
-                <div class="col-md-2">
-                    <h4>Author</h4>
+                <div class="col s12 m12 l3">
+                    <h5>Author</h5>
                 </div>
 
-                <div class="col-md-2">
-                    <h4>Description</h4>
+                <div class="col s12 m12 l3">
+                    <h5>Description</h5>
                 </div>
 
-                <div class="col-md-2">
-                    <h4>Last Modified</h4>
+                <div class="col s12 m12 l3">
+                    <h5>Last Modified</h5>
                 </div>
             </div>
         </div>
 
-        <div ng-repeat="category in categories.categories" class="list-group-item">
-            <span ng-click="categories.removeCategory(category)" class="badge remove">
-                <i class="glyphicon glyphicon-trash"></i>
-            </span>
+        <div ng-repeat="category in categories.categories" class="collection-item">
+            <span class="badge">
+                <i ng-click="categories.removeCategory(category)" class="material-icons delete">
+                    delete</i>
 
-            <span class="badge edit">
                 <a ng-href="/np-admin/categories/{{ category._id }}">
-                    <i class="glyphicon glyphicon-edit"></i>
+                    <i class="material-icons edit">edit</i>
                 </a>
             </span>
 
             <div class="row">
-                <div class="col-md-2">
+                <div class="col s12 m12 l3">
                     <p class="page-title">
                         <a ng-href="/np-admin/categories/{{ category._id }}">
                             {{ category.title }}
@@ -50,16 +48,16 @@
                     </p>
                 </div>
 
-                <div class="col-md-2">
-                    <p class="page-category">{{ category.createdBy }}</p>
+                <div class="col s12 m12 l3">
+                    <p class="page-title">{{ category.createdBy }}</p>
                 </div>
 
-                <div class="col-md-2">
-                    <p class="page-category">{{ category.description }}</p>
+                <div class="col s12 m12 l3">
+                    <p class="page-title">{{ category.description }}</p>
                 </div>
 
-                <div class="col-md-2">
-                    <p class="page-category">{{ category.modifiedDate }}</p>
+                <div class="col s12 m12 l3">
+                    <p class="page-title">{{ category.modifiedDate }}</p>
                 </div>
             </div>
         </div>

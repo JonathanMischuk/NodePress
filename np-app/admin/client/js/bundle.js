@@ -38060,7 +38060,7 @@ module.exports = angular.module('admin', [
     require('./pages')
 ]);
 
-},{"../vendors/angular-ui-sortable":88,"./categories":16,"./dashboard":24,"./menus":35,"./pages":47,"./settings":55,"./users":70,"./utils":85,"angular":7,"angular-animate":2,"angular-resource":4,"angular-ui-router":5}],10:[function(require,module,exports){
+},{"../vendors/angular-ui-sortable":90,"./categories":16,"./dashboard":24,"./menus":35,"./pages":47,"./settings":56,"./users":71,"./utils":87,"angular":7,"angular-animate":2,"angular-resource":4,"angular-ui-router":5}],10:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39104,9 +39104,62 @@ function AdminSettingsController(
 },{"angular":7}],54:[function(require,module,exports){
 'use strict';
 
-require('./admin.client.settings.controller');
+var angular = require('angular');
 
-},{"./admin.client.settings.controller":53}],55:[function(require,module,exports){
+module.exports = angular.module('settings')
+    .controller('AdminSettingsThemesController', AdminSettingsThemesController);
+
+function AdminSettingsThemesController (
+    $rootScope,
+    AdminAppSettingsService,
+    AdminUtilitiesServices) {
+
+    var vm = this;
+
+    vm.themes = [];
+    vm.updateAppSettings = updateAppSettings;
+
+    angular.forEach($rootScope.themes, function (theme) {
+        vm.themes.push({
+            title: theme,
+            preview: '/' + theme + '/preview.jpg'
+        });
+    });
+
+    AdminAppSettingsService.getAppSettings()
+        .then(function (appSettings) {
+            vm.settings = appSettings.data[0];
+        });
+
+    function updateAppSettings(theme) {
+
+        // create human readable date for modified date
+        var date = AdminUtilitiesServices.createHumanReadableDate();
+
+        console.log(vm.settings);
+
+        vm.settings.modifiedBy = $rootScope.auth.username;
+        vm.settings.modifiedDate = date;
+        vm.settings.theme = theme;
+
+        AdminAppSettingsService.updateAppSettings(vm.settings)
+            .then(function () {
+                // display success dialog
+                Materialize.toast('NodePress theme updated successfully', 4000, 'success');
+            })
+            .catch(function (error) {
+                //vm.errorTitle = error;
+            });
+    }
+}
+
+},{"angular":7}],55:[function(require,module,exports){
+'use strict';
+
+require('./admin.client.settings.controller');
+require('./admin.client.settings.themes.controller');
+
+},{"./admin.client.settings.controller":53,"./admin.client.settings.themes.controller":54}],56:[function(require,module,exports){
 'use strict';
 
 // angular settings module and module accessories
@@ -39118,7 +39171,7 @@ require('./controllers');
 // exports module name as string for admin module dependency injection
 module.exports = 'settings';
 
-},{"./admin.client.settings.module":52,"./controllers":54,"./routes":57,"./services":59}],56:[function(require,module,exports){
+},{"./admin.client.settings.module":52,"./controllers":55,"./routes":58,"./services":60}],57:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39127,21 +39180,32 @@ module.exports = angular.module('settings')
     .config(adminSettingsRoutes);
 
 function adminSettingsRoutes ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/settings');
 
     $stateProvider
         .state('settings', {
-            url: '/settings/',
-            templateUrl: 'admin.client.settings.view.html'
+            url: '/settings',
+            templateUrl: 'admin.client.settings.view.html',
+            controller: function ($state) {
+                $state.go('settings.general');
+            }
+        })
+        .state('settings.general', {
+            url: '/general',
+            templateUrl: 'admin.client.settings.general.view.html'
+        })
+        .state('settings.themes', {
+            url: '/themes',
+            templateUrl: 'admin.client.settings.themes.view.html'
         });
 }
 
-},{"angular":7}],57:[function(require,module,exports){
+},{"angular":7}],58:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.settings.routes');
 
-},{"./admin.client.settings.routes":56}],58:[function(require,module,exports){
+},{"./admin.client.settings.routes":57}],59:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39165,19 +39229,19 @@ function AdminAppSettingsService($http) {
     }
 }
 
-},{"angular":7}],59:[function(require,module,exports){
+},{"angular":7}],60:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.settings.service');
 
-},{"./admin.client.settings.service":58}],60:[function(require,module,exports){
+},{"./admin.client.settings.service":59}],61:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 
 module.exports = angular.module('users', []);
 
-},{"angular":7}],61:[function(require,module,exports){
+},{"angular":7}],62:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39204,7 +39268,7 @@ function AdminGetUsersController(AdminUsersAPIService) {
         vm.users.splice(index, 1);
     }
 }
-},{"angular":7}],62:[function(require,module,exports){
+},{"angular":7}],63:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39226,7 +39290,7 @@ function AdminUserAuthenticationController(
     });
 }
 
-},{"angular":7}],63:[function(require,module,exports){
+},{"angular":7}],64:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39262,7 +39326,7 @@ function AdminUserLoginController(
     }
 }
 
-},{"angular":7}],64:[function(require,module,exports){
+},{"angular":7}],65:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39311,7 +39375,7 @@ function AdminNewUserController(
 
 }
 
-},{"../errors/admin.client.users.errors":69,"angular":7}],65:[function(require,module,exports){
+},{"../errors/admin.client.users.errors":70,"angular":7}],66:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39380,7 +39444,7 @@ function AdminUpdateUserController(
     }
 }
 
-},{"../errors/admin.client.users.errors":69,"angular":7}],66:[function(require,module,exports){
+},{"../errors/admin.client.users.errors":70,"angular":7}],67:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.users.authentication.controller');
@@ -39389,7 +39453,7 @@ require('./admin.client.users.newUser.controller');
 require('./admin.client.users.updateUser.controller');
 require('./admin.client.users.allUsers.controller');
 
-},{"./admin.client.users.allUsers.controller":61,"./admin.client.users.authentication.controller":62,"./admin.client.users.login.controller":63,"./admin.client.users.newUser.controller":64,"./admin.client.users.updateUser.controller":65}],67:[function(require,module,exports){
+},{"./admin.client.users.allUsers.controller":62,"./admin.client.users.authentication.controller":63,"./admin.client.users.login.controller":64,"./admin.client.users.newUser.controller":65,"./admin.client.users.updateUser.controller":66}],68:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39415,12 +39479,12 @@ function confirmPassword () {
     }
 }
 
-},{"angular":7}],68:[function(require,module,exports){
+},{"angular":7}],69:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.users.confirmPassword.directive');
 
-},{"./admin.client.users.confirmPassword.directive":67}],69:[function(require,module,exports){
+},{"./admin.client.users.confirmPassword.directive":68}],70:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -39450,7 +39514,7 @@ module.exports = {
     }
 }
 
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 'use strict';
 
 // angular users module and module accessories
@@ -39463,7 +39527,7 @@ require('./directives');
 // exports module name as string for admin module dependency injection
 module.exports = 'users';
 
-},{"./admin.client.users.module":60,"./controllers":66,"./directives":68,"./routes":72,"./services":77}],71:[function(require,module,exports){
+},{"./admin.client.users.module":61,"./controllers":67,"./directives":69,"./routes":73,"./services":78}],72:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39493,12 +39557,12 @@ function adminUserRoutes ($stateProvider, $urlRouterProvider) {
         });
 }
 
-},{"angular":7}],72:[function(require,module,exports){
+},{"angular":7}],73:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.users.routes');
 
-},{"./admin.client.users.routes":71}],73:[function(require,module,exports){
+},{"./admin.client.users.routes":72}],74:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39516,7 +39580,7 @@ function AdminUsersAPIService($resource) {
     });
 }
 
-},{"angular":7}],74:[function(require,module,exports){
+},{"angular":7}],75:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39539,7 +39603,7 @@ function AdminUserAuthenticationService($http, $location, $rootScope) {
     };
 }
 
-},{"angular":7}],75:[function(require,module,exports){
+},{"angular":7}],76:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39557,7 +39621,7 @@ function AdminUsersLoginService($http) {
     }
 }
 
-},{"angular":7}],76:[function(require,module,exports){
+},{"angular":7}],77:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39575,7 +39639,7 @@ function AdminUserUpdatePasswordService($http) {
     }
 }
 
-},{"angular":7}],77:[function(require,module,exports){
+},{"angular":7}],78:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.users.api.service');
@@ -39583,14 +39647,14 @@ require('./admin.client.users.authentication.service');
 require('./admin.client.users.login.service');
 require('./admin.client.users.updatePassword.service');
 
-},{"./admin.client.users.api.service":73,"./admin.client.users.authentication.service":74,"./admin.client.users.login.service":75,"./admin.client.users.updatePassword.service":76}],78:[function(require,module,exports){
+},{"./admin.client.users.api.service":74,"./admin.client.users.authentication.service":75,"./admin.client.users.login.service":76,"./admin.client.users.updatePassword.service":77}],79:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 
 module.exports = angular.module('utils', []);
 
-},{"angular":7}],79:[function(require,module,exports){
+},{"angular":7}],80:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39631,7 +39695,7 @@ function alertPanel ($timeout) {
     }
 }
 
-},{"angular":7}],80:[function(require,module,exports){
+},{"angular":7}],81:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39654,7 +39718,7 @@ function dropdownButton ($timeout) {
     }
 }
 
-},{"angular":7}],81:[function(require,module,exports){
+},{"angular":7}],82:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39687,7 +39751,7 @@ function select ($timeout) {
     }
 }
 
-},{"angular":7}],82:[function(require,module,exports){
+},{"angular":7}],83:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39718,7 +39782,30 @@ function createSlug () {
     }
 }
 
-},{"angular":7}],83:[function(require,module,exports){
+},{"angular":7}],84:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+
+module.exports = angular.module('utils')
+    .directive('tabs', tabs);
+
+function tabs ($timeout) {
+    return {
+        restrict: 'C',
+        link: link
+    };
+
+    function link (scope, elem, attrs) {
+        $timeout(create);
+
+        function create() {
+            elem.tabs();
+        }
+    }
+}
+
+},{"angular":7}],85:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39746,7 +39833,7 @@ function tooltipped ($timeout) {
     }
 }
 
-},{"angular":7}],84:[function(require,module,exports){
+},{"angular":7}],86:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.utils.alert.directive');
@@ -39754,8 +39841,9 @@ require('./admin.client.utils.slug.directive');
 require('./admin.client.utils.select.directive');
 require('./admin.client.utils.tooltip.directive');
 require('./admin.client.utils.dropdown.directive');
+require('./admin.client.utils.tabs.directive');
 
-},{"./admin.client.utils.alert.directive":79,"./admin.client.utils.dropdown.directive":80,"./admin.client.utils.select.directive":81,"./admin.client.utils.slug.directive":82,"./admin.client.utils.tooltip.directive":83}],85:[function(require,module,exports){
+},{"./admin.client.utils.alert.directive":80,"./admin.client.utils.dropdown.directive":81,"./admin.client.utils.select.directive":82,"./admin.client.utils.slug.directive":83,"./admin.client.utils.tabs.directive":84,"./admin.client.utils.tooltip.directive":85}],87:[function(require,module,exports){
 'use strict';
 
 // angular utilities module and module accessories
@@ -39766,7 +39854,7 @@ require('./directives');
 // exports module name as string for admin module dependency injection
 module.exports = 'utils';
 
-},{"./admin.client.utils.module":78,"./directives":84,"./services":87}],86:[function(require,module,exports){
+},{"./admin.client.utils.module":79,"./directives":86,"./services":89}],88:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39801,12 +39889,12 @@ function AdminUtilitiesServices ($window) {
     }
 }
 
-},{"angular":7}],87:[function(require,module,exports){
+},{"angular":7}],89:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.utils.services');
 
-},{"./admin.client.utils.services":86}],88:[function(require,module,exports){
+},{"./admin.client.utils.services":88}],90:[function(require,module,exports){
 angular.module('ui.sortable', [])
     .value('uiSortableConfig',{})
     .directive('uiSortable', [

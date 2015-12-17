@@ -62,25 +62,27 @@
             </div>
 
             <div class="col s12 m12 l6">
-                <div ui-sortable
-                     class="collection with-header buttons-below sortable"
-                     ng-model="menu.menuItems">
-
+                <div class="collection with-header buttons-below">
                     <div class="collection-header">
                         <h5>Menu Items</h5>
                     </div>
 
-                    <div class="collection-item valign-wrapper ui-state-default"
-                         ng-repeat="menuItem in menu.menuItems">
+                    <div ui-sortable
+                         class="sortable"
+                         ng-model="menu.menuItems">
 
-                        <span class="badge"
-                              ng-click="menu.removeMenuItem(menuItem)">
-                            <i class="material-icons delete">delete</i>
-                        </span>
+                        <div class="collection-item valign-wrapper ui-state-default"
+                             ng-repeat="menuItem in menu.menuItems">
 
-                        <i class="material-icons">sort</i>
+                            <span class="badge"
+                                  ng-click="menu.removeMenuItem(menuItem)">
+                                <i class="material-icons delete">delete</i>
+                            </span>
 
-                        <span class="menu-item-title">{{ menuItem.title }}</span>
+                            <i class="material-icons">sort</i>
+
+                            <span class="menu-item-title">{{ menuItem.title }}</span>
+                        </div>
                     </div>
 
                     <div class="collection-item"

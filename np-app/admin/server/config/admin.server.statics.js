@@ -4,6 +4,8 @@ var express = require('express'),
     fs = require('fs');
 
 module.exports = function (app) {
+    app.use('', express.static(__dirname + '/../../../../np-site/themes'));
+
     app.use('/public', express.static(__dirname + '/../../client'));
     app.use('/public', express.static(__dirname + '/../../../../bower_components'));
 

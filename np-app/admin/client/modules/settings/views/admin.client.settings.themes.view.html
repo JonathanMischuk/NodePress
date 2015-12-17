@@ -1,0 +1,19 @@
+<div ng-controller="AdminSettingsThemesController as settings">
+    <div class="row">
+        <div class="col s12 m12 l6" ng-repeat="theme in settings.themes">
+            <div class="card">
+                <div class="card-image">
+                    <img src="{{ theme.preview }}">
+                    <span class="card-title">{{ theme.title }}</span>
+                </div>
+                <div class="card-action">
+                    <span class="theme-activate"
+                          ng-if="settings.settings.theme !== theme.title"
+                          ng-click="settings.updateAppSettings(theme.title)">Activate</span>
+                    <span class="theme-active"
+                          ng-if="settings.settings.theme === theme.title">Activated</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

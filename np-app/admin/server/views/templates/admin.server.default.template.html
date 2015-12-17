@@ -18,13 +18,6 @@
 </head>
 <body ng-controller="AdminUserAuthenticationController as user">
 
-<script>
-    $(document).ready(function() {
-        $('.dropdown-button').dropdown();
-        $('.collapsible').collapsible();
-    });
-</script>
-
 <script type="text/javascript">
     var auth = {{ user | json | safe }};
     var exists = {{ exists }};

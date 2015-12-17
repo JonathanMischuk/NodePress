@@ -1,9 +1,14 @@
 <div ng-controller="AdminGetPagesController as pages">
-    <h1>Pages</h1>
+    <h1 class="actions-list-header valign-wrapper">Pages
 
-    <div class="input-field">
-        <a ui-sref="newPage" class="waves-effect waves-light btn blue">New Page</a>
-    </div>
+        <a ui-sref="newPage"
+           class="btn-floating btn-small waves-effect waves-light blue tooltipped"
+           data-position="top"
+           data-delay="50"
+           data-tooltip="Add new page">
+            <i class="material-icons">add</i>
+        </a>
+    </h1>
 
     <div class="collection with-header">
         <div class="collection-header">
@@ -33,9 +38,16 @@
         <div ng-repeat="page in pages.pages" class="collection-item">
             <span class="badge">
                 <i ng-click="pages.removePage(page)"
-                   class="material-icons delete">delete</i>
+                   class="material-icons delete tooltipped"
+                   data-position="top"
+                   data-delay="50"
+                   data-tooltip="Remove page">delete</i>
 
-                <a ng-href="/np-admin/pages/{{ page._id }}">
+                <a class="tooltipped"
+                   ng-href="/np-admin/pages/{{ page._id }}"
+                   data-position="top"
+                   data-delay="50"
+                   data-tooltip="Edit page">
                     <i class="material-icons edit">edit</i>
                 </a>
             </span>
@@ -63,9 +75,8 @@
 
                 <div class="col s12 m12 l2">
                     <p class="page-title">
-                        <a
-                            href="{{ pages.frontEndURL }}/{{ page.slug }}"
-                            target="_blank">/{{ page.slug }}
+                        <a href="{{ pages.frontEndURL }}/{{ page.slug }}"
+                           target="_blank">/{{ page.slug }}
                         </a>
                     </p>
                 </div>

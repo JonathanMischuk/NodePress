@@ -1,11 +1,14 @@
 <div ng-controller="AdminDashboardController as dashboard">
-    <h1>Dashboard
-    </h1>
+    <h1 class="actions-list-header valign-wrapper">Dashboard
 
-    <a ui-sref="settings"
-       class="waves-effect waves-light btn blue">
-        NodePress Settings
-    </a>
+        <a ui-sref="settings"
+           class="btn-floating btn-small waves-effect waves-light pink tooltipped"
+           data-position="top"
+           data-delay="50"
+           data-tooltip="NodePress Settings">
+            <i class="material-icons">settings</i>
+        </a>
+    </h1>
 
     <div class="row">
 

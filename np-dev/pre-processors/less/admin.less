@@ -181,21 +181,48 @@ h5 {
     }
 }
 
+.actions-list-header {
+    a {
+        margin-left: 10px;
+        font-size: 30px;
+
+        &:first-child {
+            margin-left: 15px;
+        }
+    }
+}
+
+.menu-item-title {
+    margin-left: 20px;
+}
+
 nav .brand-logo {
     left: 20px;
 }
 
 .collection {
     margin: 20px 0 10px 0;
+
+    &.buttons-below {
+        margin-bottom: 25px;
+    }
+
+    &.with-header {
+        .collection-item {
+            padding-left: 18px;
+        }
+    }
 }
 
 .toast {
     &.success {
-        background-color: #26a69a;
+        background-color: #e91e63;
     }
 }
 
 .badge {
+    cursor: pointer;
+
     .edit {
         color: #2196f3;
     }
@@ -228,6 +255,16 @@ nav .brand-logo {
 
 .input-field label {
     left: 0;
+}
+
+[type="checkbox"]+label {
+    height: 23px;
+    color: rgba(0,0,0,0.87);
+}
+
+[type="checkbox"]:checked+label:before {
+    border-right: 2px solid #2196F3;
+    border-bottom: 2px solid #2196F3;
 }
 
 input[type=text]:focus:not([readonly]),

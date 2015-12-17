@@ -1,57 +1,68 @@
-<div ng-controller="AdminGetUsersController as users" ng-init="users.getUsers()">
-    <h1>Users</h1>
+<div ng-controller="AdminGetUsersController as users"
+     ng-init="users.getUsers()">
 
-    <div class="form-group">
-        <a ui-sref="newUser" class="btn btn-default">New User</a>
-    </div>
+    <h1 class="actions-list-header valign-wrapper">Users
 
-    <div class="list-group">
-        <div class="list-group-item">
+        <a ui-sref="newUser"
+           class="btn-floating btn-small waves-effect waves-light blue tooltipped"
+           data-position="top"
+           data-delay="50"
+           data-tooltip="Add new user">
+            <i class="material-icons">add</i>
+        </a>
+    </h1>
+
+    <div class="collection">
+        <div class="collection-item">
             <div class="row">
-                <div class="col-md-2">
-                    <h4>Username</h4>
+                <div class="col s12 m12 l2">
+                    <h5>Username</h5>
                 </div>
-                <div class="col-md-3">
-                    <h4>Role</h4>
+                <div class="col s12 m12 l2">
+                    <h5>Role</h5>
                 </div>
-                <div class="col-md-3">
-                    <h4>E-mail</h4>
+                <div class="col s12 m12 l2">
+                    <h5>E-mail</h5>
                 </div>
-                <div class="col-md-3">
-                    <h4>Last Modified</h4>
+                <div class="col s12 m12 l2">
+                    <h5>Last Modified</h5>
                 </div>
             </div>
         </div>
 
-        <div ng-repeat="user in users.users" class="list-group-item">
-            <span
-                ng-click="users.removeUser(user)"
-                class="badge remove">
-                <i class="glyphicon glyphicon-trash"></i>
-            </span>
+        <div ng-repeat="user in users.users" class="collection-item">
+            <span class="badge">
+                <i ng-click="users.removeUser(user)"
+                   class="material-icons delete tooltipped"
+                   data-position="top"
+                   data-delay="50"
+                   data-tooltip="Remove user">delete</i>
 
-            <span class="badge edit">
-                <a ng-href="/np-admin/users/{{ user.username }}">
-                    <i class="glyphicon glyphicon-edit"></i>
+                <a ng-href="/np-admin/users/{{ user.username }}"
+                   class="tooltipped"
+                   data-position="top"
+                   data-delay="50"
+                   data-tooltip="Edit user">
+                    <i class="material-icons edit">edit</i>
                 </a>
             </span>
 
             <div class="row">
-                <div class="col-md-2">
+                <div class="col s12 m12 l2">
                     <p class="page-title">
                         <a ng-href="/np-admin/users/{{ user.username }}">
                             {{ user.username }}
                         </a>
                     </p>
                 </div>
-                <div class="col-md-3">
-                    <p class="page-category">{{ user.role }}</p>
+                <div class="col s12 m12 l2">
+                    <p class="page-title">{{ user.role }}</p>
                 </div>
-                <div class="col-md-3">
-                    <p class="page-category">{{ user.email }}</p>
+                <div class="col s12 m12 l2">
+                    <p class="page-title">{{ user.email }}</p>
                 </div>
-                <div class="col-md-3">
-                    <p class="page-category">{{ user.modifiedDate }}</p>
+                <div class="col s12 m12 l2">
+                    <p class="page-title">{{ user.modifiedDate }}</p>
                 </div>
             </div>
         </div>

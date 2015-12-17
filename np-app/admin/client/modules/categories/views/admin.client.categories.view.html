@@ -2,17 +2,22 @@
     ng-controller="AdminGetCategoriesController as categories"
     ng-init="categories.getCategories()">
 
-    <h1>Categories</h1>
+    <h1 class="actions-list-header valign-wrapper">Categories
 
-    <div class="input-field">
-        <a ui-sref="newCategory" class="waves-effect waves-light btn blue">New Category</a>
-    </div>
+        <a ui-sref="newCategory"
+           class="btn-floating btn-small waves-effect waves-light blue tooltipped"
+           data-position="top"
+           data-delay="50"
+           data-tooltip="Add new category">
+            <i class="material-icons">add</i>
+        </a>
+    </h1>
 
     <div class="collection with-header">
         <div class="collection-header">
             <div class="row">
                 <div class="col s12 m12 l3">
-                    <h5>Category</h5>
+                    <h5>Category Title</h5>
                 </div>
 
                 <div class="col s12 m12 l3">
@@ -31,10 +36,17 @@
 
         <div ng-repeat="category in categories.categories" class="collection-item">
             <span class="badge">
-                <i ng-click="categories.removeCategory(category)" class="material-icons delete">
-                    delete</i>
+                <i ng-click="categories.removeCategory(category)"
+                   class="material-icons delete tooltipped"
+                   data-position="top"
+                   data-delay="50"
+                   data-tooltip="Remove category">delete</i>
 
-                <a ng-href="/np-admin/categories/{{ category._id }}">
+                <a ng-href="/np-admin/categories/{{ category._id }}"
+                   class="tooltipped"
+                   data-position="top"
+                   data-delay="50"
+                   data-tooltip="Edit category">
                     <i class="material-icons edit">edit</i>
                 </a>
             </span>

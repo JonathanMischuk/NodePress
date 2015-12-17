@@ -1,42 +1,39 @@
-<div
-    class="half ng-cloak"
-    ng-controller="AdminManageMenuLocationsController as menus">
+<div class="page-gutter-right ng-cloak"
+     ng-controller="AdminManageMenuLocationsController as menus">
 
-    <h1>Manage Menu Locations</h1>
+    <h1>Menu Locations</h1>
 
-    <form
-        name="updateMenuLocationsForm"
-        ng-submit="menus.updateMenuLocations()"
-        novalidate>
+    <form name="updateMenuLocationsForm"
+          ng-submit="menus.updateMenuLocations()"
+          novalidate>
 
         <div class="site-primary-menu">
             <label for="primary">Primary Menu</label>
-            <select
-                ng-model="menus.menuLocations.primary"
-                id="primary"
-                ng-options="menu.title as menu.title for menu in menus.menus">
+            <select ng-model="menus.menuLocations.primary"
+                    id="primary"
+                    ng-options="menu.title as menu.title for menu in menus.menus">
                     <option value="">No Menu</option>
             </select>
         </div>
 
         <div class="site-secondary-menu">
             <label for="secondary">Secondary Menu</label>
-            <select
-                ng-model="menus.menuLocations.secondary"
-                id="secondary"
-                ng-options="menu.title as menu.title for menu in menus.menus">
+            <select ng-model="menus.menuLocations.secondary"
+                    id="secondary"
+                    ng-options="menu.title as menu.title for menu in menus.menus">
                     <option value="">No Menu</option>
             </select>
         </div>
 
-        <div>
-            <button
-                type="submit"
-                class="btn btn-default"
-                ng-disabled="updateMenuLocationsForm.$invalid">Update Menu Locations
+        <div class="input-field">
+            <button type="submit"
+                    class="waves-effect waves-light btn blue"
+                    ng-disabled="updateMenuLocationsForm.$invalid">Update Menu Locations
             </button>
 
-            <a ui-sref="menus" class="btn btn-default">Back to All Menus</a>
+            <a ui-sref="menus"
+               class="waves-effect waves-light btn grey lighten-3">Back to All Menus
+            </a>
         </div>
     </form>
 

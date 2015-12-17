@@ -38060,7 +38060,7 @@ module.exports = angular.module('admin', [
     require('./pages')
 ]);
 
-},{"../vendors/angular-ui-sortable":87,"./categories":16,"./dashboard":24,"./menus":35,"./pages":47,"./settings":55,"./users":70,"./utils":84,"angular":7,"angular-animate":2,"angular-resource":4,"angular-ui-router":5}],10:[function(require,module,exports){
+},{"../vendors/angular-ui-sortable":88,"./categories":16,"./dashboard":24,"./menus":35,"./pages":47,"./settings":55,"./users":70,"./utils":85,"angular":7,"angular-animate":2,"angular-resource":4,"angular-ui-router":5}],10:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -38120,7 +38120,7 @@ function AdminNewCategoryController(
     vm.category    = {};
     vm.newCategory = newCategory;
     vm.errorTitle  = null;
-    vm.errorMessages = require('../errors/admin.client.categories.errors');
+    vm.errors = require('../errors/admin.client.categories.errors');
 
     AdminUserAuthenticationService();
 
@@ -38168,7 +38168,7 @@ function AdminUpdateCategoryController(
     vm.category       = {};
     vm.updateCategory = updateCategory;
     vm.getCategory    = getCategory;
-    vm.errorMessages = require('../errors/admin.client.categories.errors');
+    vm.errors = require('../errors/admin.client.categories.errors');
 
     function getCategory() {
         vm.category = AdminCategoriesAPIService.get({
@@ -38425,7 +38425,7 @@ function AdminManageMenuLocationsController(
         .then(function (menuLocations) {
             vm.menuLocations = menuLocations.data[0];
 
-            // set Materialize select box default value
+
             $timeout(function () {
                 angular.element('.site-primary-menu .select-dropdown').val(vm.menuLocations.primary);
                 angular.element('.site-secondary-menu .select-dropdown').val(vm.menuLocations.secondary);
@@ -38486,7 +38486,7 @@ function AdminNewMenuController(
     vm.addMenuItems = addMenuItems;
     vm.removeMenuItem = removeMenuItem;
     vm.newMenu = newMenu;
-    vm.errorMessages = require('../errors/admin.client.menus.errors');
+    vm.errors = require('../errors/admin.client.menus.errors');
 
         function addPropertiesToPagesModel() {
         return AdminPagesAPIService.query(function (pages) {
@@ -38582,7 +38582,7 @@ function AdminUpdateMenuController(
     vm.addMenuItems = addMenuItems;
     vm.removeMenuItem = removeMenuItem;
     vm.updateMenu = updateMenu;
-    vm.errorMessages = require('../errors/admin.client.menus.errors');
+    vm.errors = require('../errors/admin.client.menus.errors');
 
     function addPropertiesToPagesModel() {
         return AdminPagesAPIService.query(function (pages) {
@@ -38837,7 +38837,7 @@ function AdminNewPageController(
     vm.page = {};
     vm.newPage = newPage;
     vm.categories = AdminCategoriesAPIService.query();
-    vm.errorMessages = require('../errors/admin.client.pages.errors');
+    vm.errors = require('../errors/admin.client.pages.errors');
 
     // create host url to view front end page
     vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
@@ -38894,7 +38894,7 @@ function AdminUpdatePageController(
     vm.getPage = getPage();
     vm.updatePage = updatePage;
     vm.categories = AdminCategoriesAPIService.query();
-    vm.errorMessages = require('../errors/admin.client.pages.errors');
+    vm.errors = require('../errors/admin.client.pages.errors');
     vm.frontEndURL = '';
 
     function getPage() {
@@ -38920,7 +38920,6 @@ function AdminUpdatePageController(
 
             // create human readable date for modified date
             var date = AdminUtilitiesServices.createHumanReadableDate();
-            console.log(date);
 
             vm.page.modifiedBy = $rootScope.auth.username;
             vm.page.modifiedDate = date;
@@ -39638,6 +39637,29 @@ function alertPanel ($timeout) {
 var angular = require('angular');
 
 module.exports = angular.module('utils')
+    .directive('dropdownButton', dropdownButton);
+
+function dropdownButton ($timeout) {
+    return {
+        restrict: 'C',
+        link: link
+    };
+
+    function link (scope, elem, attrs) {
+        $timeout(create);
+
+        function create() {
+            elem.dropdown();
+        }
+    }
+}
+
+},{"angular":7}],81:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+
+module.exports = angular.module('utils')
     .directive('select', select);
 
 function select ($timeout) {
@@ -39665,7 +39687,7 @@ function select ($timeout) {
     }
 }
 
-},{"angular":7}],81:[function(require,module,exports){
+},{"angular":7}],82:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39696,7 +39718,7 @@ function createSlug () {
     }
 }
 
-},{"angular":7}],82:[function(require,module,exports){
+},{"angular":7}],83:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39724,15 +39746,16 @@ function tooltipped ($timeout) {
     }
 }
 
-},{"angular":7}],83:[function(require,module,exports){
+},{"angular":7}],84:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.utils.alert.directive');
 require('./admin.client.utils.slug.directive');
 require('./admin.client.utils.select.directive');
 require('./admin.client.utils.tooltip.directive');
+require('./admin.client.utils.dropdown.directive');
 
-},{"./admin.client.utils.alert.directive":79,"./admin.client.utils.select.directive":80,"./admin.client.utils.slug.directive":81,"./admin.client.utils.tooltip.directive":82}],84:[function(require,module,exports){
+},{"./admin.client.utils.alert.directive":79,"./admin.client.utils.dropdown.directive":80,"./admin.client.utils.select.directive":81,"./admin.client.utils.slug.directive":82,"./admin.client.utils.tooltip.directive":83}],85:[function(require,module,exports){
 'use strict';
 
 // angular utilities module and module accessories
@@ -39743,7 +39766,7 @@ require('./directives');
 // exports module name as string for admin module dependency injection
 module.exports = 'utils';
 
-},{"./admin.client.utils.module":78,"./directives":83,"./services":86}],85:[function(require,module,exports){
+},{"./admin.client.utils.module":78,"./directives":84,"./services":87}],86:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39778,12 +39801,12 @@ function AdminUtilitiesServices ($window) {
     }
 }
 
-},{"angular":7}],86:[function(require,module,exports){
+},{"angular":7}],87:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.utils.services');
 
-},{"./admin.client.utils.services":85}],87:[function(require,module,exports){
+},{"./admin.client.utils.services":86}],88:[function(require,module,exports){
 angular.module('ui.sortable', [])
     .value('uiSortableConfig',{})
     .directive('uiSortable', [

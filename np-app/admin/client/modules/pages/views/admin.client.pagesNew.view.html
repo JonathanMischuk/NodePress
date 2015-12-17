@@ -1,76 +1,70 @@
-<div class="page-gutter-right" ng-controller="AdminNewPageController as page">
+<div class="page-gutter-right ng-cloak"
+     ng-controller="AdminNewPageController as page">
 
     <h1>New Page
-        <span
-            class="admin-view-page" href="{{ page.frontEndURL + page.page.slug }}"
-            target="_blank"
-            ng-model="page.page.slug"
-            class="form-control"
-            id="slug"
-            create-slug="page.page.title">{{ page.frontEndURL + page.page.slug }}
+        <span class="admin-view-page"
+              href="{{ page.frontEndURL + page.page.slug }}"
+              target="_blank"
+              ng-model="page.page.slug"
+              create-slug="page.page.title">{{ page.frontEndURL + page.page.slug }}
         </span>
     </h1>
 
     <form name="newPageForm" ng-submit="page.newPage()" novalidate>
-
-        <div class="input-field">
+        <div>
             <label for="title">Page Title</label>
-            <input
-                type="text"
-                ng-model="page.page.title"
-                id="title"
-                name="title"
-                required />
+            <input type="text"
+                   ng-model="page.page.title"
+                   id="title"
+                   name="title"
+                   required />
 
             <div ng-show="newPageForm.$submitted">
                 <div class="error" ng-show="newPageForm.title.$error.required">
-                    {{ page.errorMessages.title.invalid }}
+                    {{ page.errors.title.invalid }}
                 </div>
 
                 <div class="error" ng-show="page.errorTitle">
-                    {{ page.errorMessages.title.unique }}
+                    {{ page.errors.title.unique }}
                 </div>
             </div>
         </div>
 
         <div>
             <label for="slug">Slug</label>
-            <input
-                type="text"
-                ng-model="page.page.slug"
-                id="slug"
-                create-slug="page.page.title"
-                readonly="readonly" />
+            <input type="text"
+                   ng-model="page.page.slug"
+                   id="slug"
+                   create-slug="page.page.title"
+                   readonly="readonly" />
         </div>
 
         <div>
-            <label class="active" for="category">Category</label>
-            <select
-                ng-model="page.page.category"
-                id="category"
-                ng-options="category.title as category.title for category in page.categories">
+            <label for="category">Category</label>
+            <select ng-model="page.page.category"
+                    id="category"
+                    ng-options="category.title as category.title for category in page.categories">
                 <option value="">Uncategorized</option>
             </select>
         </div>
 
-        <div class="form-group">
+        <div>
             <label for="body">Content Body</label>
-            <textarea
-                ng-model="page.page.body"
-                name="html-editor"
-                class="html-editor"
-                id="body">
+            <textarea ng-model="page.page.body"
+                      name="html-editor"
+                      class="html-editor"
+                      id="body">
             </textarea>
         </div>
 
         <div class="input-field">
-            <button
-                type="submit"
-                class="waves-effect waves-light btn blue"
-                ng-disabled="newPageForm.$invalid">
+            <button type="submit"
+                    class="waves-effect waves-light btn blue">
                     Create Page
             </button>
-            <a ui-sref="pages" class="waves-effect waves-light btn pink">Cancel</a>
+            <a ui-sref="pages"
+               class="waves-effect waves-light btn grey lighten-3">Cancel
+            </a>
         </div>
 
     </form>

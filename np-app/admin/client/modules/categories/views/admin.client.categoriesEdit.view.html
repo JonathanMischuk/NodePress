@@ -1,76 +1,58 @@
-<div
-    class="page-gutter-right"
-    ng-controller="AdminUpdateCategoryController as category"
-    ng-init="category.getCategory()">
+<div class="page-gutter-right"
+     ng-controller="AdminUpdateCategoryController as category"
+     ng-init="category.getCategory()">
 
     <h1>Edit Category</h1>
 
-    <div class="row">
-        <form class="col s12"
-              name="updateCategoryForm"
-              ng-submit="category.updateCategory()"
-              novalidate>
+    <form name="updateCategoryForm"
+          ng-submit="category.updateCategory()"
+          novalidate>
 
-            <div class="row">
-                <div class="input-field col s12">
-                    <label class="active" for="title">Category Title</label>
-                    <input
-                        type="text"
-                        ng-model="category.category.title"
-                        id="title"
-                        name="title"
-                        required
-                    />
+        <div>
+            <label for="title">Category Title</label>
+            <input type="text"
+                   ng-model="category.category.title"
+                   id="title"
+                   name="title"
+                   required />
 
-                    <div ng-show="updateCategoryForm.$submitted">
-                        <div class="error" ng-show="updateCategoryForm.title.$error.required">
-                            {{ category.errorMessages.title.invalid }}
-                        </div>
+            <div ng-show="updateCategoryForm.$submitted">
+                <div class="error" ng-show="updateCategoryForm.title.$error.required">
+                    {{ category.errors.title.invalid }}
+                </div>
 
-                        <div class="error" ng-show="category.errorTitle">
-                            {{ category.errorMessages.title.unique }}
-                        </div>
-                    </div>
+                <div class="error" ng-show="category.errorTitle">
+                    {{ category.errors.title.unique }}
                 </div>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="input-field col s12">
-                    <label class="active" for="slug">Slug</label>
-                    <input
-                        type="text"
-                        ng-model="category.category.slug"
-                        id="slug"
-                        create-slug="category.category.title"
-                        readonly="readonly"
-                    />
-                </div>
-            </div>
+        <div>
+            <label for="slug">Slug</label>
+            <input type="text"
+                   ng-model="category.category.slug"
+                   id="slug"
+                   create-slug="category.category.title"
+                   readonly="readonly" />
+        </div>
 
-            <div class="row">
-                <div class="input-field col s12">
-                    <label class="active" for="description">Description</label>
-                    <textarea
-                        class="materialize-textarea"
-                        ng-model="category.category.description"
-                        id="description">
-                    </textarea>
-                </div>
-            </div>
+        <div>
+            <label for="description">Description</label>
+            <textarea class="materialize-textarea"
+                      ng-model="category.category.description"
+                      id="description">
+            </textarea>
+        </div>
 
-            <div class="row">
-                <div class="input-field col s12">
-                    <button
-                        type="submit"
-                        class="waves-effect waves-light btn blue"
-                        ng-disabled="updateCategoryForm.$invalid">
-                            Update Category
-                    </button>
-                    <a ui-sref="categories" class="waves-effect waves-light btn pink">Back to all categories</a>
-                </div>
-            </div>
-
-        </form>
-    </div>
-
+        <div>
+            <button
+                type="submit"
+                class="waves-effect waves-light btn blue">
+                Update Category
+            </button>
+            <a ui-sref="categories"
+               class="waves-effect waves-light btn grey lighten-3">Back to all categories
+            </a>
+        </div>
+    </form>
 </div>

@@ -2,9 +2,13 @@
 
 {% block primaryMenu %}
 
-    <nav class="primary-menu">
+    <nav class="primary-menu" ng-if="auth">
         <div class="nav-wrapper blue">
-            <a class="brand-logo" ui-sref="dashboard">NodePress</a>
+            <a class="brand-logo tooltipped"
+               ui-sref="dashboard"
+               data-position="right"
+               data-delay="50"
+               data-tooltip="Go to dashboard">NodePress</a>
 
             <ul id="dropdown-account" class="dropdown-content">
                 <li><a ng-href="/np-admin/users/{% raw %}{{ auth.username }}{% endraw %}">Profile</a></li>
@@ -15,7 +19,7 @@
             <ul class="right">
                 <li>
                     <a class="dropdown-button"
-                       href="#!" data-activates="dropdown-account">
+                       data-activates="dropdown-account">
                         Howdy, {% raw %}{{ auth.username }}{% endraw %}
                         <i class="material-icons right">arrow_drop_down</i>
                     </a>
@@ -27,7 +31,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="secondary-menu">
+
+    <div class="secondary-menu" ng-if="auth">
         <ul class="collapsible" data-collapsible="accordion">
             <li>
                 <div class="collapsible-header waves-effect waves-dark">
@@ -81,9 +86,7 @@
 
         <script>
             $(document).ready(function() {
-                $('.collapsible').collapsible({
-                    accordion : false
-                });
+                $('.collapsible').collapsible();
             });
         </script>
 
@@ -91,6 +94,7 @@
     <div class="content">
         <div class="view-fade-in" ui-view></div>
     </div>
+
 {% endblock %}
 
 

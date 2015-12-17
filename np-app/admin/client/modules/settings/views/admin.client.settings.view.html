@@ -1,37 +1,32 @@
-<div class="ng-cloak" ng-controller="AdminSettingsController as settings">
-    <div class="page-gutter-right">
+<div class="page-gutter-right ng-cloak" ng-controller="AdminSettingsController as settings">
 
-        <h1>NodePress Settings</h1>
+    <h1>NodePress Settings</h1>
 
-        <form name="appSettingsForm" ng-submit="settings.updateAppSettings()" novalidate>
-
-            <div class="site-home-page">
-                <label for="home">Select Front End Home Page</label>
-                <select
-                    ng-model="settings.settings.siteHomePage"
+    <form name="appSettingsForm" ng-submit="settings.updateAppSettings()" novalidate>
+        <div class="site-home-page">
+            <label for="home">Select Front End Home Page</label>
+            <select ng-model="settings.settings.siteHomePage"
                     id="home"
                     name="home"
                     ng-options="page.slug as page.title for page in settings.pages">
-                        <option value="">Select One</option>
-                </select>
-            </div>
+                    <option value="">Select One</option>
+            </select>
+        </div>
 
-            <div class="site-theme">
-                <label for="theme">Select Theme</label>
-                <select
-                    ng-model="settings.settings.theme"
+        <div class="site-theme">
+            <label for="theme">Select Theme</label>
+            <select ng-model="settings.settings.theme"
                     id="theme"
                     name="theme"
                     ng-options="theme.theme as theme.theme for theme in settings.themes | orderBy:'name'">
-                </select>
-            </div>
+            </select>
+        </div>
 
-            <div>
-                <button type="submit"
-                        class="waves-effect waves-light btn blue">Save Settings</button>
-                <a ui-sref="dashboard"
-                   class="waves-effect waves-dark btn grey lighten-3">Back to Dashboard</a>
-            </div>
-        </form>
-    </div>
+        <div>
+            <button type="submit"
+                    class="waves-effect waves-light btn blue">Save Settings</button>
+            <a ui-sref="dashboard"
+               class="waves-effect waves-dark btn grey lighten-3">Back to Dashboard</a>
+        </div>
+    </form>
 </div>

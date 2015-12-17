@@ -17,7 +17,7 @@ function AdminNewCategoryController(
     vm.category    = {};
     vm.newCategory = newCategory;
     vm.errorTitle  = null;
-    vm.errorMessages = require('../errors/admin.client.categories.errors');
+    vm.errors = require('../errors/admin.client.categories.errors');
 
     AdminUserAuthenticationService();
 

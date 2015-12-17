@@ -23,7 +23,7 @@ function AdminUpdatePageController(
     vm.getPage = getPage();
     vm.updatePage = updatePage;
     vm.categories = AdminCategoriesAPIService.query();
-    vm.errorMessages = require('../errors/admin.client.pages.errors');
+    vm.errors = require('../errors/admin.client.pages.errors');
     vm.frontEndURL = '';
 
     function getPage() {
@@ -49,7 +49,6 @@ function AdminUpdatePageController(
 
             // create human readable date for modified date
             var date = AdminUtilitiesServices.createHumanReadableDate();
-            console.log(date);
 
             vm.page.modifiedBy = $rootScope.auth.username;
             vm.page.modifiedDate = date;

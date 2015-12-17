@@ -22,7 +22,7 @@ function AdminManageMenuLocationsController(
         .then(function (menuLocations) {
             vm.menuLocations = menuLocations.data[0];
 
-            // set Materialize select box default value
+
             $timeout(function () {
                 angular.element('.site-primary-menu .select-dropdown').val(vm.menuLocations.primary);
                 angular.element('.site-secondary-menu .select-dropdown').val(vm.menuLocations.secondary);

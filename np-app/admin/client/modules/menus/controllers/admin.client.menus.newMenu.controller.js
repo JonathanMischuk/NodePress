@@ -22,7 +22,7 @@ function AdminNewMenuController(
     vm.addMenuItems = addMenuItems;
     vm.removeMenuItem = removeMenuItem;
     vm.newMenu = newMenu;
-    vm.errorMessages = require('../errors/admin.client.menus.errors');
+    vm.errors = require('../errors/admin.client.menus.errors');
 
         function addPropertiesToPagesModel() {
         return AdminPagesAPIService.query(function (pages) {

@@ -20,7 +20,7 @@ function AdminUpdateCategoryController(
     vm.category       = {};
     vm.updateCategory = updateCategory;
     vm.getCategory    = getCategory;
-    vm.errorMessages = require('../errors/admin.client.categories.errors');
+    vm.errors = require('../errors/admin.client.categories.errors');
 
     function getCategory() {
         vm.category = AdminCategoriesAPIService.get({

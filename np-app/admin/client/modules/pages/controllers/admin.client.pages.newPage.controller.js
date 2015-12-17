@@ -21,7 +21,7 @@ function AdminNewPageController(
     vm.page = {};
     vm.newPage = newPage;
     vm.categories = AdminCategoriesAPIService.query();
-    vm.errorMessages = require('../errors/admin.client.pages.errors');
+    vm.errors = require('../errors/admin.client.pages.errors');
 
     // create host url to view front end page
     vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');

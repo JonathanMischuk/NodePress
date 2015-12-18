@@ -24,4 +24,10 @@ function SitePagesController (
             vm.page = response.data;
             $scope.$emit('pageData', response.data);
         });
+
+    SitePageServices.getSidebars()
+        .then(function (response) {
+            vm.sidebarLeft = response.data;
+            vm.sidebarRight = response.data;
+        });
 }

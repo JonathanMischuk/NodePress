@@ -82,10 +82,16 @@
         <div class="row">
             <div class="col s12">
                 <label for="role">Role</label>
-                <select ng-model="user.user.role" id="role">
+                <select ng-model="user.user.role"
+                        ng-options="userRole.role as userRole.role for userRole in user.roles"
+                        id="role">
+                    <option value="" disabled active>Select a Role</option>
+                </select>
+
+                <!--<select ng-model="user.user.role" id="role">
                     <option value="Administration">Administration</option>
                     <option value="Editor">Editor</option>
-                </select>
+                </select>-->
 
                 <div ng-show="userForm.$submitted">
                     <div class="error"
@@ -138,10 +144,8 @@
 
         <div class="input-field">
             <button type="submit"
-                    class="waves-effect waves-light btn blue">
-                    Create user account
+                    class="waves-effect waves-light btn blue">Create User
             </button>
-            <a ui-sref="users" class="waves-effect waves-light btn grey lighten-3">Cancel</a>
         </div>
     </form>
 </div>

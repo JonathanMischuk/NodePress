@@ -16,4 +16,7 @@ module.exports = function (app) {
 
     // admin categories api routes
     require('../api').categoriesAPI.routes.endPoints(app);
+
+    // admin sidebars api routes
+    require('../api').sidebarsAPI.routes.endPoints(app);
 };

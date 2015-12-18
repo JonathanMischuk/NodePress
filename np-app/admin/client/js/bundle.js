@@ -38057,10 +38057,11 @@ module.exports = angular.module('admin', [
     require('./users'),
     require('./menus'),
     require('./categories'),
-    require('./pages')
+    require('./pages'),
+    require('./sidebars')
 ]);
 
-},{"../vendors/angular-ui-sortable":90,"./categories":16,"./dashboard":24,"./menus":35,"./pages":47,"./settings":56,"./users":71,"./utils":87,"angular":7,"angular-animate":2,"angular-resource":4,"angular-ui-router":5}],10:[function(require,module,exports){
+},{"../vendors/angular-ui-sortable":102,"./categories":16,"./dashboard":24,"./menus":35,"./pages":47,"./settings":56,"./sidebars":66,"./users":82,"./utils":99,"angular":7,"angular-animate":2,"angular-resource":4,"angular-ui-router":5}],10:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -38488,7 +38489,7 @@ function AdminNewMenuController(
     vm.newMenu = newMenu;
     vm.errors = require('../errors/admin.client.menus.errors');
 
-        function addPropertiesToPagesModel() {
+    function addPropertiesToPagesModel () {
         return AdminPagesAPIService.query(function (pages) {
             pages.forEach(function (page, i) {
                 page.checked = false;
@@ -38499,7 +38500,7 @@ function AdminNewMenuController(
         });
     }
 
-    function addMenuItemToProxy(page, menuItemId) {
+    function addMenuItemToProxy (page, menuItemId) {
         var index = vm.pages.indexOf(page);
         vm.pages[index].checked = !vm.pages[index].checked;
 
@@ -38518,7 +38519,7 @@ function AdminNewMenuController(
         }
     }
 
-    function addMenuItems() {
+    function addMenuItems () {
         angular.forEach(vm.menuItemsProxy, function (menuItem) {
             vm.menuItems.push(menuItem);
         });
@@ -38531,7 +38532,7 @@ function AdminNewMenuController(
         vm.menuItemsProxy = [];
     }
 
-    function removeMenuItem(menuItem) {
+    function removeMenuItem (menuItem) {
         var index = vm.menuItems.indexOf(menuItem);
         vm.menuItems.splice(index, 1);
     }
@@ -39039,9 +39040,9 @@ module.exports = angular.module('settings', []);
 var angular = require('angular');
 
 module.exports = angular.module('settings')
-    .controller('AdminSettingsController', AdminSettingsController);
+    .controller('AdminSettingsGeneralController', AdminSettingsGeneralController);
 
-function AdminSettingsController(
+function AdminSettingsGeneralController (
     $scope,
     $rootScope,
     $timeout,
@@ -39070,11 +39071,11 @@ function AdminSettingsController(
             // set Materialize select box default value
             $timeout(function () {
                 angular.element('.site-home-page .select-dropdown').val(vm.settings.siteHomePage);
-                angular.element('.site-theme .select-dropdown').val(vm.settings.theme);
             });
         });
 
     function updateAppSettings() {
+        if (vm.settings.siteHomePage === null) vm.settings.siteHomePage = 'Home';
 
         // create human readable date for modified date
         var date = AdminUtilitiesServices.createHumanReadableDate();
@@ -39082,10 +39083,9 @@ function AdminSettingsController(
         vm.settings.modifiedBy = $rootScope.auth.username;
         vm.settings.modifiedDate = date;
 
-        if (vm.settings.siteHomePage === null) vm.settings.siteHomePage = 'Home';
-
         AdminAppSettingsService.updateAppSettings(vm.settings)
             .then(function () {
+
                 // display success dialog
                 Materialize.toast('NodePress settings updated successfully', 4000, 'success');
             })
@@ -39136,8 +39136,6 @@ function AdminSettingsThemesController (
         // create human readable date for modified date
         var date = AdminUtilitiesServices.createHumanReadableDate();
 
-        console.log(vm.settings);
-
         vm.settings.modifiedBy = $rootScope.auth.username;
         vm.settings.modifiedDate = date;
         vm.settings.theme = theme;
@@ -39156,10 +39154,10 @@ function AdminSettingsThemesController (
 },{"angular":7}],55:[function(require,module,exports){
 'use strict';
 
-require('./admin.client.settings.controller');
+require('./admin.client.settings.general.controller');
 require('./admin.client.settings.themes.controller');
 
-},{"./admin.client.settings.controller":53,"./admin.client.settings.themes.controller":54}],56:[function(require,module,exports){
+},{"./admin.client.settings.general.controller":53,"./admin.client.settings.themes.controller":54}],56:[function(require,module,exports){
 'use strict';
 
 // angular settings module and module accessories
@@ -39239,9 +39237,241 @@ require('./admin.client.settings.service');
 
 var angular = require('angular');
 
-module.exports = angular.module('users', []);
+module.exports = angular.module('sidebars', []);
 
 },{"angular":7}],62:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+
+module.exports = angular.module('sidebars')
+    .controller('AdminGetSidebarsController', AdminGetSidebarsController);
+
+function AdminGetSidebarsController (AdminSidebarsAPIService) {
+
+    var vm = this;
+
+    vm.sidebars = {};
+    vm.getSidebars = getSidebars;
+    vm.removeSidebar = removeSidebar;
+
+    function getSidebars() {
+        vm.sidebars = AdminSidebarsAPIService.query();
+    }
+
+    // TODO: find it's own home
+    function removeSidebar(sidebar) {
+        var index = vm.sidebars.indexOf(sidebar);
+        sidebar.$remove();
+
+        vm.sidebars.splice(index, 1);
+    }
+}
+
+
+},{"angular":7}],63:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+
+module.exports = angular.module('menus')
+    .controller('AdminNewSidebarController', AdminNewSidebarController);
+
+function AdminNewSidebarController (
+    $scope,
+    $location,
+    $rootScope,
+    AdminSidebarsAPIService,
+    AdminSidebarOptionsService) {
+
+    var vm = this;
+
+
+    vm.sidebar = {};
+    vm.sidebarOptions = AdminSidebarOptionsService;
+    vm.sidebarItems = [];
+    vm.sidebarItemsProxy = [];
+    vm.addSidebarItemToProxy = addSidebarItemToProxy;
+    vm.addSidebarItems = addSidebarItems;
+    vm.removeSidebarItem = removeSidebarItem;
+    vm.newSidebar = newSidebar;
+    vm.errors = require('../errors/admin.client.sidebars.errors');
+
+    function compileDOM () {
+        $scope.$apply(function () {
+            console.log('$scope.$apply()');
+        });
+    }
+
+    function addSidebarItemToProxy (sidebar, sidebarItemId) {
+        var index = vm.sidebarOptions.indexOf(sidebar);
+        vm.sidebarOptions[index].checked = !vm.sidebarOptions[index].checked;
+
+        if (vm.sidebarOptions[index].checked === false) {
+            for (var i = 0; i < vm.sidebarItemsProxy.length; i += 1) {
+                if (vm.sidebarItemsProxy[i].sidebarItemId === sidebarItemId) {
+                    vm.sidebarItemsProxy.splice(i, 1);
+                }
+            }
+        } else {
+            vm.sidebarItemsProxy.push({
+                title: vm.sidebarOptions[index].title,
+                type: vm.sidebarOptions[index].type,
+                attr: vm.sidebarOptions[index].attr,
+                sidebarItemId: sidebarItemId
+            });
+        }
+    }
+
+    function addSidebarItems () {
+
+        // add sidebar proxy items to sidebarItems array
+        angular.forEach(vm.sidebarItemsProxy, function (sidebarItem) {
+            vm.sidebarItems.push(sidebarItem);
+        });
+
+        angular.forEach(vm.sidebarOptions, function (sidebarOption) {
+            sidebarOption.Selected = false;
+            sidebarOption.checked = false;
+        });
+
+        vm.sidebarItemsProxy = [];
+    }
+
+    function removeSidebarItem (sidebarItem) {
+        var index = vm.sidebarItems.indexOf(sidebarItem);
+        vm.sidebarItems.splice(index, 1);
+    }
+
+    function newSidebar () {
+        if ($scope.newSidebarForm.$valid) {
+            var Sidebar = new AdminSidebarsAPIService({
+                createdBy: $rootScope.auth.username,
+                title: vm.sidebar.title,
+                items: vm.sidebarItems
+            });
+
+            Sidebar.$save()
+                .then(function (sidebar) {
+                    $location.path('/sidebars/' + sidebar._id);
+                })
+                .catch(function (error) {
+                    //vm.errorTitle = error.data.errors.title || '';
+                });
+        }
+    }
+}
+
+},{"../errors/admin.client.sidebars.errors":65,"angular":7}],64:[function(require,module,exports){
+'use strict';
+
+require('./admin.client.sidebars.allSidebars.controller');
+require('./admin.client.sidebars.newSidebar.controller');
+
+},{"./admin.client.sidebars.allSidebars.controller":62,"./admin.client.sidebars.newSidebar.controller":63}],65:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+    "title": {
+        "invalid": "Please give the sidebar a title.",
+        "unique": "That sidebar title already exists."
+    }
+};
+
+},{}],66:[function(require,module,exports){
+'use strict';
+
+// angular sidebars module and module accessories
+require('./admin.client.sidebars.module');
+require('./routes');
+require('./services');
+require('./controllers');
+
+// exports module name as string for admin module dependency injection
+module.exports = 'sidebars';
+
+},{"./admin.client.sidebars.module":61,"./controllers":64,"./routes":68,"./services":71}],67:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+
+module.exports = angular.module('sidebars')
+    .config(adminSidebarRoutes);
+
+function adminSidebarRoutes ($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/');
+
+    $stateProvider
+        .state('sidebars', {
+            url: '/sidebars/',
+            templateUrl: 'admin.client.sidebars.view.html'
+        })
+        .state('newSidebar', {
+            url: '/sidebars/new-sidebar',
+            templateUrl: 'admin.client.sidebarsNew.view.html'
+        })
+        .state('editSidebar', {
+            url: '/sidebars/:sidebarId',
+            templateUrl: 'admin.client.sidebarsEdit.view.html'
+        });
+}
+
+},{"angular":7}],68:[function(require,module,exports){
+'use strict';
+
+require('./admin.client.sidebars.routes');
+
+},{"./admin.client.sidebars.routes":67}],69:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+
+module.exports = angular.module('sidebars')
+    .factory('AdminSidebarsAPIService', AdminSidebarsAPIService);
+
+function AdminSidebarsAPIService($resource) {
+    return $resource('/api/sidebars/:sidebarId', {
+        sidebarId: '@_id'
+    }, {
+        update: {
+            method: 'PUT'
+        }
+    });
+}
+
+},{"angular":7}],70:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+
+module.exports = angular.module('sidebars')
+    .factory('AdminSidebarOptionsService', AdminSidebarOptionsService);
+
+function AdminSidebarOptionsService () {
+    return [
+        {
+            title: 'HTML Content',
+            type: 'HTML',
+            attr: 'sidebar-html-content',
+            checked: false
+        }
+    ];
+}
+
+},{"angular":7}],71:[function(require,module,exports){
+'use strict';
+
+require('./admin.client.sidebars.api.service');
+require('./admin.client.sidebars.sidebarOptions.service');
+
+},{"./admin.client.sidebars.api.service":69,"./admin.client.sidebars.sidebarOptions.service":70}],72:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+
+module.exports = angular.module('users', []);
+
+},{"angular":7}],73:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39268,7 +39498,7 @@ function AdminGetUsersController(AdminUsersAPIService) {
         vm.users.splice(index, 1);
     }
 }
-},{"angular":7}],63:[function(require,module,exports){
+},{"angular":7}],74:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39290,7 +39520,7 @@ function AdminUserAuthenticationController(
     });
 }
 
-},{"angular":7}],64:[function(require,module,exports){
+},{"angular":7}],75:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39326,7 +39556,7 @@ function AdminUserLoginController(
     }
 }
 
-},{"angular":7}],65:[function(require,module,exports){
+},{"angular":7}],76:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39334,14 +39564,16 @@ var angular = require('angular');
 module.exports = angular.module('users')
     .controller('AdminNewUserController', AdminNewUserController);
 
-function AdminNewUserController(
+function AdminNewUserController (
     $scope,
     $rootScope,
     $location,
-    AdminUsersAPIService) {
+    AdminUsersAPIService,
+    AdminUserRolesService) {
 
     var vm = this;
 
+    vm.roles = AdminUserRolesService;
     vm.newUser = newUser;
     vm.errors = require('../errors/admin.client.users.errors');
 
@@ -39375,7 +39607,7 @@ function AdminNewUserController(
 
 }
 
-},{"../errors/admin.client.users.errors":70,"angular":7}],66:[function(require,module,exports){
+},{"../errors/admin.client.users.errors":81,"angular":7}],77:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39386,25 +39618,34 @@ module.exports = angular.module('users')
 function AdminUpdateUserController(
     $scope,
     $stateParams,
+    $timeout,
     AdminUsersAPIService,
     AdminUserUpdatePasswordService,
+    AdminUserRolesService,
     AdminUtilitiesServices) {
 
     var vm = this;
 
     vm.user = {};
+    vm.roles = AdminUserRolesService;
     vm.getUser = getUser;
     vm.updateUser = updateUser;
     vm.updateUserPassword = updateUserPassword;
-    vm.errorMessages = require('../errors/admin.client.users.errors');
+    vm.errors = require('../errors/admin.client.users.errors');
 
-    function getUser() {
+    function getUser () {
         vm.user = AdminUsersAPIService.get({
             user: $stateParams.user
+        }, function (user) {
+
+            // set Materialize select box default value
+            $timeout(function () {
+                angular.element('.site-user-role .select-dropdown').val(user.role);
+            });
         });
     }
 
-    function updateUser() {
+    function updateUser () {
         if ($scope.userForm.$valid) {
 
             // create human readable date for modified date
@@ -39419,6 +39660,7 @@ function AdminUpdateUserController(
                     // display success dialog
                     Materialize.toast('User updated successfully', 4000, 'success');
 
+                    // reset properties and form
                     vm.user.password = '';
                     vm.user.cpassword = '';
                     $scope.userForm.$setPristine();
@@ -39429,13 +39671,17 @@ function AdminUpdateUserController(
         }
     }
 
-    function updateUserPassword() {
-        vm.success = false;
-
+    function updateUserPassword () {
         if ($scope.updateUserPasswordForm.$valid && vm.user.password === vm.user.cpassword) {
             AdminUserUpdatePasswordService.updateUserPassword(vm.user)
                 .then(function () {
-                    vm.success = true;
+
+                    angular.element('#update-password').closeModal();
+
+                    // display success dialog
+                    Materialize.toast('User password updated successfully', 4000, 'success');
+
+                    // reset properties and form
                     vm.user.password = '';
                     vm.user.cpassword = '';
                     $scope.updateUserPasswordForm.$setPristine();
@@ -39444,7 +39690,7 @@ function AdminUpdateUserController(
     }
 }
 
-},{"../errors/admin.client.users.errors":70,"angular":7}],67:[function(require,module,exports){
+},{"../errors/admin.client.users.errors":81,"angular":7}],78:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.users.authentication.controller');
@@ -39453,7 +39699,7 @@ require('./admin.client.users.newUser.controller');
 require('./admin.client.users.updateUser.controller');
 require('./admin.client.users.allUsers.controller');
 
-},{"./admin.client.users.allUsers.controller":62,"./admin.client.users.authentication.controller":63,"./admin.client.users.login.controller":64,"./admin.client.users.newUser.controller":65,"./admin.client.users.updateUser.controller":66}],68:[function(require,module,exports){
+},{"./admin.client.users.allUsers.controller":73,"./admin.client.users.authentication.controller":74,"./admin.client.users.login.controller":75,"./admin.client.users.newUser.controller":76,"./admin.client.users.updateUser.controller":77}],79:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39479,12 +39725,12 @@ function confirmPassword () {
     }
 }
 
-},{"angular":7}],69:[function(require,module,exports){
+},{"angular":7}],80:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.users.confirmPassword.directive');
 
-},{"./admin.client.users.confirmPassword.directive":68}],70:[function(require,module,exports){
+},{"./admin.client.users.confirmPassword.directive":79}],81:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -39514,7 +39760,7 @@ module.exports = {
     }
 }
 
-},{}],71:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 'use strict';
 
 // angular users module and module accessories
@@ -39527,7 +39773,7 @@ require('./directives');
 // exports module name as string for admin module dependency injection
 module.exports = 'users';
 
-},{"./admin.client.users.module":61,"./controllers":67,"./directives":69,"./routes":73,"./services":78}],72:[function(require,module,exports){
+},{"./admin.client.users.module":72,"./controllers":78,"./directives":80,"./routes":84,"./services":90}],83:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39557,12 +39803,12 @@ function adminUserRoutes ($stateProvider, $urlRouterProvider) {
         });
 }
 
-},{"angular":7}],73:[function(require,module,exports){
+},{"angular":7}],84:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.users.routes');
 
-},{"./admin.client.users.routes":72}],74:[function(require,module,exports){
+},{"./admin.client.users.routes":83}],85:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39580,7 +39826,7 @@ function AdminUsersAPIService($resource) {
     });
 }
 
-},{"angular":7}],75:[function(require,module,exports){
+},{"angular":7}],86:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39603,7 +39849,7 @@ function AdminUserAuthenticationService($http, $location, $rootScope) {
     };
 }
 
-},{"angular":7}],76:[function(require,module,exports){
+},{"angular":7}],87:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39621,7 +39867,28 @@ function AdminUsersLoginService($http) {
     }
 }
 
-},{"angular":7}],77:[function(require,module,exports){
+},{"angular":7}],88:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+
+module.exports = angular.module('users')
+    .factory('AdminUserRolesService', AdminUserRolesService);
+
+function AdminUserRolesService () {
+
+    // TODO: find a better way to do this
+    return [
+        {
+            role: 'Administration'
+        },
+        {
+            role: 'Editor'
+        }
+    ];
+}
+
+},{"angular":7}],89:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39639,22 +39906,23 @@ function AdminUserUpdatePasswordService($http) {
     }
 }
 
-},{"angular":7}],78:[function(require,module,exports){
+},{"angular":7}],90:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.users.api.service');
 require('./admin.client.users.authentication.service');
 require('./admin.client.users.login.service');
 require('./admin.client.users.updatePassword.service');
+require('./admin.client.users.roles.service');
 
-},{"./admin.client.users.api.service":74,"./admin.client.users.authentication.service":75,"./admin.client.users.login.service":76,"./admin.client.users.updatePassword.service":77}],79:[function(require,module,exports){
+},{"./admin.client.users.api.service":85,"./admin.client.users.authentication.service":86,"./admin.client.users.login.service":87,"./admin.client.users.roles.service":88,"./admin.client.users.updatePassword.service":89}],91:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 
 module.exports = angular.module('utils', []);
 
-},{"angular":7}],80:[function(require,module,exports){
+},{"angular":7}],92:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39695,7 +39963,7 @@ function alertPanel ($timeout) {
     }
 }
 
-},{"angular":7}],81:[function(require,module,exports){
+},{"angular":7}],93:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39718,7 +39986,7 @@ function dropdownButton ($timeout) {
     }
 }
 
-},{"angular":7}],82:[function(require,module,exports){
+},{"angular":7}],94:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39751,7 +40019,7 @@ function select ($timeout) {
     }
 }
 
-},{"angular":7}],83:[function(require,module,exports){
+},{"angular":7}],95:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39782,7 +40050,7 @@ function createSlug () {
     }
 }
 
-},{"angular":7}],84:[function(require,module,exports){
+},{"angular":7}],96:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39805,7 +40073,7 @@ function tabs ($timeout) {
     }
 }
 
-},{"angular":7}],85:[function(require,module,exports){
+},{"angular":7}],97:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39833,7 +40101,7 @@ function tooltipped ($timeout) {
     }
 }
 
-},{"angular":7}],86:[function(require,module,exports){
+},{"angular":7}],98:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.utils.alert.directive');
@@ -39843,7 +40111,7 @@ require('./admin.client.utils.tooltip.directive');
 require('./admin.client.utils.dropdown.directive');
 require('./admin.client.utils.tabs.directive');
 
-},{"./admin.client.utils.alert.directive":80,"./admin.client.utils.dropdown.directive":81,"./admin.client.utils.select.directive":82,"./admin.client.utils.slug.directive":83,"./admin.client.utils.tabs.directive":84,"./admin.client.utils.tooltip.directive":85}],87:[function(require,module,exports){
+},{"./admin.client.utils.alert.directive":92,"./admin.client.utils.dropdown.directive":93,"./admin.client.utils.select.directive":94,"./admin.client.utils.slug.directive":95,"./admin.client.utils.tabs.directive":96,"./admin.client.utils.tooltip.directive":97}],99:[function(require,module,exports){
 'use strict';
 
 // angular utilities module and module accessories
@@ -39854,7 +40122,7 @@ require('./directives');
 // exports module name as string for admin module dependency injection
 module.exports = 'utils';
 
-},{"./admin.client.utils.module":79,"./directives":86,"./services":89}],88:[function(require,module,exports){
+},{"./admin.client.utils.module":91,"./directives":98,"./services":101}],100:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -39889,12 +40157,12 @@ function AdminUtilitiesServices ($window) {
     }
 }
 
-},{"angular":7}],89:[function(require,module,exports){
+},{"angular":7}],101:[function(require,module,exports){
 'use strict';
 
 require('./admin.client.utils.services');
 
-},{"./admin.client.utils.services":88}],90:[function(require,module,exports){
+},{"./admin.client.utils.services":100}],102:[function(require,module,exports){
 angular.module('ui.sortable', [])
     .value('uiSortableConfig',{})
     .directive('uiSortable', [

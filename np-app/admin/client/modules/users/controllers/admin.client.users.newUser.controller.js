@@ -5,14 +5,16 @@ var angular = require('angular');
 module.exports = angular.module('users')
     .controller('AdminNewUserController', AdminNewUserController);
 
-function AdminNewUserController(
+function AdminNewUserController (
     $scope,
     $rootScope,
     $location,
-    AdminUsersAPIService) {
+    AdminUsersAPIService,
+    AdminUserRolesService) {
 
     var vm = this;
 
+    vm.roles = AdminUserRolesService;
     vm.newUser = newUser;
     vm.errors = require('../errors/admin.client.users.errors');
 

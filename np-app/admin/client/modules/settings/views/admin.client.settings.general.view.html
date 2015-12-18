@@ -1,29 +1,18 @@
-<div ng-controller="AdminSettingsController as settings">
+<div ng-controller="AdminSettingsGeneralController as settings">
     <form name="appSettingsForm" ng-submit="settings.updateAppSettings()" novalidate>
         <div class="site-home-page">
-            <label for="home">Select Front End Home Page</label>
+            <label for="home">Home Page</label>
             <select ng-model="settings.settings.siteHomePage"
                     id="home"
                     name="home"
                     ng-options="page.slug as page.title for page in settings.pages">
-                <option value="">Select One</option>
+                <option value="" disabled>Select the Front End Home Page</option>
             </select>
         </div>
 
-        <!--<div class="site-theme">
-            <label for="theme">Select Theme</label>
-            <select ng-model="settings.settings.theme"
-                    id="theme"
-                    name="theme"
-                    ng-options="theme.theme as theme.theme for theme in settings.themes | orderBy:'name'">
-            </select>
-        </div>-->
-
         <div>
             <button type="submit"
-                    class="waves-effect waves-light btn blue">Save Settings</button>
-            <a ui-sref="dashboard"
-               class="waves-effect waves-dark btn grey lighten-3">Dashboard</a>
+                    class="waves-effect waves-light btn blue">Update</button>
         </div>
     </form>
 </div>

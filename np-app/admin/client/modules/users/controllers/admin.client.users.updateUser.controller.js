@@ -8,25 +8,34 @@ module.exports = angular.module('users')
 function AdminUpdateUserController(
     $scope,
     $stateParams,
+    $timeout,
     AdminUsersAPIService,
     AdminUserUpdatePasswordService,
+    AdminUserRolesService,
     AdminUtilitiesServices) {
 
     var vm = this;
 
     vm.user = {};
+    vm.roles = AdminUserRolesService;
     vm.getUser = getUser;
     vm.updateUser = updateUser;
     vm.updateUserPassword = updateUserPassword;
-    vm.errorMessages = require('../errors/admin.client.users.errors');
+    vm.errors = require('../errors/admin.client.users.errors');
 
-    function getUser() {
+    function getUser () {
         vm.user = AdminUsersAPIService.get({
             user: $stateParams.user
+        }, function (user) {
+
+            // set Materialize select box default value
+            $timeout(function () {
+                angular.element('.site-user-role .select-dropdown').val(user.role);
+            });
         });
     }
 
-    function updateUser() {
+    function updateUser () {
         if ($scope.userForm.$valid) {
 
             // create human readable date for modified date
@@ -41,6 +50,7 @@ function AdminUpdateUserController(
                     // display success dialog
                     Materialize.toast('User updated successfully', 4000, 'success');
 
+                    // reset properties and form
                     vm.user.password = '';
                     vm.user.cpassword = '';
                     $scope.userForm.$setPristine();
@@ -51,13 +61,17 @@ function AdminUpdateUserController(
         }
     }
 
-    function updateUserPassword() {
-        vm.success = false;
-
+    function updateUserPassword () {
         if ($scope.updateUserPasswordForm.$valid && vm.user.password === vm.user.cpassword) {
             AdminUserUpdatePasswordService.updateUserPassword(vm.user)
                 .then(function () {
-                    vm.success = true;
+
+                    angular.element('#update-password').closeModal();
+
+                    // display success dialog
+                    Materialize.toast('User password updated successfully', 4000, 'success');
+
+                    // reset properties and form
                     vm.user.password = '';
                     vm.user.cpassword = '';
                     $scope.updateUserPasswordForm.$setPristine();

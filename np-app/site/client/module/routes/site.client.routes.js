@@ -27,10 +27,37 @@ function siteRoutes ($stateProvider, $urlRouterProvider) {
         })
         .state('inside', {
             url: '/:page',
+            views: {
+                '': {
+                    templateProvider: function ($rootScope, $templateRequest) {
+                        return $templateRequest(
+                            $rootScope.coreSettings[0].theme + '/client/views/theme.client.page.view.html'
+                        );
+                    }
+                },
+                'sidebarLeft': {
+                    templateProvider: function ($rootScope, $templateRequest) {
+                        return $templateRequest(
+                            $rootScope.coreSettings[0].theme + '/client/views/theme.client.sidebarLeft.view.html'
+                        );
+                    }
+                },
+                'sidebarRight': {
+                    templateProvider: function ($rootScope, $templateRequest) {
+                        return $templateRequest(
+                            $rootScope.coreSettings[0].theme + '/client/views/theme.client.sidebarRight.view.html'
+                        );
+                    }
+                }
+            }
+        });
+
+        /*.state('inside', {
+            url: '/:page',
             templateProvider: function ($rootScope, $templateRequest) {
                 return $templateRequest(
                     $rootScope.coreSettings[0].theme + '/client/views/theme.client.page.view.html'
                 );
             }
-        });
+        });*/
 }

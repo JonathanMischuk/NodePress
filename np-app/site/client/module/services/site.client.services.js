@@ -25,4 +25,8 @@ function SitePageServices ($http) {
     self.getMenus = function () {
         return $http.get('/api/menus');
     };
+
+    self.getSidebars = function () {
+        return $http.get('/sidebars');
+    };
 }

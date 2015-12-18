@@ -9,6 +9,37 @@ a {
     -o-transition: all 0.3s ease-in-out;
 }
 
+.container {
+    width: 960px;
+}
+
+.container.content {
+    padding-top: 10px;
+}
+
+.page-content,
+.sidebar-left,
+.sidebar-right {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.page-content {
+    width: 50%;
+}
+
+.sidebar-left {
+    width: 20%;
+}
+
+.sidebar-right {
+    width: 29%;
+}
+
+.page-content .container {
+    padding: 25px;
+}
+
 .primary-menu {
     margin-bottom: 0;
     border: none;
@@ -64,14 +95,6 @@ a {
 
 .hero img {
     max-width: 100%;
-}
-
-.container {
-    width: 960px;
-}
-
-.page-content .container {
-    padding: 25px;
 }
 
 .view-fade-in.ng-enter {

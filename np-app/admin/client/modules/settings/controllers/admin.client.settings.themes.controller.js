@@ -32,8 +32,6 @@ function AdminSettingsThemesController (
         // create human readable date for modified date
         var date = AdminUtilitiesServices.createHumanReadableDate();
 
-        console.log(vm.settings);
-
         vm.settings.modifiedBy = $rootScope.auth.username;
         vm.settings.modifiedDate = date;
         vm.settings.theme = theme;

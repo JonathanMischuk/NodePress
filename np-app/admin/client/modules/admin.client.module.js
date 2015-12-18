@@ -13,5 +13,6 @@ module.exports = angular.module('admin', [
     require('./users'),
     require('./menus'),
     require('./categories'),
-    require('./pages')
+    require('./pages'),
+    require('./sidebars')
 ]);

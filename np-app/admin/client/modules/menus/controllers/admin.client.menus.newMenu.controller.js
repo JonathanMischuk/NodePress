@@ -24,7 +24,7 @@ function AdminNewMenuController(
     vm.newMenu = newMenu;
     vm.errors = require('../errors/admin.client.menus.errors');
 
-        function addPropertiesToPagesModel() {
+    function addPropertiesToPagesModel () {
         return AdminPagesAPIService.query(function (pages) {
             pages.forEach(function (page, i) {
                 page.checked = false;
@@ -35,7 +35,7 @@ function AdminNewMenuController(
         });
     }
 
-    function addMenuItemToProxy(page, menuItemId) {
+    function addMenuItemToProxy (page, menuItemId) {
         var index = vm.pages.indexOf(page);
         vm.pages[index].checked = !vm.pages[index].checked;
 
@@ -54,7 +54,7 @@ function AdminNewMenuController(
         }
     }
 
-    function addMenuItems() {
+    function addMenuItems () {
         angular.forEach(vm.menuItemsProxy, function (menuItem) {
             vm.menuItems.push(menuItem);
         });
@@ -67,7 +67,7 @@ function AdminNewMenuController(
         vm.menuItemsProxy = [];
     }
 
-    function removeMenuItem(menuItem) {
+    function removeMenuItem (menuItem) {
         var index = vm.menuItems.indexOf(menuItem);
         vm.menuItems.splice(index, 1);
     }

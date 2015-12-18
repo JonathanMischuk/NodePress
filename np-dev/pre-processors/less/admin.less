@@ -199,10 +199,15 @@ h5 {
 .theme-activate {
     color: #2196F3;
     cursor: pointer;
+
+    &:hover {
+        color: #e91e63;
+    }
 }
 
 .theme-active {
     font-weight: 600;
+    color: #e91e63;
 }
 
 nav .brand-logo {
@@ -215,6 +220,20 @@ nav .brand-logo {
     }
 }
 
+.theme-active {
+    .btn-floating {
+        margin-right: 10px;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+
+        i {
+            font-size: 1.2rem;
+            line-height: 20px;
+        }
+    }
+}
+
 .tabs {
     margin-bottom: 50px;
     border-bottom: 1px solid #eee;
@@ -222,11 +241,21 @@ nav .brand-logo {
     .tab {
         a {
             color: #2196F3;
+
+            &:hover {
+                color: #e91e63;
+            }
         }
     }
 
     .indicator {
         background-color: #2196F3;
+    }
+}
+
+.modal-content {
+    h5 {
+        margin-bottom: 30px;
     }
 }
 

@@ -31,7 +31,18 @@
                      ng-init="limit = 5">
 
                     <div class="collection-header">
-                        <h5>Pages</h5>
+                        <h5>Pages
+
+                        <span class="dashboard-actions">
+                                <a class="btn-floating btn-small waves-effect waves-dark blue tooltipped"
+                                   ng-click="menu.addMenuItems()"
+                                   data-position="bottom"
+                                   data-delay="50"
+                                   data-tooltip="Add menu items">
+                                    <i class="material-icons">add</i>
+                                </a>
+                            </span>
+                        </h5>
                     </div>
 
                     <div class="collection-item"
@@ -58,7 +69,9 @@
 
                 </div>
 
-                <a class="waves-effect waves-light btn blue" ng-click="menu.addMenuItems()">Add Menu Items</a>
+                <button type="submit"
+                        class="waves-effect waves-light btn blue">Update
+                </button>
             </div>
 
             <div class="col s12 m12 l6">
@@ -87,20 +100,10 @@
 
                     <div class="collection-item"
                          ng-if="!menu.menuItems.length">
-                        No menu items
+                        No menu items. Add some from the left column.
                     </div>
                 </div>
-
-                <button type="submit"
-                        class="waves-effect waves-light btn blue">Update Menu
-                </button>
             </div>
-        </div>
-
-        <div class="input-field">
-            <a ui-sref="menus"
-               class="waves-effect waves-light btn grey lighten-3">Back to All Menus
-            </a>
         </div>
     </form>
 </div>

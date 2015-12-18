@@ -65321,7 +65321,10 @@ function SiteController ($scope, $rootScope) {
     vm.menus = $rootScope.menus;
     vm.pages = $rootScope.pages;
 
-    vm.thirdMenu = vm.menus[2];
+    vm.sidebars = {
+        left: true,
+        right: true
+    };
 
     $scope.$on('pageData', function (_, page) {
         vm.page = page;
@@ -65354,6 +65357,12 @@ function SitePagesController (
             if (response.data === null) $location.path("/error");
             vm.page = response.data;
             $scope.$emit('pageData', response.data);
+        });
+
+    SitePageServices.getSidebars()
+        .then(function (response) {
+            vm.sidebarLeft = response.data;
+            vm.sidebarRight = response.data;
         });
 }
 
@@ -65406,12 +65415,39 @@ function siteRoutes ($stateProvider, $urlRouterProvider) {
         })
         .state('inside', {
             url: '/:page',
+            views: {
+                '': {
+                    templateProvider: function ($rootScope, $templateRequest) {
+                        return $templateRequest(
+                            $rootScope.coreSettings[0].theme + '/client/views/theme.client.page.view.html'
+                        );
+                    }
+                },
+                'sidebarLeft': {
+                    templateProvider: function ($rootScope, $templateRequest) {
+                        return $templateRequest(
+                            $rootScope.coreSettings[0].theme + '/client/views/theme.client.sidebarLeft.view.html'
+                        );
+                    }
+                },
+                'sidebarRight': {
+                    templateProvider: function ($rootScope, $templateRequest) {
+                        return $templateRequest(
+                            $rootScope.coreSettings[0].theme + '/client/views/theme.client.sidebarRight.view.html'
+                        );
+                    }
+                }
+            }
+        });
+
+        /*.state('inside', {
+            url: '/:page',
             templateProvider: function ($rootScope, $templateRequest) {
                 return $templateRequest(
                     $rootScope.coreSettings[0].theme + '/client/views/theme.client.page.view.html'
                 );
             }
-        });
+        });*/
 }
 
 },{"angular":9}],31:[function(require,module,exports){
@@ -65446,6 +65482,10 @@ function SitePageServices ($http) {
 
     self.getMenus = function () {
         return $http.get('/api/menus');
+    };
+
+    self.getSidebars = function () {
+        return $http.get('/sidebars');
     };
 }
 

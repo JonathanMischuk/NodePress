@@ -21,6 +21,10 @@ var db = require('../../../config/admin.server.db'),
         body: {
             type: String
         },
+        sidebars: {
+            type: String,
+            default: ''
+        },
         publishDate: {
             type: Date,
             default: Date.now

@@ -14,7 +14,10 @@ function SiteController ($scope, $rootScope) {
     vm.menus = $rootScope.menus;
     vm.pages = $rootScope.pages;
 
-    vm.thirdMenu = vm.menus[2];
+    vm.sidebars = {
+        left: true,
+        right: true
+    };
 
     $scope.$on('pageData', function (_, page) {
         vm.page = page;

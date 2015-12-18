@@ -1,0 +1,108 @@
+<div class="page-gutter-right ng-cloak"
+     ng-controller="AdminNewSidebarController as sidebar">
+
+    <h1>New Sidebar</h1>
+
+    <form name="newSidebarForm" ng-submit="sidebar.newSidebar()" novalidate>
+
+        <div>
+            <label for="title">Sidebar Title</label>
+            <input type="text"
+                   ng-model="sidebar.sidebar.title"
+                   id="title"
+                   name="title"
+                   required />
+
+            <div ng-show="newSidebarForm.$submitted">
+                <div class="error" ng-show="newSidebarForm.title.$error.required">
+                    {{ sidebar.errors.title.invalid }}
+                </div>
+
+                <div class="error" ng-show="sidebar.errorTitle">
+                    {{ sidebar.errors.title.unique }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12 m12 l6">
+                <div class="collection with-header buttons-below">
+
+                    <div class="collection-header">
+                        <h5>Sidebar Options
+
+                        <span class="dashboard-actions">
+                                <a class="btn-floating btn-small waves-effect waves-dark blue tooltipped"
+                                   ng-click="sidebar.addSidebarItems()"
+                                   data-position="bottom"
+                                   data-delay="50"
+                                   data-tooltip="Add sidebar items">
+                                    <i class="material-icons">add</i>
+                                </a>
+                            </span>
+                        </h5>
+                    </div>
+
+                    <div class="collection-item"
+                         ng-repeat="sidebarOption in sidebar.sidebarOptions">
+
+                        <input ng-click="sidebar.addSidebarItemToProxy(sidebarOption, sidebarOption.sidebarItemId)"
+                               type="checkbox"
+                               id="sidebar-item-before-{{ sidebarOption.title }}"
+                               ng-value="sidebarOption.title"
+                               ng-model="sidebarOption.Selected" />
+                        <label for="sidebar-item-before-{{ sidebarOption.title }}">
+                            {{ sidebarOption.title }}
+                        </label>
+                    </div>
+
+                    <!--<a class="dashboard-extra-link"
+                       ng-hide="results.length === menu.pages.length"
+                       ng-click="limit = limit + 5">show more
+                    </a>
+                    <a class="dashboard-extra-link"
+                       ng-hide="results.length <= 5 && results.length !== menu.pages.length || results.length <= 5 && results.length === menu.pages.length"
+                       ng-click="limit = limit - 5">show less
+                    </a>-->
+                </div>
+
+                <button type="submit"
+                        class="waves-effect waves-light btn blue success">Publish
+                </button>
+            </div>
+
+            <div class="col s12 m12 l6">
+                <div class="collection with-header buttons-below">
+                    <div class="collection-header">
+                        <h5>Sidebar Items</h5>
+                    </div>
+
+                    <div ui-sortable
+                         class="sortable"
+                         ng-model="sidebar.sidebarItems">
+
+                        <div class="collection-item ui-state-default"
+                             ng-repeat="sidebarItem in sidebar.sidebarItems">
+
+                            <div class="valign-wrapper" ng-class="sidebarItem.attr">
+                                <span class="badge"
+                                      ng-click="sidebar.removeSidebarItem(sidebarItem)">
+                                    <i class="material-icons delete">delete</i>
+                                </span>
+
+                                <i class="material-icons">sort</i>
+
+                                <span class="menu-item-title">{{ sidebarItem.title }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collection-item"
+                         ng-if="!sidebar.sidebarItems.length">
+                        No sidebar items. Add some from the left column.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -41,7 +41,7 @@
 
         <div class="row">
             <div class="col s12">
-                <label class="active" for="username">Usernames cannot be changed</label>
+                <label for="username">Usernames cannot be changed</label>
                 <input type="text"
                        ng-model="user.user.username"
                        id="username"
@@ -53,7 +53,7 @@
 
         <div class="row">
             <div class="col s12">
-                <label class="active" for="email">Email address</label>
+                <label for="email">Email address</label>
                 <input type="text"
                        ng-model="user.user.email"
                        id="email"
@@ -75,11 +75,15 @@
 
         <div class="row" ng-if="user.user.username !== auth.username">
             <div class="col s12">
-                <select ng-model="user.user.role">
-                    <option value="">Select a Role</option>
-                    <option value="Administration">Administration</option>
-                    <option value="Editor">Editor</option>
-                </select>
+                <div class="site-user-role">
+                    <label for="role">Role</label>
+
+                    <select ng-model="user.user.role"
+                            ng-options="userRole.role as userRole.role for userRole in user.roles"
+                            id="role">
+                        <option value="" disabled>Select a Role</option>
+                    </select>
+                </div>
 
                 <div ng-show="userForm.$submitted">
                     <div class="error"
@@ -90,97 +94,84 @@
             </div>
         </div>
 
-        <!--<div class="form-group change-password">
-            <p><a data-toggle="modal" data-target="#myModal">Change Password</a></p>
-        </div>-->
+        <div class="form-group change-password">
+            <p><a class="modal-trigger" data-target="update-password">Change Password</a></p>
+        </div>
 
         <div class="input-field">
             <button type="submit"
-                    class="waves-effect waves-light btn blue">
-                    Update user account
+                    class="waves-effect waves-light btn blue">Update
             </button>
-            <a ui-sref="users"
-               class="waves-effect waves-light btn grey lighten-3">Back to all users</a>
         </div>
     </form>
 
-    <!--<div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
+    <div class="modal fade" id="update-password">
+        <div class="modal-content">
+            <h5 class="modal-title">Change your password
 
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Change your password</h4>
-                </div>
-                <div class="modal-body">
-                    <form ng-show="!user.success" role="form" name="updateUserPasswordForm"
-                           ng-submit="user.updateUserPassword()" novalidate>
-                        <div class="form-group">
-                            <label for="password">New password</label>
-                            <input type="password"
-                                   ng-model="user.user.password"
-                                   class="form-control"
-                                   id="password"
-                                   name="password"
-                                   required />
+                <span class="dashboard-actions">
+                    <a class="btn-floating btn-small waves-effect waves-dark pink modal-close">
+                        <i class="material-icons">close</i>
+                    </a>
+                </span>
+            </h5>
+            <form ng-show="!user.success" role="form" name="updateUserPasswordForm"
+                   ng-submit="user.updateUserPassword()" novalidate>
 
-                            <div ng-show="updateUserPasswordForm.$submitted">
-                                <div class="error"
-                                     ng-show="updateUserPasswordForm.password.$error.required">
-                                    {{ user.errorMessages.password.invalid }}
-                                </div>
-                            </div>
+                <div>
+                    <label for="password">New password</label>
+                    <input type="password"
+                           ng-model="user.user.password"
+                           class="form-control"
+                           id="password"
+                           name="password"
+                           required />
+
+                    <div ng-show="updateUserPasswordForm.$submitted">
+                        <div class="error"
+                             ng-show="updateUserPasswordForm.password.$error.required">
+                            {{ user.errors.password.invalid }}
                         </div>
-
-                        <div class="form-group">
-                            <label for="cpassword">Confirm your password</label>
-                            <input type="password"
-                                   ng-model="user.user.cpassword"
-                                   class="form-control"
-                                   id="cpassword"
-                                   name="cpassword"
-                                   confirm-password="user.user.password"
-                                   required />
-
-                            <div ng-show="updateUserPasswordForm.$submitted">
-                                <div class="error"
-                                     ng-show="updateUserPasswordForm.cpassword.$error.required">
-                                    {{ user.errorMessages.cpassword.invalid }}
-                                </div>
-                            </div>
-
-                            <div
-                                class="error"
-                                ng-show="updateUserPasswordForm.cpassword.$error.passwordsMatch">
-                                {{ user.errorMessages.cpassword.unique }}
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <button
-                                type="submit"
-                                class="btn btn-default"
-                                ng-disabled="updateUserPasswordForm.$invalid">
-                                    Update password
-                            </button>
-                        </div>
-                    </form>
-
-                    <div class="alert alert-success" ng-show="user.success">
-                        <p>Password updated successfully!</p>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-default"
-                        ng-click="user.closeModal()">
-                            Close
+
+                <div>
+                    <label for="cpassword">Confirm your password</label>
+                    <input type="password"
+                           ng-model="user.user.cpassword"
+                           class="form-control"
+                           id="cpassword"
+                           name="cpassword"
+                           confirm-password="user.user.password"
+                           required />
+
+                    <div ng-show="updateUserPasswordForm.$submitted">
+                        <div class="error"
+                             ng-show="updateUserPasswordForm.cpassword.$error.required">
+                            {{ user.errors.cpassword.invalid }}
+                        </div>
+                    </div>
+
+                    <div class="error"
+                         ng-show="updateUserPasswordForm.cpassword.$error.passwordsMatch">
+                        {{ user.errors.cpassword.unique }}
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <button type="submit"
+                            class="waves-effect waves-light btn blue">Update
                     </button>
                 </div>
-            </div>
-
+            </form>
         </div>
-    </div>-->
+
+    </div>
 
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('.modal-trigger').leanModal();
+    });
+</script>

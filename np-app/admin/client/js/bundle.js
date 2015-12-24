@@ -41512,7 +41512,6 @@
 	    $scope,
 	    $location,
 	    $rootScope,
-	    $sce,
 	    AdminSidebarsAPIService,
 	    AdminSidebarOptionsService,
 	    AdminUtilitiesServices) {
@@ -41550,23 +41549,17 @@
 
 	    vm.sidebar = [];
 	    vm.sidebarItems = [];
-	    vm.trustAsHtml = $sce.trustAsHtml;
 	    vm.checkSidebarModel = function (sidebarItem, i) {
-	        //console.log(vm.sidebarItems[i].model);
 	        vm.sidebar[i].model = vm.sidebarItems[i].model;
-	        //console.log(vm.sidebar);
-
-	        //vm.sidebar[i].model.title = sidebarItem[i].model.title;
-	        //vm.sidebar[i].model.body = sidebarItem[i].model.body;
-	        //console.log(vm.sidebar);
 	    };
+
+	    vm.counter = vm.sidebar.length || 0;
+
 	    vm.checkSidebarModelOutside = function () {
 	        angular.forEach(vm.sidebar, function (sidebar, i) {
 	            console.log(sidebar);
 	        });
 	    };
-
-	    vm.counter = vm.sidebar.length || 0;
 
 	    vm.addSidebarItem = function (index) {
 	        vm.counter += 1;
@@ -41576,18 +41569,6 @@
 
 	        vm.sidebar.push(sidebarItem);
 	    };
-
-	    /*$scope.$on('addSidebarItem', function (sidebarItem) {
-	        console.log(sidebarItem);
-	        vm.sidebar.push(sidebarItem);
-	        //console.log(vm.sidebar);
-	    });*/
-
-	    //vm.addSidebarItem = addSidebarItem;
-
-	    /*function addSidebarItem () {
-
-	    }*/
 
 	    /*vm.sidebarOptions = AdminSidebarOptionsService;
 	    vm.sidebarItemCounter = 0;

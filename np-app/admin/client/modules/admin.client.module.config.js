@@ -6,9 +6,6 @@ module.exports = angular.module('admin')
     .config(adminConfig)
     .run(adminRun);
 
-// bind admin module to document
-angular.bootstrap(document, ['admin']);
-
 function adminConfig($locationProvider) {
     $locationProvider.html5Mode(true);
 }

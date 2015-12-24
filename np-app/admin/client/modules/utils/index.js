@@ -1,7 +1,9 @@
 'use strict';
 
+var Modules = require('../admin.client.register.module');
+
 // angular utilities module and module accessories
-require('./admin.client.utils.module');
+Modules.registerModule('utils');
 require('./services');
 require('./directives');
 

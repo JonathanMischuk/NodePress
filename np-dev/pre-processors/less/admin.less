@@ -117,6 +117,21 @@ h5 {
     padding: 0 58px 0 290px;
 }
 
+.sidebar-items-container,
+.sidebar-items-container-added {
+    .add-item {
+        margin: 10px 25px 0 0;
+        float: right;
+        cursor: pointer;
+    }
+}
+
+.sidebar-items-container-added {
+    .collapsible-body {
+        padding: 20px;
+    }
+}
+
 .page-title {
     margin: 0;
 
@@ -234,6 +249,12 @@ nav .brand-logo {
     }
 }
 
+.admin-footer {
+    [type="checkbox"]+label {
+        color: #757575;
+    }
+}
+
 .tabs {
     margin-bottom: 50px;
     border-bottom: 1px solid #eee;
@@ -283,11 +304,21 @@ nav .brand-logo {
     cursor: pointer;
 
     .edit {
-        color: #2196f3;
+        color: #eee;
+        .transition();
+
+        &:hover {
+            color: #2196F3;
+        }
     }
 
     .delete {
-        color: #f44336;
+        color: #eee;
+        .transition();
+
+        &:hover {
+            color: #E91E63;
+        }
     }
 }
 

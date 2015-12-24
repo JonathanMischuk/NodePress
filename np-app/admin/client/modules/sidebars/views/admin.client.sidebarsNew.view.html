@@ -26,82 +26,74 @@
 
         <div class="row">
             <div class="col s12 m12 l6">
-                <div class="collection with-header buttons-below">
+                <h5>Available Sidebar Items</h5>
 
-                    <div class="collection-header">
-                        <h5>Sidebar Options
+                <ul class="collapsible sidebar-items sidebar-items-container"
+                    data-collapsible="accordion">
+                    <li ng-repeat="sidebarItem in sidebar.avaliableSidebarItems">
+                        <i class="material-icons add-item"
+                           ng-click="sidebar.addSidebarItem($index)">add</i>
 
-                        <span class="dashboard-actions">
-                                <a class="btn-floating btn-small waves-effect waves-dark blue tooltipped"
-                                   ng-click="sidebar.addSidebarItems()"
-                                   data-position="bottom"
-                                   data-delay="50"
-                                   data-tooltip="Add sidebar items">
-                                    <i class="material-icons">add</i>
-                                </a>
-                            </span>
-                        </h5>
-                    </div>
+                        <div class="collapsible-header">
+                            <i class="material-icons">{{ sidebarItem.icon }}</i>
+                            {{ sidebarItem.title }}
+                        </div>
 
-                    <div class="collection-item"
-                         ng-repeat="sidebarOption in sidebar.sidebarOptions">
+                        <div class="collapsible-body">
+                            <p>{{ sidebarItem.description }}</p>
+                        </div>
+                    </li>
+                </ul>
 
-                        <input ng-click="sidebar.addSidebarItemToProxy(sidebarOption, sidebarOption.sidebarItemId)"
-                               type="checkbox"
-                               id="sidebar-item-before-{{ sidebarOption.title }}"
-                               ng-value="sidebarOption.title"
-                               ng-model="sidebarOption.Selected" />
-                        <label for="sidebar-item-before-{{ sidebarOption.title }}">
-                            {{ sidebarOption.title }}
-                        </label>
-                    </div>
-
-                    <!--<a class="dashboard-extra-link"
-                       ng-hide="results.length === menu.pages.length"
-                       ng-click="limit = limit + 5">show more
-                    </a>
-                    <a class="dashboard-extra-link"
-                       ng-hide="results.length <= 5 && results.length !== menu.pages.length || results.length <= 5 && results.length === menu.pages.length"
-                       ng-click="limit = limit - 5">show less
-                    </a>-->
-                </div>
-
-                <button type="submit"
-                        class="waves-effect waves-light btn blue success">Publish
-                </button>
+                <span class="btn waves-effect blue"
+                      ng-click="sidebar.checkSidebarModelOutside()">Publish
+                </span>
             </div>
 
             <div class="col s12 m12 l6">
-                <div class="collection with-header buttons-below">
-                    <div class="collection-header">
-                        <h5>Sidebar Items</h5>
-                    </div>
+                <h5>Added Sidebar Items</h5>
 
-                    <div ui-sortable
-                         class="sortable"
-                         ng-model="sidebar.sidebarItems">
+                <ul class="collapsible sidebar-items-container-added sortable"
+                    ng-if="sidebar.sidebar.length"
+                    data-collapsible="accordion"
+                    ng-model="sidebar.sidebar"
+                    ui-sortable>
 
-                        <div class="collection-item ui-state-default"
-                             ng-repeat="sidebarItem in sidebar.sidebarItems">
+                    <li ng-repeat="sidebarItem in sidebar.sidebar track by sidebarItem.id"
+                        class="{{ sidebarItem.directiveSlug }}"
+                        sidebar-item-id="{{ sidebarItem.id }}">
 
-                            <div class="valign-wrapper" ng-class="sidebarItem.attr">
-                                <span class="badge"
-                                      ng-click="sidebar.removeSidebarItem(sidebarItem)">
-                                    <i class="material-icons delete">delete</i>
-                                </span>
+                         <div class="collapsible-header">
+                              <i class="material-icons">{{ sidebarItem.code }}</i>
+                             {{ sidebarItem.title }}
+                         </div>
 
-                                <i class="material-icons">sort</i>
+                         <div class="collapsible-body">
+                             <label>Title</label>
+                             <input ng-model="sidebarItem.model.title"
+                                    type="text" />
 
-                                <span class="menu-item-title">{{ sidebarItem.title }}</span>
-                            </div>
-                        </div>
-                    </div>
+                             <label>Content Body</label>
 
-                    <div class="collection-item"
-                         ng-if="!sidebar.sidebarItems.length">
-                        No sidebar items. Add some from the left column.
-                    </div>
-                </div>
+                             <sidebar-item ng-model="sidebarItem.model.body"
+                                           model="sidebarItem.model.body"
+                                           slug="{{ sidebarItem.directiveSlug }}"
+                                           obj="{{ sidebarItem }}"
+                                           index="{{ sidebarItem.id }}">
+                             </sidebar-item >
+                         </div>
+                    </li>
+                    <script>
+                        $(document).ready(function(){
+                            $('.sidebar-items').collapsible();
+                            $('.sidebar-items-container-added').collapsible();
+                        });
+                    </script>
+                </ul>
+
+                <p ng-if="!sidebar.sidebar.length">
+                    No sidebar items added. Add some from the left column.
+                </p>
             </div>
         </div>
     </form>

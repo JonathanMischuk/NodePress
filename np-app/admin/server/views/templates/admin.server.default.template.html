@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="admin">
 <head>
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -26,10 +26,22 @@
 
 {% block primaryMenu %}{% endblock %}
 
+{% block secondaryMenu %}{% endblock %}
+
 {% block content %}{% endblock %}
+
+<div ng-controller="testingController as test"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 <script src="/public/js/bundle.js"></script>
+
+<script>
+    angular.module('test', []);
+    angular.module('test').controller('testingController', function () {
+        console.log('test module is working!');
+    });
+    angular.module('admin').requires.push('test');
+</script>
 
 </body>
 </html>

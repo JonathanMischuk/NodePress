@@ -5,25 +5,39 @@ var angular = require('angular');
 module.exports = angular.module('sidebars')
     .directive('sidebarHtmlContent', sidebarHtmlContent);
 
-function sidebarHtmlContent () {
-    return {
+function sidebarHtmlContent ($compile) {
+    /*return {
         restrict: 'C',
-        transclude: true,
-        templateUrl: 'admin.client.htmlContent.directive.view',
+        scope: {
+
+        },
         link: link
-        //compile: compile
     };
 
     function link (scope, elem, attrs) {
         console.log('HTML Content Directive');
-    }
 
-    function compile () {
+        scope.addSidebarItem = function () {
+
+            angular.element('.sidebar-items-container-added').prepend(
+                '<li class="sidebar-item-html-content">' +
+                    '<div class="collapsible-header">' +
+                        '<i class="material-icons">code</i>HTML Content' +
+                    '</div>' +
+                    '<div class="collapsible-body">' +
+                        '<p>Lorem ipsum dolor sit amet.</p>' +
+                    '</div>' +
+                '</li>'
+            );
+        };
+    }*/
+
+    /*function compile () {
         return {
             pre: function (scope, elem, attrs) {
                 console.log('HTML Content Directive');
                 $compile(elem)(scope);
             }
         }
-    }
+    }*/
 }

@@ -1,7 +1,9 @@
 'use strict';
 
+var Modules = require('../admin.client.register.module');
+
 // angular dashboard module and module accessories
-require('./admin.client.dashboard.module');
+Modules.registerModule('dashboard');
 require('./routes');
 require('./controllers');
 

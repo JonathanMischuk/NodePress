@@ -1,112 +1,115 @@
 {% extends "templates/admin.server.default.template.html" %}
 
 {% block primaryMenu %}
+<nav class="primary-menu" ng-if="auth">
+    <div class="nav-wrapper blue">
+        <a class="brand-logo tooltipped"
+           ui-sref="dashboard"
+           data-position="right"
+           data-delay="50"
+           data-tooltip="Go to dashboard">NodePress</a>
 
-    <nav class="primary-menu" ng-if="auth">
-        <div class="nav-wrapper blue">
-            <a class="brand-logo tooltipped"
-               ui-sref="dashboard"
-               data-position="right"
-               data-delay="50"
-               data-tooltip="Go to dashboard">NodePress</a>
+        <ul id="dropdown-account" class="dropdown-content">
+            <li><a ng-href="/np-admin/users/{% raw %}{{ auth.username }}{% endraw %}">Profile</a></li>
+            <li><a ui-sref="settings">Settings</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+        </ul>
 
-            <ul id="dropdown-account" class="dropdown-content">
-                <li><a ng-href="/np-admin/users/{% raw %}{{ auth.username }}{% endraw %}">Profile</a></li>
-                <li><a ui-sref="settings">Settings</a></li>
-                <li><a href="/auth/logout">Logout</a></li>
-            </ul>
+        <ul class="right">
+            <li>
+                <a class="dropdown-button"
+                   data-activates="dropdown-account">
+                    Howdy, {% raw %}{{ auth.username }}{% endraw %}
+                    <i class="material-icons right">arrow_drop_down</i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
 
-            <ul class="right">
-                <li>
-                    <a class="dropdown-button"
-                       data-activates="dropdown-account">
-                        Howdy, {% raw %}{{ auth.username }}{% endraw %}
-                        <i class="material-icons right">arrow_drop_down</i>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+{% block secondaryMenu %}
+<div class="secondary-menu" ng-if="auth">
+    <ul class="collapsible" data-collapsible="accordion">
+        <li>
+            <div class="collapsible-header waves-effect waves-dark">
+                <i class="material-icons">web</i> Pages
+            </div>
+            <div class="collapsible-body">
+                <ul>
+                    <li><a ui-sref="pages">All Pages</a></li>
+                    <li><a ui-sref="newPage">New Page</a></li>
+                </ul>
+            </div>
+        </li>
 
+        <li>
+            <div class="collapsible-header waves-effect waves-dark">
+                <i class="material-icons">subtitles</i> Categories
+            </div>
+            <div class="collapsible-body">
+                <ul>
+                    <li><a ui-sref="categories">All Categories</a></li>
+                    <li><a ui-sref="newCategory">New Category</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li>
+            <div class="collapsible-header waves-effect waves-dark">
+                <i class="material-icons">toc</i> Menus
+            </div>
+            <div class="collapsible-body">
+                <ul>
+                    <li><a ui-sref="menus">All Menus</a></li>
+                    <li><a ui-sref="newMenu">New Menu</a></li>
+                    <li><a ui-sref="manageMenus">Manage Locations</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Sidebar section -->
+        <!--<li>
+            <div class="collapsible-header waves-effect waves-dark">
+                <i class="material-icons">view_week</i> Sidebars
+            </div>
+            <div class="collapsible-body">
+                <ul>
+                    <li><a ui-sref="sidebars">All Sidebars</a></li>
+                    <li><a ui-sref="newSidebar">New Sidebar</a></li>
+                </ul>
+            </div>
+        </li>-->
+
+        <li>
+            <div class="collapsible-header waves-effect waves-dark">
+                <i class="material-icons">supervisor_account</i> Users
+            </div>
+            <div class="collapsible-body">
+                <ul>
+                    <li><a ui-sref="users">All Users</a></li>
+                    <li><a ui-sref="newUser">New User</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li>
+            <div ui-sref="footer" class="collapsible-header waves-effect waves-dark">
+                <i class="material-icons">view_day</i> Footer
+            </div>
+        </li>
+    </ul>
+
+    <script>
+        $(document).ready(function() {
+            $('.collapsible').collapsible();
+        });
+    </script>
+</div>
 {% endblock %}
 
 {% block content %}
-
-    <div class="secondary-menu" ng-if="auth">
-        <ul class="collapsible" data-collapsible="accordion">
-            <li>
-                <div class="collapsible-header waves-effect waves-dark">
-                    <i class="material-icons">web</i> Pages
-                </div>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a ui-sref="pages">All Pages</a></li>
-                        <li><a ui-sref="newPage">New Page</a></li>
-                    </ul>
-                </div>
-            </li>
-
-            <li>
-                <div class="collapsible-header waves-effect waves-dark">
-                    <i class="material-icons">subtitles</i> Categories
-                </div>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a ui-sref="categories">All Categories</a></li>
-                        <li><a ui-sref="newCategory">New Category</a></li>
-                    </ul>
-                </div>
-            </li>
-
-            <li>
-                <div class="collapsible-header waves-effect waves-dark">
-                    <i class="material-icons">toc</i> Menus
-                </div>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a ui-sref="menus">All Menus</a></li>
-                        <li><a ui-sref="newMenu">New Menu</a></li>
-                        <li><a ui-sref="manageMenus">Manage Locations</a></li>
-                    </ul>
-                </div>
-            </li>
-
-            <li>
-                <div class="collapsible-header waves-effect waves-dark">
-                    <i class="material-icons">view_week</i> Sidebars
-                </div>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a ui-sref="sidebars">All Sidebars</a></li>
-                        <li><a ui-sref="newSidebar">New Sidebar</a></li>
-                    </ul>
-                </div>
-            </li>
-
-            <li>
-                <div class="collapsible-header waves-effect waves-dark">
-                    <i class="material-icons">supervisor_account</i> Users
-                </div>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a ui-sref="users">All Users</a></li>
-                        <li><a ui-sref="newUser">New User</a></li>
-                    </ul>
-                </div>
-            </li>
-        </ul>
-
-        <script>
-            $(document).ready(function() {
-                $('.collapsible').collapsible();
-            });
-        </script>
-
-    </div>
-    <div class="content">
-        <div class="view-fade-in" ui-view></div>
-    </div>
-
+<div class="content">
+    <div class="view-fade-in" ui-view></div>
+</div>
 {% endblock %}
-
-

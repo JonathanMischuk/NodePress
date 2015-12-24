@@ -1,7 +1,9 @@
 'use strict';
 
+var Modules = require('../admin.client.register.module');
+
 // angular menus module and module accessories
-require('./admin.client.menus.module');
+Modules.registerModule('menus');
 require('./routes');
 require('./services');
 require('./controllers');

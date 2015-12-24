@@ -1,7 +1,9 @@
 'use strict';
 
+var Modules = require('../admin.client.register.module');
+
 // angular settings module and module accessories
-require('./admin.client.settings.module');
+Modules.registerModule('settings');
 require('./routes');
 require('./services');
 require('./controllers');

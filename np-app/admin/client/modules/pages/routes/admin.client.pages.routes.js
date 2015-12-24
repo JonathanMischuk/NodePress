@@ -14,7 +14,7 @@ function adminPageRoutes ($stateProvider, $urlRouterProvider) {
             templateUrl: 'admin.client.pages.view.html'
         })
         .state('newPage', {
-            url: '/new-page/',
+            url: '/pages/new-page/',
             templateUrl: 'admin.client.pagesNew.view.html'
         })
         .state('editPage', {

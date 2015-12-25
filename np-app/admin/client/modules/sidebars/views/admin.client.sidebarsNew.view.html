@@ -43,6 +43,12 @@
                             <p>{{ sidebarItem.description }}</p>
                         </div>
                     </li>
+
+                    <script>
+                        $(document).ready(function (){
+                            $('.sidebar-items').collapsible();
+                        });
+                    </script>
                 </ul>
 
                 <span class="btn waves-effect blue"
@@ -64,7 +70,7 @@
                         sidebar-item-id="{{ sidebarItem.id }}">
 
                          <div class="collapsible-header">
-                              <i class="material-icons">reorder</i>
+                              <i class="material-icons">sort</i>
                              {{ sidebarItem.title }}
                          </div>
 
@@ -84,8 +90,7 @@
                          </div>
                     </li>
                     <script>
-                        $(document).ready(function(){
-                            $('.sidebar-items').collapsible();
+                        $(document).ready(function (){
                             $('.sidebar-items-container-added').collapsible();
                         });
                     </script>

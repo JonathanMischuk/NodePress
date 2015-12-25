@@ -41,32 +41,34 @@ function AdminNewSidebarController (
                 title: '',
                 body: ''
             },
-            icon: 'code'
+            icon: 'toc'
         }
     ];
 
     vm.sidebar = [];
     vm.sidebarItems = [];
-    vm.checkSidebarModel = function (sidebarItem, i) {
-        vm.sidebar[i].model = vm.sidebarItems[i].model;
-    };
-
+    vm.checkSidebarModel = checkSidebarModel;
+    vm.checkSidebarModelOutside = checkSidebarModelOutside;
+    vm.addSidebarItem = addSidebarItem;
     vm.counter = vm.sidebar.length || 0;
 
-    vm.checkSidebarModelOutside = function () {
+    function checkSidebarModel (sidebarItem, i) {
+        vm.sidebar[i].model = vm.sidebarItems[i].model;
+    }
+
+    function checkSidebarModelOutside () {
         angular.forEach(vm.sidebar, function (sidebar, i) {
             console.log(sidebar);
         });
-    };
+    }
 
-    vm.addSidebarItem = function (index) {
-        vm.counter += 1;
+    function addSidebarItem (index) {
         var sidebarItem = angular.copy(vm.avaliableSidebarItems[index]);
 
+        vm.counter += 1;
         sidebarItem.id = vm.counter;
-
         vm.sidebar.push(sidebarItem);
-    };
+    }
 
     /*vm.sidebarOptions = AdminSidebarOptionsService;
     vm.sidebarItemCounter = 0;

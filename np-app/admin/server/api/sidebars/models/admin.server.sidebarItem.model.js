@@ -5,13 +5,27 @@ var db = require('../../../config/admin.server.db'),
         title: {
             type: String
         },
-        body: {
+        slug: {
             type: String
         },
-        order: {
-            type: Number
+        type: {
+            type: String
         },
-        menuItemId: {
+        directive: {
+            type: String
+        },
+        directiveSlug: {
+            type: String
+        },
+        model: {
+            title: {
+                type: String
+            },
+            body: {
+                type: String
+            }
+        },
+        id: {
             type: Number
         }
     });

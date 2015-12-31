@@ -31,8 +31,10 @@
                 <ul class="collapsible sidebar-items sidebar-items-container"
                     data-collapsible="accordion">
                     <li ng-repeat="sidebarItem in sidebar.avaliableSidebarItems">
+
                         <i class="material-icons add-item"
-                           ng-click="sidebar.addSidebarItem($index)">add</i>
+                           ng-click="sidebar.addSidebarItem($index)">add
+                        </i>
 
                         <div class="collapsible-header">
                             <i class="material-icons">{{ sidebarItem.icon }}</i>
@@ -52,7 +54,7 @@
                 </ul>
 
                 <span class="btn waves-effect blue"
-                      ng-click="sidebar.checkSidebarModelOutside()">Publish
+                      ng-click="sidebar.newSidebar()">Publish
                 </span>
             </div>
 
@@ -60,17 +62,21 @@
                 <h5>Added Sidebar Items</h5>
 
                 <ul class="collapsible sidebar-items-container-added sortable"
-                    ng-if="sidebar.sidebar.length"
+                    ng-if="sidebar.sidebarItems.length"
                     data-collapsible="accordion"
-                    ng-model="sidebar.sidebar"
-                    ui-sortable>
+                    ng-model="sidebar.sidebarItems"
+                    ui-sortable="sidebar.sortableOptions">
 
-                    <li ng-repeat="sidebarItem in sidebar.sidebar track by sidebarItem.id"
+                    <li ng-repeat="sidebarItem in sidebar.sidebarItems track by sidebarItem.id"
                         class="{{ sidebarItem.directiveSlug }}"
                         sidebar-item-id="{{ sidebarItem.id }}">
 
+                        <i class="material-icons delete remove-item"
+                           ng-click="sidebar.removeSidebarItem(sidebarItem)">delete
+                        </i>
+
                          <div class="collapsible-header">
-                              <i class="material-icons">sort</i>
+                              <i class="material-icons sort-handle">sort</i>
                              {{ sidebarItem.title }}
                          </div>
 
@@ -84,7 +90,7 @@
                              <sidebar-item ng-model="sidebarItem.model.body"
                                            model="sidebarItem.model.body"
                                            slug="{{ sidebarItem.directiveSlug }}"
-                                           obj="{{ sidebarItem }}"
+                                           obj="sidebarItem.model.body"
                                            index="{{ sidebarItem.id }}">
                              </sidebar-item >
                          </div>
@@ -96,7 +102,7 @@
                     </script>
                 </ul>
 
-                <p ng-if="!sidebar.sidebar.length">
+                <p ng-if="!sidebar.sidebarItems.length">
                     No sidebar items added. Add some from the left column.
                 </p>
             </div>

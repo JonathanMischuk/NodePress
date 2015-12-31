@@ -41513,7 +41513,7 @@
 	    $location,
 	    $rootScope,
 	    AdminSidebarsAPIService,
-	    AdminSidebarOptionsService,
+	    AdminMenusAPIService,
 	    AdminUtilitiesServices) {
 
 	    var vm = this;
@@ -41547,124 +41547,23 @@
 	        }
 	    ];
 
-	    vm.sidebar = [];
+	    vm.sidebar = {};
 	    vm.sidebarItems = [];
-	    vm.checkSidebarModel = checkSidebarModel;
-	    vm.checkSidebarModelOutside = checkSidebarModelOutside;
+	    vm.newSidebar = newSidebar;
 	    vm.addSidebarItem = addSidebarItem;
-	    vm.counter = vm.sidebar.length || 0;
-
-	    function checkSidebarModel (sidebarItem, i) {
-	        vm.sidebar[i].model = vm.sidebarItems[i].model;
-	    }
-
-	    function checkSidebarModelOutside () {
-	        angular.forEach(vm.sidebar, function (sidebar, i) {
-	            console.log(sidebar);
-	        });
-	    }
+	    vm.removeSidebarItem = removeSidebarItem;
+	    vm.menus = AdminMenusAPIService.query();
+	    vm.counter = 0;
+	    vm.sortableOptions = {
+	        handle: '.sort-handle'
+	    };
 
 	    function addSidebarItem (index) {
 	        var sidebarItem = angular.copy(vm.avaliableSidebarItems[index]);
 
 	        vm.counter += 1;
 	        sidebarItem.id = vm.counter;
-	        vm.sidebar.push(sidebarItem);
-	    }
-
-	    /*vm.sidebarOptions = AdminSidebarOptionsService;
-	    vm.sidebarItemCounter = 0;
-
-	    vm.sidebarItemsProxy = [];
-	    vm.addSidebarItemToProxy = addSidebarItemToProxy;
-	    vm.addSidebarItems = addSidebarItems;
-	    vm.removeSidebarItem = removeSidebarItem;
-	    vm.newSidebar = newSidebar;
-	    vm.errors = require('../errors/admin.client.sidebars.errors');
-
-	    vm.sidebar = {};
-	    vm.sidebarItem = {};
-	    vm.sidebarItems = [];
-	    vm.addSidebarItem = addSidebarItem;
-
-	    vm.logSidebarItems = logSidebarItems;*/
-
-	    /*var arr = [];
-	     var obj1 = { title: '1 This is a title' };
-	     var obj2 = {
-	     body: '<p>1 This is the body of the sidebar element. This will contain HTML content and' +
-	     ' other stuff.</p>'
-	     };
-
-	     var objMerge1 = _.merge(obj1, obj2);
-	     console.log(objMerge1);
-
-	     var obj3 = { title: '2 This is a title' };
-	     var obj4 = {
-	     body: '<p>2 This is the body of the sidebar element. This will contain HTML content and' +
-	     ' other stuff.</p>'
-	     };
-
-	     var objMerge2 = _.merge(obj3, obj4);
-	     console.log(objMerge2);
-
-	     arr.push(objMerge1, objMerge2);
-
-	     //var objFinal = _.merge({}, objMerge1, objMerge2);
-	     console.log(arr);*/
-
-	    /*function addSidebarItem (sidebarItem) {
-	        vm.sidebarItem.type = 'HTML Content';
-	        vm.sidebarItem.body = angular.element('.cke_wysiwyg_div').html() ||
-	            angular.element('.cke_source').val();
-
-	        vm.sidebarItems.push(vm.sidebarItem);
-
-	        console.log(vm.sidebarItems);
-	    }
-
-
-
-	    function addSidebarItemToProxy (sidebar, sidebarItemId) {
-	        var index = vm.sidebarOptions.indexOf(sidebar);
-	        vm.sidebarOptions[index].checked = !vm.sidebarOptions[index].checked;
-
-	        console.log(vm.sidebarOptions[index].checked);
-
-	        if (vm.sidebarOptions[index].checked === false) {
-	            for (var i = 0; i < vm.sidebarItemsProxy.length; i += 1) {
-	                if (vm.sidebarItemsProxy[i].sidebarItemId === sidebarItemId) {
-	                    vm.sidebarItemsProxy.splice(i, 1);
-	                }
-	            }
-	        } else {
-	            vm.sidebarItemsProxy.push({
-	                title: vm.sidebarOptions[index].title,
-	                type: vm.sidebarOptions[index].type,
-	                attr: vm.sidebarOptions[index].attr,
-	                sidebarItemId: sidebarItemId
-	            });
-	        }
-	    }
-
-	    function addSidebarItems () {
-
-	        // add sidebar proxy items to sidebarItems array
-	        angular.forEach(vm.sidebarItemsProxy, function (sidebarItem) {
-	            sidebarItem.sidebarItemId = vm.sidebarItemCounter += 1;
-	            vm.sidebarItems.push(sidebarItem);
-	        });
-
-	        angular.forEach(vm.sidebarOptions, function (sidebarOption) {
-	            sidebarOption.Selected = false;
-	            sidebarOption.checked = false;
-	        });
-
-	        vm.sidebarItemsProxy = [];
-	    }
-
-	    function logSidebarItems () {
-	        console.log('poop');
+	        vm.sidebarItems.push(sidebarItem);
 	    }
 
 	    function removeSidebarItem (sidebarItem) {
@@ -41673,22 +41572,32 @@
 	    }
 
 	    function newSidebar () {
+	        angular.forEach(vm.sidebarItems, function (sidebar, i) {
+	            //console.log(sidebar);
+	        });
+
+	        //vm.sidebar.title = vm.sidebar.title;
+	        vm.sidebar.createdBy = $rootScope.auth.username;
+	        vm.sidebar.items = vm.sidebarItems;
+
+	        console.log(vm.sidebar);
+
 	        if ($scope.newSidebarForm.$valid) {
-	            var Sidebar = new AdminSidebarsAPIService({
-	                createdBy: $rootScope.auth.username,
-	                title: vm.sidebarOption.title,
-	                items: vm.sidebarItems
-	            });
+	            var Sidebar = new AdminSidebarsAPIService(vm.sidebar);
 
 	            Sidebar.$save()
 	                .then(function (sidebar) {
-	                    $location.path('/sidebars/' + sidebar._id);
+	                    console.log('saved!');
+
+	                    //$location.path('/sidebars/' + sidebar._id);
 	                })
 	                .catch(function (error) {
+	                    console.log('error!');
+
 	                    //vm.errorTitle = error.data.errors.title || '';
 	                });
 	        }
-	    }*/
+	    }
 	}
 
 
@@ -41712,20 +41621,16 @@
 
 	module.exports = angular.module('sidebars')
 	    .directive('sidebarItem', sidebarItem)
-	    .directive('sidebarItemHtmlContent', sidebarItemHtmlContent);
+	    .directive('sidebarItemHtmlContent', sidebarItemHtmlContent)
+	    .directive('sidebarItemMenu', sidebarItemMenu);
 
 	function sidebarItem ($compile) {
 	    return {
-	        scope: {
-	            obj: '@',
-	            model: '='
-	        },
 	        link: link
-
 	    };
 
 	    function link (scope, elem, attrs) {
-	        var html = '<span ng-model="model" class="' + attrs.slug + '">';
+	        var html = '<span ng-model="' + attrs.model + '" class="' + attrs.slug + '">';
 	        elem.append($compile(html)(scope));
 	    }
 	}
@@ -41734,12 +41639,40 @@
 	    return {
 	        replace: true,
 	        restrict: 'C',
-	        scope: {
-	            model: '='
-	        },
 	        template: '<textarea class="materialize-textarea"></textarea>'
 	    };
 	}
+
+	function sidebarItemMenu () {
+	    return {
+	        replace: true,
+	        restrict: 'C',
+	        template: '<select ng-options="menu.title as menu.title for menu in menus.menus">' +
+	            '<option value="" disabled active>Select a Menu</option>' +
+	        '</select>',
+	        controller: function (AdminMenusAPIService) {
+	            var vm = this;
+	            vm.menus = AdminMenusAPIService.query();
+
+	            /*vm.menus = AdminMenusAPIService.query(function (menus) {
+	                angular.forEach($scope.sidebar.sidebar, function (sidebarItem, i) {
+	                    if (sidebarItem.type === 'menu') {
+	                        //sidebarItem.model.body = vm.menus[i].items
+	                        if (sidebarItem.model.body === '') sidebarItem.model.body = vm.menus[0].title;
+	                        console.log(sidebarItem.model.body);
+	                    }
+	                });
+	            });*/
+	        },
+	        controllerAs: 'menus',
+	        link: link
+	    };
+
+	    function link (scope, elem, attrs) {
+	    }
+	}
+
+
 
 
 /***/ },

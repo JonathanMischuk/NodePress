@@ -12,9 +12,6 @@ var db = require('../../../config/admin.server.db'),
             required: true,
             unique: true
         },
-        menuLocation: {
-            type: String
-        },
         items: [SidebarItem],
         publishDate: {
             type: Date,

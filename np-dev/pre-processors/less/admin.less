@@ -119,10 +119,25 @@ h5 {
 
 .sidebar-items-container,
 .sidebar-items-container-added {
-    .add-item {
+    .add-item,
+    .remove-item {
         margin: 10px 25px 0 0;
+        color: #eee;
         float: right;
         cursor: pointer;
+        .transition();
+    }
+
+    .add-item {
+        &:hover {
+            color: rgba(0,0,0,0.87);
+        }
+    }
+
+    .remove-item {
+        &:hover {
+            color: #E91E63;
+        }
     }
 }
 
@@ -131,12 +146,15 @@ h5 {
         cursor: pointer;
 
         i {
-            cursor: move;
+            &.sort-handle {
+                cursor: move;
+            }
         }
     }
 
     .collapsible-body {
         padding: 20px;
+        cursor: auto;
     }
 }
 

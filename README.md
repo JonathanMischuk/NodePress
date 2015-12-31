@@ -14,8 +14,9 @@ machine
 2. npm install and bower install dependencies
 3. Open the np-config.js file located at root level and update the db.uri (for Mongoose) and port 
 (for Express) manually as needed
-4. Run ```node server.js``` or ```nodemon server.js```
-5. Goto localhost:3000/np-admin in your web browser (or whatever port you chose in the np-config.js file)
+4. Run ```node np-server.js``` or ```nodemon np-server.js``` if you have nodemon installed globally
+5. Goto localhost:3006/np-admin in your web browser (or whatever port you chose in the np-config
+.js file)
 6. Set up a new user, then log in.
 
 ##Instructions for use
@@ -44,7 +45,6 @@ Please let me know if you have any ideas, or something isn't right.
 
 ##Upcoming and necessary features
 
-* Better error, and not found handling
 * Better authentication and authorization for API
 * Footer customization for front end
 * Sidebar customization for front end

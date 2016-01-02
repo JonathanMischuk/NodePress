@@ -33,25 +33,25 @@ function sidebarItemMenu () {
         template: '<select ng-options="menu.title as menu.title for menu in menus.menus">' +
             '<option value="" disabled active>Select a Menu</option>' +
         '</select>',
-        controller: function (AdminMenusAPIService) {
-            var vm = this;
-            vm.menus = AdminMenusAPIService.query();
-
-            /*vm.menus = AdminMenusAPIService.query(function (menus) {
-                angular.forEach($scope.sidebar.sidebar, function (sidebarItem, i) {
-                    if (sidebarItem.type === 'menu') {
-                        //sidebarItem.model.body = vm.menus[i].items
-                        if (sidebarItem.model.body === '') sidebarItem.model.body = vm.menus[0].title;
-                        console.log(sidebarItem.model.body);
-                    }
-                });
-            });*/
-        },
-        controllerAs: 'menus',
-        link: link
+        controller: AdminSidebarItemMenuDirectiveController,
+        controllerAs: 'menus'
     };
 
-    function link (scope, elem, attrs) {
+    function AdminSidebarItemMenuDirectiveController ($scope, $timeout, AdminMenusAPIService) {
+        var vm = this;
+
+        // get list of published menus
+        vm.menus = AdminMenusAPIService.query();
+
+        // set Materialize select box default value
+        angular.forEach($scope.sidebar.sidebar.items, function (sidebarItem) {
+            if (sidebarItem.type === 'menu') {
+                $timeout(function () {
+                    angular.element('.sidebar-item-id-' + sidebarItem.id + ' .select-dropdown')
+                        .val($scope.sidebar.sidebar.items[$scope.sidebar.sidebar.items.indexOf(sidebarItem)].model.body);
+                }, 200);
+            }
+        });
     }
 }
 

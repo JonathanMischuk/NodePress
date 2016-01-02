@@ -50,7 +50,7 @@
 
 	// main angular admin module
 	__webpack_require__(3)();
-	__webpack_require__(101);
+	__webpack_require__(102);
 
 
 
@@ -29108,7 +29108,7 @@
 	        __webpack_require__(66),
 	        __webpack_require__(76),
 	        __webpack_require__(86),
-	        __webpack_require__(98)
+	        __webpack_require__(99)
 	    ];
 
 	    angular.module('admin', modules);
@@ -40660,6 +40660,10 @@
 
 	            Menu.$save()
 	                .then(function (menu) {
+
+	                    // display success dialog
+	                    Materialize.toast('Menu created!', 4000, 'success');
+
 	                    $location.path('/menus/' + menu._id);
 	                })
 	                .catch(function (error) {
@@ -41352,7 +41356,7 @@
 	__webpack_require__(87);
 	__webpack_require__(89);
 	__webpack_require__(92);
-	__webpack_require__(95);
+	__webpack_require__(96);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'sidebars';
@@ -41460,6 +41464,7 @@
 
 	__webpack_require__(93);
 	__webpack_require__(94);
+	__webpack_require__(95);
 
 
 /***/ },
@@ -41478,12 +41483,9 @@
 	    var vm = this;
 
 	    vm.sidebars = {};
-	    vm.getSidebars = getSidebars;
 	    vm.removeSidebar = removeSidebar;
 
-	    function getSidebars() {
-	        vm.sidebars = AdminSidebarsAPIService.query();
-	    }
+	    vm.sidebars = AdminSidebarsAPIService.query();
 
 	    // TODO: find it's own home
 	    function removeSidebar(sidebar) {
@@ -41513,7 +41515,6 @@
 	    $location,
 	    $rootScope,
 	    AdminSidebarsAPIService,
-	    AdminMenusAPIService,
 	    AdminUtilitiesServices) {
 
 	    var vm = this;
@@ -41549,14 +41550,22 @@
 
 	    vm.sidebar = {};
 	    vm.sidebarItems = [];
+	    vm.sidebarItemIds = [];
 	    vm.newSidebar = newSidebar;
 	    vm.addSidebarItem = addSidebarItem;
 	    vm.removeSidebarItem = removeSidebarItem;
-	    vm.menus = AdminMenusAPIService.query();
 	    vm.counter = 0;
 	    vm.sortableOptions = {
 	        handle: '.sort-handle'
 	    };
+
+	    function getSidebarCount () {
+	        angular.forEach(vm.sidebarItems, function (sidebarItem) {
+	            vm.sidebarItemIds.push(sidebarItem.id);
+	        });
+
+	        return Math.max.apply(null, vm.sidebarItemIds) || 0;
+	    }
 
 	    function addSidebarItem (index) {
 	        var sidebarItem = angular.copy(vm.avaliableSidebarItems[index]);
@@ -41569,27 +41578,23 @@
 	    function removeSidebarItem (sidebarItem) {
 	        var index = vm.sidebarItems.indexOf(sidebarItem);
 	        vm.sidebarItems.splice(index, 1);
+	        getSidebarCount();
 	    }
 
 	    function newSidebar () {
-	        angular.forEach(vm.sidebarItems, function (sidebar, i) {
-	            //console.log(sidebar);
-	        });
-
-	        //vm.sidebar.title = vm.sidebar.title;
 	        vm.sidebar.createdBy = $rootScope.auth.username;
 	        vm.sidebar.items = vm.sidebarItems;
-
-	        console.log(vm.sidebar);
 
 	        if ($scope.newSidebarForm.$valid) {
 	            var Sidebar = new AdminSidebarsAPIService(vm.sidebar);
 
 	            Sidebar.$save()
 	                .then(function (sidebar) {
-	                    console.log('saved!');
 
-	                    //$location.path('/sidebars/' + sidebar._id);
+	                    // display success dialog
+	                    Materialize.toast('Sidebar created!', 4000, 'success');
+
+	                    $location.path('/sidebars/' + sidebar._id);
 	                })
 	                .catch(function (error) {
 	                    console.log('error!');
@@ -41607,12 +41612,133 @@
 
 	'use strict';
 
-	__webpack_require__(96);
-	__webpack_require__(97);
+	var angular = __webpack_require__(1);
+
+
+	module.exports = angular.module('menus')
+	    .controller('AdminUpdateSidebarController', AdminUpdateSidebarController);
+
+	function AdminUpdateSidebarController (
+	    $scope,
+	    $rootScope,
+	    $stateParams,
+	    AdminSidebarsAPIService,
+	    AdminUtilitiesServices) {
+
+	    var vm = this;
+
+	    vm.avaliableSidebarItems = [
+	        {
+	            title: 'HTML Content',
+	            slug: 'html-content',
+	            type: 'HTMLContent',
+	            description: 'Add HTML content to your sidebar',
+	            directive: 'sidebarItemHtmlContent',
+	            directiveSlug: 'sidebar-item-html-content',
+	            model: {
+	                title: '',
+	                body: ''
+	            },
+	            icon: 'code'
+	        },
+	        {
+	            title: 'Menu',
+	            slug: 'menu',
+	            type: 'menu',
+	            description: 'Add a menu to your sidebar',
+	            directive: 'sidebarItemMenu',
+	            directiveSlug: 'sidebar-item-menu',
+	            model: {
+	                title: '',
+	                body: ''
+	            },
+	            icon: 'toc'
+	        }
+	    ];
+
+	    vm.sidebar = {};
+	    vm.sidebarItems = [];
+	    vm.sidebarItemIds = [];
+	    vm.updateSidebar = updateSidebar;
+	    vm.addSidebarItem = addSidebarItem;
+	    vm.removeSidebarItem = removeSidebarItem;
+	    vm.getSidebar = getSidebar;
+	    vm.sortableOptions = {
+	        handle: '.sort-handle'
+	    };
+
+	    function getSidebarCount () {
+	        angular.forEach(vm.sidebarItems, function (sidebarItem) {
+	            vm.sidebarItemIds.push(sidebarItem.id);
+	        });
+
+	        vm.counter = Math.max.apply(null, vm.sidebarItemIds) || 0;
+	    }
+
+	    function getSidebar () {
+	        vm.sidebar = AdminSidebarsAPIService.get({
+	            sidebarId: $stateParams.sidebarId
+	        }, function () {
+	            vm.sidebarItems = vm.sidebar.items;
+	            getSidebarCount();
+	        });
+	    }
+
+	    function addSidebarItem (index) {
+	        var sidebarItem = angular.copy(vm.avaliableSidebarItems[index]);
+
+	        vm.counter += 1;
+	        sidebarItem.id = vm.counter;
+	        vm.sidebarItems.push(sidebarItem);
+	    }
+
+	    function removeSidebarItem (sidebarItem) {
+	        var index = vm.sidebarItems.indexOf(sidebarItem);
+	        vm.sidebarItems.splice(index, 1);
+	        getSidebarCount();
+	    }
+
+	    function updateSidebar () {
+	        vm.sidebar.items = vm.sidebarItems;
+
+	        if ($scope.updateSidebarForm.$valid) {
+
+	            // create human readable date for modified date
+	            var date = AdminUtilitiesServices.createHumanReadableDate();
+
+	            vm.sidebar.modifiedBy = $rootScope.auth.username;
+	            vm.sidebar.modifiedDate = date;
+
+	            vm.sidebar.$update()
+	                .then(function () {
+
+	                    vm.sidebarItems = vm.sidebar.items;
+
+	                    // display success dialog
+	                    Materialize.toast('Sidebar updated successfully', 4000, 'success');
+
+	                    $scope.updateSidebarForm.$setPristine();
+	                })
+	                .catch(function (error) {
+	                    vm.errorTitle = error;
+	                });
+	        }
+	    }
+	}
 
 
 /***/ },
 /* 96 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(97);
+	__webpack_require__(98);
+
+
+/***/ },
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41650,25 +41776,25 @@
 	        template: '<select ng-options="menu.title as menu.title for menu in menus.menus">' +
 	            '<option value="" disabled active>Select a Menu</option>' +
 	        '</select>',
-	        controller: function (AdminMenusAPIService) {
-	            var vm = this;
-	            vm.menus = AdminMenusAPIService.query();
-
-	            /*vm.menus = AdminMenusAPIService.query(function (menus) {
-	                angular.forEach($scope.sidebar.sidebar, function (sidebarItem, i) {
-	                    if (sidebarItem.type === 'menu') {
-	                        //sidebarItem.model.body = vm.menus[i].items
-	                        if (sidebarItem.model.body === '') sidebarItem.model.body = vm.menus[0].title;
-	                        console.log(sidebarItem.model.body);
-	                    }
-	                });
-	            });*/
-	        },
-	        controllerAs: 'menus',
-	        link: link
+	        controller: AdminSidebarItemMenuDirectiveController,
+	        controllerAs: 'menus'
 	    };
 
-	    function link (scope, elem, attrs) {
+	    function AdminSidebarItemMenuDirectiveController ($scope, $timeout, AdminMenusAPIService) {
+	        var vm = this;
+
+	        // get list of published menus
+	        vm.menus = AdminMenusAPIService.query();
+
+	        // set Materialize select box default value
+	        angular.forEach($scope.sidebar.sidebar.items, function (sidebarItem) {
+	            if (sidebarItem.type === 'menu') {
+	                $timeout(function () {
+	                    angular.element('.sidebar-item-id-' + sidebarItem.id + ' .select-dropdown')
+	                        .val($scope.sidebar.sidebar.items[$scope.sidebar.sidebar.items.indexOf(sidebarItem)].model.body);
+	                }, 200);
+	            }
+	        });
 	    }
 	}
 
@@ -41676,7 +41802,7 @@
 
 
 /***/ },
-/* 97 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41725,7 +41851,7 @@
 
 
 /***/ },
-/* 98 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41734,7 +41860,7 @@
 
 	// angular pages module and module accessories
 	Modules.registerModule('footer');
-	__webpack_require__(99);
+	__webpack_require__(100);
 	/*require('./services');
 	require('./controllers');*/
 
@@ -41743,16 +41869,16 @@
 
 
 /***/ },
-/* 99 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(100);
+	__webpack_require__(101);
 
 
 /***/ },
-/* 100 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41774,7 +41900,7 @@
 
 
 /***/ },
-/* 101 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

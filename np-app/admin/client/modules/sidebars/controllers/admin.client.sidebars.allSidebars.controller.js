@@ -10,12 +10,9 @@ function AdminGetSidebarsController (AdminSidebarsAPIService) {
     var vm = this;
 
     vm.sidebars = {};
-    vm.getSidebars = getSidebars;
     vm.removeSidebar = removeSidebar;
 
-    function getSidebars() {
-        vm.sidebars = AdminSidebarsAPIService.query();
-    }
+    vm.sidebars = AdminSidebarsAPIService.query();
 
     // TODO: find it's own home
     function removeSidebar(sidebar) {

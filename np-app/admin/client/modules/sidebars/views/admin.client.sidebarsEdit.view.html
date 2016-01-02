@@ -1,9 +1,10 @@
 <div class="page-gutter-right ng-cloak"
-     ng-controller="AdminNewSidebarController as sidebar">
+     ng-controller="AdminUpdateSidebarController as sidebar"
+     ng-init="sidebar.getSidebar()">
 
-    <h1>New Sidebar</h1>
+    <h1>Edit Sidebar</h1>
 
-    <form name="newSidebarForm" ng-submit="sidebar.newSidebar()" novalidate>
+    <form name="updateSidebarForm" ng-submit="sidebar.updateSidebar()" novalidate>
 
         <div>
             <label for="title">Sidebar Title</label>
@@ -65,9 +66,7 @@
                     </script>
                 </ul>
 
-                <span class="btn waves-effect blue"
-                      ng-click="sidebar.newSidebar()">Publish
-                </span>
+                <button class="btn waves-effect blue">Update</button>
             </div>
 
             <div class="col s12 m12 l6">
@@ -89,7 +88,7 @@
                     ui-sortable="sidebar.sortableOptions">
 
                     <li ng-repeat="sidebarItem in sidebar.sidebarItems track by sidebarItem.id"
-                        class="{{ sidebarItem.directiveSlug }}"
+                        class="{{ sidebarItem.directiveSlug }} sidebar-item-id-{{ sidebarItem.id }}"
                         sidebar-item-id="{{ sidebarItem.id }}">
 
                         <i class="material-icons delete remove-item tooltipped"
@@ -99,25 +98,25 @@
                            data-tooltip="Remove sidebar item">delete
                         </i>
 
-                         <div class="collapsible-header">
-                              <i class="material-icons sort-handle">sort</i>
-                             {{ sidebarItem.title }}
-                         </div>
+                        <div class="collapsible-header">
+                            <i class="material-icons sort-handle">sort</i>
+                            {{ sidebarItem.title }}
+                        </div>
 
-                         <div class="collapsible-body">
-                             <label>Title</label>
-                             <input ng-model="sidebarItem.model.title"
-                                    type="text" />
+                        <div class="collapsible-body">
+                            <label>Title</label>
+                            <input ng-model="sidebarItem.model.title"
+                                   type="text" />
 
-                             <label>Content Body</label>
+                            <label>Content Body</label>
 
-                             <sidebar-item ng-model="sidebarItem.model.body"
-                                           model="sidebarItem.model.body"
-                                           slug="{{ sidebarItem.directiveSlug }}"
-                                           obj="sidebarItem.model.body"
-                                           index="{{ sidebarItem.id }}">
-                             </sidebar-item >
-                         </div>
+                            <sidebar-item ng-model="sidebarItem.model.body"
+                                          model="sidebarItem.model.body"
+                                          slug="{{ sidebarItem.directiveSlug }}"
+                                          obj="sidebarItem.model.body"
+                                          index="{{ sidebarItem.id }}">
+                            </sidebar-item >
+                        </div>
                     </li>
                     <script>
                         $(document).ready(function (){

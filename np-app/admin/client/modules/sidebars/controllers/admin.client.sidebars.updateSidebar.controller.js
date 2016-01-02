@@ -4,12 +4,12 @@ var angular = require('angular');
 
 
 module.exports = angular.module('menus')
-    .controller('AdminNewSidebarController', AdminNewSidebarController);
+    .controller('AdminUpdateSidebarController', AdminUpdateSidebarController);
 
-function AdminNewSidebarController (
+function AdminUpdateSidebarController (
     $scope,
-    $location,
     $rootScope,
+    $stateParams,
     AdminSidebarsAPIService,
     AdminUtilitiesServices) {
 
@@ -47,10 +47,10 @@ function AdminNewSidebarController (
     vm.sidebar = {};
     vm.sidebarItems = [];
     vm.sidebarItemIds = [];
-    vm.newSidebar = newSidebar;
+    vm.updateSidebar = updateSidebar;
     vm.addSidebarItem = addSidebarItem;
     vm.removeSidebarItem = removeSidebarItem;
-    vm.counter = 0;
+    vm.getSidebar = getSidebar;
     vm.sortableOptions = {
         handle: '.sort-handle'
     };
@@ -60,7 +60,16 @@ function AdminNewSidebarController (
             vm.sidebarItemIds.push(sidebarItem.id);
         });
 
-        return Math.max.apply(null, vm.sidebarItemIds) || 0;
+        vm.counter = Math.max.apply(null, vm.sidebarItemIds) || 0;
+    }
+
+    function getSidebar () {
+        vm.sidebar = AdminSidebarsAPIService.get({
+            sidebarId: $stateParams.sidebarId
+        }, function () {
+            vm.sidebarItems = vm.sidebar.items;
+            getSidebarCount();
+        });
     }
 
     function addSidebarItem (index) {
@@ -77,25 +86,29 @@ function AdminNewSidebarController (
         getSidebarCount();
     }
 
-    function newSidebar () {
-        vm.sidebar.createdBy = $rootScope.auth.username;
+    function updateSidebar () {
         vm.sidebar.items = vm.sidebarItems;
 
-        if ($scope.newSidebarForm.$valid) {
-            var Sidebar = new AdminSidebarsAPIService(vm.sidebar);
+        if ($scope.updateSidebarForm.$valid) {
 
-            Sidebar.$save()
-                .then(function (sidebar) {
+            // create human readable date for modified date
+            var date = AdminUtilitiesServices.createHumanReadableDate();
+
+            vm.sidebar.modifiedBy = $rootScope.auth.username;
+            vm.sidebar.modifiedDate = date;
+
+            vm.sidebar.$update()
+                .then(function () {
+
+                    vm.sidebarItems = vm.sidebar.items;
 
                     // display success dialog
-                    Materialize.toast('Sidebar created!', 4000, 'success');
+                    Materialize.toast('Sidebar updated successfully', 4000, 'success');
 
-                    $location.path('/sidebars/' + sidebar._id);
+                    $scope.updateSidebarForm.$setPristine();
                 })
                 .catch(function (error) {
-                    console.log('error!');
-
-                    //vm.errorTitle = error.data.errors.title || '';
+                    vm.errorTitle = error;
                 });
         }
     }

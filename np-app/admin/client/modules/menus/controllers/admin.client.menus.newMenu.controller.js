@@ -82,6 +82,10 @@ function AdminNewMenuController(
 
             Menu.$save()
                 .then(function (menu) {
+
+                    // display success dialog
+                    Materialize.toast('Menu created!', 4000, 'success');
+
                     $location.path('/menus/' + menu._id);
                 })
                 .catch(function (error) {

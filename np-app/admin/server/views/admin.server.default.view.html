@@ -31,6 +31,8 @@
 {% block secondaryMenu %}
 <div class="secondary-menu" ng-if="auth">
     <ul class="collapsible" data-collapsible="accordion">
+
+        <!-- Pages section -->
         <li>
             <div class="collapsible-header waves-effect waves-dark">
                 <i class="material-icons">web</i> Pages
@@ -43,6 +45,7 @@
             </div>
         </li>
 
+        <!-- Categories section -->
         <li>
             <div class="collapsible-header waves-effect waves-dark">
                 <i class="material-icons">subtitles</i> Categories
@@ -55,6 +58,7 @@
             </div>
         </li>
 
+        <!-- Menus section -->
         <li>
             <div class="collapsible-header waves-effect waves-dark">
                 <i class="material-icons">toc</i> Menus
@@ -69,7 +73,7 @@
         </li>
 
         <!-- Sidebar section -->
-        <!--<li>
+        <li>
             <div class="collapsible-header waves-effect waves-dark">
                 <i class="material-icons">view_week</i> Sidebars
             </div>
@@ -79,8 +83,9 @@
                     <li><a ui-sref="newSidebar">New Sidebar</a></li>
                 </ul>
             </div>
-        </li>-->
+        </li>
 
+        <!-- Users section -->
         <li>
             <div class="collapsible-header waves-effect waves-dark">
                 <i class="material-icons">supervisor_account</i> Users
@@ -93,11 +98,12 @@
             </div>
         </li>
 
-        <li>
+        <!-- Footer section -->
+        <!--<li>
             <div ui-sref="footer" class="collapsible-header waves-effect waves-dark">
                 <i class="material-icons">view_day</i> Footer
             </div>
-        </li>
+        </li>-->
     </ul>
 
     <script>

@@ -15,35 +15,7 @@ function AdminUpdateSidebarController (
 
     var vm = this;
 
-    vm.avaliableSidebarItems = [
-        {
-            title: 'HTML Content',
-            slug: 'html-content',
-            type: 'HTMLContent',
-            description: 'Add HTML content to your sidebar',
-            directive: 'sidebarItemHtmlContent',
-            directiveSlug: 'sidebar-item-html-content',
-            model: {
-                title: '',
-                body: ''
-            },
-            icon: 'code'
-        },
-        {
-            title: 'Menu',
-            slug: 'menu',
-            type: 'menu',
-            description: 'Add a menu to your sidebar',
-            directive: 'sidebarItemMenu',
-            directiveSlug: 'sidebar-item-menu',
-            model: {
-                title: '',
-                body: ''
-            },
-            icon: 'toc'
-        }
-    ];
-
+    vm.avaliableSidebarItems = $rootScope.pluginsConfig;
     vm.sidebar = {};
     vm.sidebarItems = [];
     vm.sidebarItemIds = [];
@@ -60,7 +32,7 @@ function AdminUpdateSidebarController (
             vm.sidebarItemIds.push(sidebarItem.id);
         });
 
-        vm.counter = Math.max.apply(null, vm.sidebarItemIds) || 0;
+        return Math.max.apply(null, vm.sidebarItemIds) || 0;
     }
 
     function getSidebar () {
@@ -68,7 +40,7 @@ function AdminUpdateSidebarController (
             sidebarId: $stateParams.sidebarId
         }, function () {
             vm.sidebarItems = vm.sidebar.items;
-            getSidebarCount();
+            vm.counter = getSidebarCount();
         });
     }
 
@@ -83,7 +55,7 @@ function AdminUpdateSidebarController (
     function removeSidebarItem (sidebarItem) {
         var index = vm.sidebarItems.indexOf(sidebarItem);
         vm.sidebarItems.splice(index, 1);
-        getSidebarCount();
+        vm.counter = getSidebarCount();
     }
 
     function updateSidebar () {

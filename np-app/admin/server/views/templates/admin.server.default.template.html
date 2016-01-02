@@ -22,6 +22,8 @@
     var auth = {{ user | json | safe }};
     var exists = {{ exists }};
     var themes = "{{ themes }}".split(",");
+    var plugins = "{{ plugins }}".split(",");
+    var pluginsConfig = {{ pluginsConfig | json | safe }};
 </script>
 
 {% block primaryMenu %}{% endblock %}
@@ -30,18 +32,12 @@
 
 {% block content %}{% endblock %}
 
-<div ng-controller="testingController as test"></div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 <script src="/public/js/bundle.js"></script>
 
-<script>
-    angular.module('test', []);
-    angular.module('test').controller('testingController', function () {
-        console.log('test module is working!');
-    });
-    angular.module('admin').requires.push('test');
-</script>
+{% for plugin in plugins %}
+<script src="/public/{{ plugin }}/admin/index.js"></script>
+{% endfor %}
 
 </body>
 </html>

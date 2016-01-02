@@ -1,7 +1,8 @@
 'use strict';
 
 var api = require('../../../../../admin/server/api'),
-    async = require('async');
+    async = require('async'),
+    fs = require('fs');
 
 module.exports = function (req, res) {
     async.parallel([
@@ -13,12 +14,15 @@ module.exports = function (req, res) {
     ], function (err, results) {
         if (err) return new Error(err);
 
+        var plugins = fs.readdirSync(__dirname + '/../../../../../../np-site/plugins');
+
         res.render(results[0][0].theme + '/server/views/theme.server.default.view.html', {
             coreSettingsSource: results[0],
             primaryMenuSource: results[1],
             secondaryMenuSource: results[2],
             menusSource: results[3],
-            pagesSource: results[4]
+            pagesSource: results[4],
+            plugins: plugins
         });
     });
 

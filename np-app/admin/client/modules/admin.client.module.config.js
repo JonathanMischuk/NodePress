@@ -15,4 +15,5 @@ function adminRun($window, $rootScope) {
     $rootScope.exists = $window.exists;
     $rootScope.auth = $window.auth;
     $rootScope.themes = $window.themes;
+    $rootScope.pluginsConfig = $window.pluginsConfig;
 }

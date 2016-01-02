@@ -65,11 +65,11 @@
                 </div>
 
                 <div class="col s12 m12 l3">
-                    <p class="page-title">{{ category.description }}</p>
+                    <p class="page-title">{{ category.description || 'No description' }}</p>
                 </div>
 
                 <div class="col s12 m12 l3">
-                    <p class="page-title">{{ category.modifiedDate }}</p>
+                    <p class="page-title">{{ category.modifiedDate || category.publishDate }}</p>
                 </div>
             </div>
         </div>

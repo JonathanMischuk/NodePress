@@ -50,7 +50,7 @@
 
 	// main angular admin module
 	__webpack_require__(3)();
-	__webpack_require__(102);
+	__webpack_require__(100);
 
 
 
@@ -29108,7 +29108,7 @@
 	        __webpack_require__(66),
 	        __webpack_require__(76),
 	        __webpack_require__(86),
-	        __webpack_require__(99)
+	        __webpack_require__(97)
 	    ];
 
 	    angular.module('admin', modules);
@@ -41355,8 +41355,8 @@
 	Modules.registerModule('sidebars');
 	__webpack_require__(87);
 	__webpack_require__(89);
-	__webpack_require__(92);
-	__webpack_require__(96);
+	__webpack_require__(91);
+	__webpack_require__(95);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'sidebars';
@@ -41408,7 +41408,6 @@
 	'use strict';
 
 	__webpack_require__(90);
-	__webpack_require__(91);
 
 
 /***/ },
@@ -41439,36 +41438,13 @@
 
 	'use strict';
 
-	var angular = __webpack_require__(1);
-
-	module.exports = angular.module('sidebars')
-	    .factory('AdminSidebarOptionsService', AdminSidebarOptionsService);
-
-	function AdminSidebarOptionsService () {
-	    return [
-	        {
-	            title: 'HTML Content',
-	            type: 'HTML',
-	            attr: 'sidebar-html-content',
-	            checked: false
-	        }
-	    ];
-	}
+	__webpack_require__(92);
+	__webpack_require__(93);
+	__webpack_require__(94);
 
 
 /***/ },
 /* 92 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	__webpack_require__(93);
-	__webpack_require__(94);
-	__webpack_require__(95);
-
-
-/***/ },
-/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41499,7 +41475,7 @@
 
 
 /***/ },
-/* 94 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41514,40 +41490,11 @@
 	    $scope,
 	    $location,
 	    $rootScope,
-	    AdminSidebarsAPIService,
-	    AdminUtilitiesServices) {
+	    AdminSidebarsAPIService) {
 
 	    var vm = this;
 
-	    vm.avaliableSidebarItems = [
-	        {
-	            title: 'HTML Content',
-	            slug: 'html-content',
-	            type: 'HTMLContent',
-	            description: 'Add HTML content to your sidebar',
-	            directive: 'sidebarItemHtmlContent',
-	            directiveSlug: 'sidebar-item-html-content',
-	            model: {
-	                title: '',
-	                body: ''
-	            },
-	            icon: 'code'
-	        },
-	        {
-	            title: 'Menu',
-	            slug: 'menu',
-	            type: 'menu',
-	            description: 'Add a menu to your sidebar',
-	            directive: 'sidebarItemMenu',
-	            directiveSlug: 'sidebar-item-menu',
-	            model: {
-	                title: '',
-	                body: ''
-	            },
-	            icon: 'toc'
-	        }
-	    ];
-
+	    vm.avaliableSidebarItems = $rootScope.pluginsConfig;
 	    vm.sidebar = {};
 	    vm.sidebarItems = [];
 	    vm.sidebarItemIds = [];
@@ -41558,14 +41505,6 @@
 	    vm.sortableOptions = {
 	        handle: '.sort-handle'
 	    };
-
-	    function getSidebarCount () {
-	        angular.forEach(vm.sidebarItems, function (sidebarItem) {
-	            vm.sidebarItemIds.push(sidebarItem.id);
-	        });
-
-	        return Math.max.apply(null, vm.sidebarItemIds) || 0;
-	    }
 
 	    function addSidebarItem (index) {
 	        var sidebarItem = angular.copy(vm.avaliableSidebarItems[index]);
@@ -41578,7 +41517,6 @@
 	    function removeSidebarItem (sidebarItem) {
 	        var index = vm.sidebarItems.indexOf(sidebarItem);
 	        vm.sidebarItems.splice(index, 1);
-	        getSidebarCount();
 	    }
 
 	    function newSidebar () {
@@ -41607,7 +41545,7 @@
 
 
 /***/ },
-/* 95 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41627,35 +41565,7 @@
 
 	    var vm = this;
 
-	    vm.avaliableSidebarItems = [
-	        {
-	            title: 'HTML Content',
-	            slug: 'html-content',
-	            type: 'HTMLContent',
-	            description: 'Add HTML content to your sidebar',
-	            directive: 'sidebarItemHtmlContent',
-	            directiveSlug: 'sidebar-item-html-content',
-	            model: {
-	                title: '',
-	                body: ''
-	            },
-	            icon: 'code'
-	        },
-	        {
-	            title: 'Menu',
-	            slug: 'menu',
-	            type: 'menu',
-	            description: 'Add a menu to your sidebar',
-	            directive: 'sidebarItemMenu',
-	            directiveSlug: 'sidebar-item-menu',
-	            model: {
-	                title: '',
-	                body: ''
-	            },
-	            icon: 'toc'
-	        }
-	    ];
-
+	    vm.avaliableSidebarItems = $rootScope.pluginsConfig;
 	    vm.sidebar = {};
 	    vm.sidebarItems = [];
 	    vm.sidebarItemIds = [];
@@ -41672,7 +41582,7 @@
 	            vm.sidebarItemIds.push(sidebarItem.id);
 	        });
 
-	        vm.counter = Math.max.apply(null, vm.sidebarItemIds) || 0;
+	        return Math.max.apply(null, vm.sidebarItemIds) || 0;
 	    }
 
 	    function getSidebar () {
@@ -41680,7 +41590,7 @@
 	            sidebarId: $stateParams.sidebarId
 	        }, function () {
 	            vm.sidebarItems = vm.sidebar.items;
-	            getSidebarCount();
+	            vm.counter = getSidebarCount();
 	        });
 	    }
 
@@ -41695,7 +41605,7 @@
 	    function removeSidebarItem (sidebarItem) {
 	        var index = vm.sidebarItems.indexOf(sidebarItem);
 	        vm.sidebarItems.splice(index, 1);
-	        getSidebarCount();
+	        vm.counter = getSidebarCount();
 	    }
 
 	    function updateSidebar () {
@@ -41728,17 +41638,16 @@
 
 
 /***/ },
-/* 96 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(97);
-	__webpack_require__(98);
+	__webpack_require__(96);
 
 
 /***/ },
-/* 97 */
+/* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41746,9 +41655,7 @@
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('sidebars')
-	    .directive('sidebarItem', sidebarItem)
-	    .directive('sidebarItemHtmlContent', sidebarItemHtmlContent)
-	    .directive('sidebarItemMenu', sidebarItemMenu);
+	    .directive('sidebarItem', sidebarItem);
 
 	function sidebarItem ($compile) {
 	    return {
@@ -41761,97 +41668,9 @@
 	    }
 	}
 
-	function sidebarItemHtmlContent () {
-	    return {
-	        replace: true,
-	        restrict: 'C',
-	        template: '<textarea class="materialize-textarea"></textarea>'
-	    };
-	}
-
-	function sidebarItemMenu () {
-	    return {
-	        replace: true,
-	        restrict: 'C',
-	        template: '<select ng-options="menu.title as menu.title for menu in menus.menus">' +
-	            '<option value="" disabled active>Select a Menu</option>' +
-	        '</select>',
-	        controller: AdminSidebarItemMenuDirectiveController,
-	        controllerAs: 'menus'
-	    };
-
-	    function AdminSidebarItemMenuDirectiveController ($scope, $timeout, AdminMenusAPIService) {
-	        var vm = this;
-
-	        // get list of published menus
-	        vm.menus = AdminMenusAPIService.query();
-
-	        // set Materialize select box default value
-	        angular.forEach($scope.sidebar.sidebar.items, function (sidebarItem) {
-	            if (sidebarItem.type === 'menu') {
-	                $timeout(function () {
-	                    angular.element('.sidebar-item-id-' + sidebarItem.id + ' .select-dropdown')
-	                        .val($scope.sidebar.sidebar.items[$scope.sidebar.sidebar.items.indexOf(sidebarItem)].model.body);
-	                }, 200);
-	            }
-	        });
-	    }
-	}
-
-
-
 
 /***/ },
-/* 98 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var angular = __webpack_require__(1);
-
-	module.exports = angular.module('sidebars')
-	    .directive('sidebarHtmlContent', sidebarHtmlContent);
-
-	function sidebarHtmlContent ($compile) {
-	    /*return {
-	        restrict: 'C',
-	        scope: {
-
-	        },
-	        link: link
-	    };
-
-	    function link (scope, elem, attrs) {
-	        console.log('HTML Content Directive');
-
-	        scope.addSidebarItem = function () {
-
-	            angular.element('.sidebar-items-container-added').prepend(
-	                '<li class="sidebar-item-html-content">' +
-	                    '<div class="collapsible-header">' +
-	                        '<i class="material-icons">code</i>HTML Content' +
-	                    '</div>' +
-	                    '<div class="collapsible-body">' +
-	                        '<p>Lorem ipsum dolor sit amet.</p>' +
-	                    '</div>' +
-	                '</li>'
-	            );
-	        };
-	    }*/
-
-	    /*function compile () {
-	        return {
-	            pre: function (scope, elem, attrs) {
-	                console.log('HTML Content Directive');
-	                $compile(elem)(scope);
-	            }
-	        }
-	    }*/
-	}
-
-
-/***/ },
-/* 99 */
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41860,7 +41679,7 @@
 
 	// angular pages module and module accessories
 	Modules.registerModule('footer');
-	__webpack_require__(100);
+	__webpack_require__(98);
 	/*require('./services');
 	require('./controllers');*/
 
@@ -41869,16 +41688,16 @@
 
 
 /***/ },
-/* 100 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(101);
+	__webpack_require__(99);
 
 
 /***/ },
-/* 101 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41900,7 +41719,7 @@
 
 
 /***/ },
-/* 102 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41920,6 +41739,7 @@
 	    $rootScope.exists = $window.exists;
 	    $rootScope.auth = $window.auth;
 	    $rootScope.themes = $window.themes;
+	    $rootScope.pluginsConfig = $window.pluginsConfig;
 	}
 
 

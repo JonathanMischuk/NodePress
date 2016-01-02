@@ -7,6 +7,7 @@
         var secondaryMenuSource = {{ secondaryMenuSource | json | safe }};
         var menusSource = {{ menusSource | json | safe }};
         var pagesSource = {{ pagesSource | json | safe }};
+        var plugins = "{{ plugins }}".split(",");
     </script>
 
     <meta charset="UTF-8">

@@ -10,40 +10,11 @@ function AdminNewSidebarController (
     $scope,
     $location,
     $rootScope,
-    AdminSidebarsAPIService,
-    AdminUtilitiesServices) {
+    AdminSidebarsAPIService) {
 
     var vm = this;
 
-    vm.avaliableSidebarItems = [
-        {
-            title: 'HTML Content',
-            slug: 'html-content',
-            type: 'HTMLContent',
-            description: 'Add HTML content to your sidebar',
-            directive: 'sidebarItemHtmlContent',
-            directiveSlug: 'sidebar-item-html-content',
-            model: {
-                title: '',
-                body: ''
-            },
-            icon: 'code'
-        },
-        {
-            title: 'Menu',
-            slug: 'menu',
-            type: 'menu',
-            description: 'Add a menu to your sidebar',
-            directive: 'sidebarItemMenu',
-            directiveSlug: 'sidebar-item-menu',
-            model: {
-                title: '',
-                body: ''
-            },
-            icon: 'toc'
-        }
-    ];
-
+    vm.avaliableSidebarItems = $rootScope.pluginsConfig;
     vm.sidebar = {};
     vm.sidebarItems = [];
     vm.sidebarItemIds = [];
@@ -54,14 +25,6 @@ function AdminNewSidebarController (
     vm.sortableOptions = {
         handle: '.sort-handle'
     };
-
-    function getSidebarCount () {
-        angular.forEach(vm.sidebarItems, function (sidebarItem) {
-            vm.sidebarItemIds.push(sidebarItem.id);
-        });
-
-        return Math.max.apply(null, vm.sidebarItemIds) || 0;
-    }
 
     function addSidebarItem (index) {
         var sidebarItem = angular.copy(vm.avaliableSidebarItems[index]);
@@ -74,7 +37,6 @@ function AdminNewSidebarController (
     function removeSidebarItem (sidebarItem) {
         var index = vm.sidebarItems.indexOf(sidebarItem);
         vm.sidebarItems.splice(index, 1);
-        getSidebarCount();
     }
 
     function newSidebar () {

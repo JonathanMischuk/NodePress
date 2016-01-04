@@ -21,13 +21,13 @@ machine
 
 ##Instructions for use
 
-Create pages, categories, menus, select menu locations, custom home page and select 1 of 2 
-starting themes.
+Create pages, categories, menus, select menu locations, create sidebars (under development still) 
+custom home page and select 1 of 2 starting themes.
 
 To add more themes, copy either the default or awesome-theme from np-site/themes into the same 
 folder, rename and edit CSS or HTML.
 
-To view front end pages, go to root localhost url (localhost:3000/) or whatever the domain root is.
+To view front end pages, go to root localhost url (localhost:3006/) or whatever the domain root is.
 (Adding default Home page in DB)
 
 ##Miscellaneous notes

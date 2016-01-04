@@ -8,6 +8,14 @@ A simple CMS made with the MEAN stack, MaterializeCSS and Bootstrap (soon to rem
 NodePress is still under construction, but this instance should work out of the box in a 
 development environment by following the steps below.
 
+Plugins have been introduced for Sidebar Items. The intent is for developers to create and modify
+ plugins to their own desire (like WordPress).
+ 
+The Plugins directory is located in the np-site folder and mainly uses AngularJS directives to 
+provide functionality. Plugins do not use Webpack or a module loader so they can be dropped in 
+and work out of the box without having to bundle new javascript. Be sure to keep plugin 
+javascript contained within an IIFE to protect the global namespace.
+
 ##Steps to configure
 
 1. Make sure to have [Node.js](https://nodejs.org) and [MongoDB](https://www.mongodb.org/) installed and running on your 
@@ -38,10 +46,9 @@ NodePress uses Webpack as a clientside module loader.
 For Gulp - gulp watch:bundleAdmin, gulp watch:adminCSS, gulp watch:bundleSite will automate 
 clientside JS and LESS modifications
 
-I'm currently refactoring some files and directories - there are unnecessary files and folders in
- the np-site/themes/ directories right now.
+I'm currently refactoring some files and directories.
 
-Plenty of new features are being added, but everything is still very much in testing stage. I 
+Plenty of new features are being added, but everything is still in a development stage. I 
 will keep the README up to date with everything new, or any changes.
 
 Please let me know if you have any ideas, or something isn't right.

@@ -12,6 +12,7 @@ function AdminUpdatePageController(
     $timeout,
     AdminCategoriesAPIService,
     AdminPagesAPIService,
+    AdminSidebarsAPIService,
     AdminUserAuthenticationService,
     AdminUtilitiesServices) {
 
@@ -23,6 +24,7 @@ function AdminUpdatePageController(
     vm.getPage = getPage();
     vm.updatePage = updatePage;
     vm.categories = AdminCategoriesAPIService.query();
+    vm.sidebars = AdminSidebarsAPIService.query();
     vm.errors = require('../errors/admin.client.pages.errors');
     vm.frontEndURL = '';
 
@@ -34,6 +36,8 @@ function AdminUpdatePageController(
             // set Materialize select box default value
             $timeout(function () {
                 angular.element('.site-page-category .select-dropdown').val(page.category);
+                angular.element('.site-page-sidebar-left .select-dropdown').val(page.sidebarLeft);
+                angular.element('.site-page-sidebar-right .select-dropdown').val(page.sidebarRight);
             });
 
             // create host url to view front end page

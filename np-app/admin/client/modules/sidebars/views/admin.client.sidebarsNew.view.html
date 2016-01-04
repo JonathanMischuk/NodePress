@@ -89,7 +89,6 @@
                     ui-sortable="sidebar.sortableOptions">
 
                     <li ng-repeat="sidebarItem in sidebar.sidebarItems track by sidebarItem.id"
-                        class="{{ sidebarItem.directiveSlug }}"
                         sidebar-item-id="{{ sidebarItem.id }}">
 
                         <i class="material-icons delete remove-item tooltipped"
@@ -116,7 +115,7 @@
                                            slug="{{ sidebarItem.directiveSlug }}"
                                            obj="sidebarItem.model.body"
                                            index="{{ sidebarItem.id }}">
-                             </sidebar-item >
+                             </sidebar-item>
                          </div>
                     </li>
                     <script>

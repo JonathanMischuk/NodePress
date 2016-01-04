@@ -40,8 +40,8 @@
 
 {% block view %}
 <div class="container content">
-    <div ng-if="settings.sidebars.left !== ''" class="sidebar-left" ui-view="sidebarLeft"></div>
+    <div ng-if="settings.sidebars.left !== ''" class="sidebar-left view-fade-in" ui-view="sidebarLeft"></div>
     <div class="view-fade-in page-content" ui-view></div>
-    <div ng-if="settings.sidebars.right !== ''" class="sidebar-right" ui-view="sidebarRight"></div>
+    <div ng-if="settings.sidebars.right !== ''" class="sidebar-right view-fade-in" ui-view="sidebarRight"></div>
 </div>
 {% endblock %}

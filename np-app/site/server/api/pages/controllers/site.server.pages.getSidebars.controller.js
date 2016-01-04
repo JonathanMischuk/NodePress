@@ -3,25 +3,16 @@
 var api = require('../../../../../admin/server/api'),
     async = require('async');
 
-// GET request: get single page content
+// GET request: get single page sidebars
 module.exports = function (req, res, next) {
 
     async.parallel([
-        getPage,
         getSidebarLeft,
         getSidebarRight
     ], function (err, results) {
         if (err) return new Error(err);
-        res.json(results);
+        return res.json(results);
     });
-
-    function getPage (callback) {
-        api.pagesAPI.models.Page.findOne({ slug: req.params.page },
-            function (err, page) {
-                if (err) return next(err);
-                callback(null, page);
-            });
-    }
 
     function getSidebarLeft (callback) {
         api.pagesAPI.models.Page.findOne({ slug: req.params.page },

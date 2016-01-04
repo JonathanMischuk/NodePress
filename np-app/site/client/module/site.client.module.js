@@ -12,3 +12,4 @@ module.exports = angular.module('site', [
 require('./routes');
 require('./services');
 require('./controllers');
+require('./directives');

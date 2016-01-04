@@ -1,1 +1,3 @@
-<h3>Right Sidebar</h3>
+<div ng-repeat="sidebarItem in settings.sidebarRight track by sidebarItem.id">
+    <sidebar-item obj="{{ sidebarItem.model }}" slug="{{ sidebarItem.directiveSlug }}"></sidebar-item>
+</div>

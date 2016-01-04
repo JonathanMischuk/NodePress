@@ -20,6 +20,28 @@ function SiteController ($scope, $rootScope) {
     };
 
     $scope.$on('pageData', function (_, page) {
-        vm.page = page;
+        var _ = require('lodash'),
+            sidebarLeftItems = page[1].items,
+            sidebarRightItems = page[2].items;
+
+        angular.forEach(sidebarLeftItems, function (sidebarItem, i) {
+            if (sidebarItem.type === 'menu') {
+                if (sidebarItem.model.body !== '') {
+                    sidebarItem.model.body = _.filter(vm.menus, _.matches({'title': sidebarItem.model.body}))[0].items;
+                }
+            }
+        });
+
+        angular.forEach(sidebarRightItems, function (sidebarItem, i) {
+            if (sidebarItem.type === 'menu') {
+                if (sidebarItem.model.body !== '') {
+                    sidebarItem.model.body = _.filter(vm.menus, _.matches({ 'title': sidebarItem.model.body }))[0].items;
+                }
+            }
+        });
+
+        vm.page = page[0];
+        vm.sidebarLeft = sidebarLeftItems;
+        vm.sidebarRight = sidebarRightItems;
     });
 }

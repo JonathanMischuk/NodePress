@@ -49,6 +49,24 @@
         </div>
 
         <div>
+            <label for="sidebar-left">Left Sidebar</label>
+            <select ng-model="page.page.sidebarLeft"
+                    id="sidebar-left"
+                    ng-options="sidebar.title as sidebar.title for sidebar in page.sidebars">
+                <option value="" class="active">No Left Sidebar</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="sidebar-right">Right Sidebar</label>
+            <select ng-model="page.page.sidebarRight"
+                    id="sidebar-right"
+                    ng-options="sidebar.title as sidebar.title for sidebar in page.sidebars">
+                <option value="" class="active">No Right Sidebar</option>
+            </select>
+        </div>
+
+        <div>
             <label for="body">Content Body</label>
             <textarea ng-model="page.page.body"
                       name="html-editor"

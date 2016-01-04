@@ -41209,6 +41209,7 @@
 	    AdminPagesAPIService,
 	    AdminCategoriesAPIService,
 	    AdminUserAuthenticationService,
+	    AdminSidebarsAPIService,
 	    AdminUtilitiesServices) {
 
 	    AdminUserAuthenticationService();
@@ -41218,6 +41219,7 @@
 	    vm.page = {};
 	    vm.newPage = newPage;
 	    vm.categories = AdminCategoriesAPIService.query();
+	    vm.sidebars = AdminSidebarsAPIService.query();
 	    vm.errors = __webpack_require__(84);
 
 	    // create host url to view front end page
@@ -41235,6 +41237,8 @@
 	                slug: vm.page.slug,
 	                title: vm.page.title,
 	                category: vm.page.category,
+	                sidebarLeft: vm.page.sidebarLeft,
+	                sidebarRight: vm.page.sidebarRight,
 	                body: vm.page.body
 	            });
 
@@ -41282,6 +41286,7 @@
 	    $timeout,
 	    AdminCategoriesAPIService,
 	    AdminPagesAPIService,
+	    AdminSidebarsAPIService,
 	    AdminUserAuthenticationService,
 	    AdminUtilitiesServices) {
 
@@ -41293,6 +41298,7 @@
 	    vm.getPage = getPage();
 	    vm.updatePage = updatePage;
 	    vm.categories = AdminCategoriesAPIService.query();
+	    vm.sidebars = AdminSidebarsAPIService.query();
 	    vm.errors = __webpack_require__(84);
 	    vm.frontEndURL = '';
 
@@ -41304,6 +41310,8 @@
 	            // set Materialize select box default value
 	            $timeout(function () {
 	                angular.element('.site-page-category .select-dropdown').val(page.category);
+	                angular.element('.site-page-sidebar-left .select-dropdown').val(page.sidebarLeft);
+	                angular.element('.site-page-sidebar-right .select-dropdown').val(page.sidebarRight);
 	            });
 
 	            // create host url to view front end page

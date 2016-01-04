@@ -24,6 +24,21 @@ a {
     vertical-align: top;
 }
 
+.sidebar-left {
+    padding: 25px 50px 0 0;
+}
+
+.sidebar-right {
+    padding: 25px 0 0 50px;
+}
+
+.sidebar-left h5,
+.sidebar-right h5 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
 .page-content {
     width: 50%;
 }

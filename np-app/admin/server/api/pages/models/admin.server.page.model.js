@@ -21,7 +21,11 @@ var db = require('../../../config/admin.server.db'),
         body: {
             type: String
         },
-        sidebars: {
+        sidebarLeft: {
+            type: String,
+            default: ''
+        },
+        sidebarRight: {
             type: String,
             default: ''
         },

@@ -12,6 +12,7 @@ function AdminNewPageController(
     AdminPagesAPIService,
     AdminCategoriesAPIService,
     AdminUserAuthenticationService,
+    AdminSidebarsAPIService,
     AdminUtilitiesServices) {
 
     AdminUserAuthenticationService();
@@ -21,6 +22,7 @@ function AdminNewPageController(
     vm.page = {};
     vm.newPage = newPage;
     vm.categories = AdminCategoriesAPIService.query();
+    vm.sidebars = AdminSidebarsAPIService.query();
     vm.errors = require('../errors/admin.client.pages.errors');
 
     // create host url to view front end page
@@ -38,6 +40,8 @@ function AdminNewPageController(
                 slug: vm.page.slug,
                 title: vm.page.title,
                 category: vm.page.category,
+                sidebarLeft: vm.page.sidebarLeft,
+                sidebarRight: vm.page.sidebarRight,
                 body: vm.page.body
             });
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-controller="SiteController as settings">
+<html lang="en"  ng-app="site" ng-controller="SiteController as settings">
 <head>
     <script type="text/javascript">
         var coreSettingsSource = {{ coreSettingsSource | json | safe }};
@@ -25,6 +25,10 @@
 {% block content %}{% endblock %}
 
 <script src="/js/bundle.js"></script>
+
+{% for plugin in plugins %}
+<script src="/{{ plugin }}/site/index.js"></script>
+{% endfor %}
 
 </body>
 </html>

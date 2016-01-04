@@ -6,9 +6,6 @@ module.exports = angular.module('site')
     .config(siteConfig)
     .run(siteRun);
 
-// bind site module to document
-angular.bootstrap(document, ['site']);
-
 function siteConfig($locationProvider) {
     $locationProvider.html5Mode(true);
 }

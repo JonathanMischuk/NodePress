@@ -34,20 +34,21 @@ machine
 Create pages, categories, menus, select menu locations, create sidebars (under development still) 
 custom home page and select 1 of 2 starting themes.
 
-To add more themes, copy either the default or awesome-theme from np-site/themes into the same 
+To create themes, copy either the default or awesome-theme from np-site/themes into the same 
 folder, rename and edit CSS or HTML.
 
-To view front end pages, go to root localhost url (localhost:3006/) or whatever the domain root is.
-(Adding default Home page in DB)
+To view front end website, go to root localhost url (localhost:3006/) or whatever the domain root
+ is.
 
 ##Miscellaneous development notes
 
 NodePress uses Webpack as a clientside module loader.
 
-For Gulp - gulp watch:bundleAdmin, gulp watch:adminCSS, gulp watch:bundleSite will automate 
-clientside JS and LESS modifications
+NodePress uses Gulp for bundling javascript and compiling LESS:
 
-I'm currently refactoring some files and directories.
+* gulp watch:bundleAdmin (to watch and bundle admin javascript for developers only)
+* gulp watch:adminCSS (to watch and compile admin LESS files)
+* gulp watch:bundleSite (to watch and bundle site javascript for developers only)
 
 Plenty of new features are being added, but everything is still in a development stage. I 
 will keep the README up to date with everything new, or any changes.
@@ -56,8 +57,7 @@ Please let me know if you have any ideas, or something isn't right.
 
 ##Upcoming and necessary features
 
-* Better authentication and authorization for API
+* Better authentication and authorization for APIs
 * Footer customization for front end
-* Sidebar customization for front end
 * Menu Sub-Items in front end
-* Correct Menu Location display on Menus page
+* Much more to come!

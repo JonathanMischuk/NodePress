@@ -1,6 +1,7 @@
 #NodePress
 
-A simple CMS made with the MEAN stack
+A simple CMS made with the MEAN stack, MaterializeCSS and Bootstrap (soon to remove Bootstrap and
+ only use MaterializeCSS)
 
 ##Development notes
 
@@ -30,10 +31,12 @@ folder, rename and edit CSS or HTML.
 To view front end pages, go to root localhost url (localhost:3006/) or whatever the domain root is.
 (Adding default Home page in DB)
 
-##Miscellaneous notes
+##Miscellaneous development notes
 
-For Gulp - gulp watch:adminJS, gulp watch:adminCSS, gulp watch:siteJS will automate 
-clientside JS and LESS modifications (setting up a one does all soon and gulp watch:siteCSS...)
+NodePress uses Webpack as a clientside module loader.
+
+For Gulp - gulp watch:bundleAdmin, gulp watch:adminCSS, gulp watch:bundleSite will automate 
+clientside JS and LESS modifications
 
 I'm currently refactoring some files and directories - there are unnecessary files and folders in
  the np-site/themes/ directories right now.

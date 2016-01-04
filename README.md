@@ -8,7 +8,8 @@ A simple CMS made with the MEAN stack, MaterializeCSS and Bootstrap (soon to rem
 NodePress is still under construction, but this instance should work out of the box in a 
 development environment by following the steps below.
 
-Plugins have been introduced for Sidebar Items. The intent is for developers to create and modify
+Plugins have been introduced for Sidebar Items and will be introduced for several other areas of 
+NodePress within time as the feature is solidified. The intent is for developers to create and modify
  plugins to their own desire (like WordPress).
  
 The Plugins directory is located in the np-site folder and mainly uses AngularJS directives to 

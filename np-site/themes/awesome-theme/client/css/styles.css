@@ -9,20 +9,106 @@ a {
     -o-transition: all 0.3s ease-in-out;
 }
 
+.container {
+    width: 960px;
+}
+
+.container.content {
+}
+
+.container.content.sidebars-1-col .page-content {
+    width: 100%;
+}
+
+.container.content.sidebars-2-col .page-content {
+    width: 79%;
+}
+
+.container.content.sidebars-2-col .sidebar-left {
+    width: 20%;
+}
+
+.container.content.sidebars-2-col .sidebar-right {
+    width: 20%;
+}
+
+.container.content.sidebars-3-col .page-content {
+    width: 50%;
+}
+
+.container.content.sidebars-3-col .sidebar-left {
+    width: 20%;
+}
+
+.container.content.sidebars-3-col .sidebar-right {
+    width: 29%;
+}
+
+.container.content .ng-enter {
+    display: none;
+}
+
+.page-content,
+.sidebar-left,
+.sidebar-right {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.sidebar-left {
+    padding: 40px 50px 0 0;
+}
+
+.sidebar-right {
+    padding: 40px 0 0 50px;
+}
+
+.sidebar-left nav,
+.sidebar-right nav {
+    line-height: 40px;
+    height: auto;
+}
+
+.sidebar-left nav li,
+.sidebar-right nav li {
+    float: none;
+}
+
+nav li a:hover,
+nav li a:active,
+nav li a:visited {
+    color: #fff;
+    text-decoration: none;
+}
+
+.sidebar-left h5,
+.sidebar-right h5 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.page-content .container {
+    padding: 25px;
+}
+
 .primary-menu {
     margin-bottom: 0;
     border: none;
     border-radius: 0;
 }
 
-.primary-menu .navbar-nav > li > a:hover {
+.primary-menu a:hover {
     color: #fff;
+    text-decoration: none;
     background: #333;
 }
 
 .secondary-menu {
     margin: 0;
-    background: #ffa84c;
+    height: auto;
+    line-height: 40px;
+    background: #34e941;
     border: none;
     border-radius: 0;
 }
@@ -37,8 +123,10 @@ a {
     color: #fff;
 }
 
-.secondary-menu .navbar-nav > li > a:hover {
-    background: #e5e5e5;
+.secondary-menu a:hover {
+    color: #fff;
+    text-decoration: none;
+    background: #333;
 }
 
 .third-menu {
@@ -64,14 +152,6 @@ a {
 
 .hero img {
     max-width: 100%;
-}
-
-.container {
-    width: 960px;
-}
-
-.page-content .container {
-    padding: 25px;
 }
 
 .view-fade-in.ng-enter {

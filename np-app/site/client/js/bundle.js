@@ -50,7 +50,7 @@
 
 	// main angular site module and accessories
 	__webpack_require__(3);
-	__webpack_require__(22);
+	__webpack_require__(23);
 
 
 /***/ },
@@ -38845,10 +38845,28 @@
 	    $stateProvider
 	        .state('home', {
 	            url: '/',
-	            templateProvider: function ($rootScope, $templateRequest) {
-	                return $templateRequest(
-	                    $rootScope.coreSettings[0].theme + '/client/views/theme.client.page.view.html'
-	                );
+	            views: {
+	                '': {
+	                    templateProvider: function ($rootScope, $templateRequest) {
+	                        return $templateRequest(
+	                            $rootScope.coreSettings[0].theme + '/client/views/theme.client.page.view.html'
+	                        );
+	                    }
+	                },
+	                'sidebarLeft': {
+	                    templateProvider: function ($rootScope, $templateRequest) {
+	                        return $templateRequest(
+	                            $rootScope.coreSettings[0].theme + '/client/views/theme.client.sidebarLeft.view.html'
+	                        );
+	                    }
+	                },
+	                'sidebarRight': {
+	                    templateProvider: function ($rootScope, $templateRequest) {
+	                        return $templateRequest(
+	                            $rootScope.coreSettings[0].theme + '/client/views/theme.client.sidebarRight.view.html'
+	                        );
+	                    }
+	                }
 	            }
 	        })
 	        .state('error', {
@@ -38974,15 +38992,18 @@
 	    vm.menus = $rootScope.menus;
 	    vm.pages = $rootScope.pages;
 
-	    vm.sidebars = {
-	        left: true,
-	        right: true
-	    };
-
 	    $scope.$on('pageData', function (_, page) {
 	        var _ = __webpack_require__(17),
-	            sidebarLeftItems = page[1].items,
-	            sidebarRightItems = page[2].items;
+	            sidebarLeftItems = page[1] ? page[1].items : '',
+	            sidebarRightItems = page[2] ? page[2].items : '';
+
+	        if (sidebarLeftItems && !sidebarRightItems || !sidebarLeftItems && sidebarRightItems) {
+	            vm.sidebarContainerClass = 'sidebars-2-col'
+	        } else if (!sidebarLeftItems && !sidebarRightItems) {
+	            vm.sidebarContainerClass = 'sidebars-1-col'
+	        } else if (sidebarLeftItems !== '' && sidebarRightItems !== '') {
+	            vm.sidebarContainerClass = 'sidebars-3-col'
+	        }
 
 	        angular.forEach(sidebarLeftItems, function (sidebarItem, i) {
 	            if (sidebarItem.type === 'menu') {
@@ -51422,6 +51443,7 @@
 	'use strict';
 
 	__webpack_require__(21);
+	__webpack_require__(22);
 
 
 /***/ },
@@ -51449,6 +51471,27 @@
 
 /***/ },
 /* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var angular = __webpack_require__(1);
+
+	module.exports = angular.module('site')
+	    .directive('fadeIn', fadeIn);
+
+	function fadeIn ($timeout) {
+	    return {
+	        link: link
+	    };
+
+	    function link (scope, elem, attrs) {
+	    }
+	}
+
+
+/***/ },
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

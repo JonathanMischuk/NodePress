@@ -1,7 +1,19 @@
 {% extends "templates/theme.server.default.template.html" %}
 
 {% block primaryMenu %}
-<nav class="primary-menu navbar navbar-default ng-cloak">
+<nav class="primary-menu ng-cloak">
+    <div class="nav-wrapper pink darken-3">
+        <ul class="container">
+            <li ng-repeat="page in settings.primaryMenu.items">
+                <a ng-href="/{% raw %}{{ page.slug }}{% endraw %}">
+                    {% raw %}{{ page.title }}{% endraw %}
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--<nav class="primary-menu navbar navbar-default ng-cloak">
     <div class="collapse navbar-collapse">
         <div class="container">
             <ul class="nav navbar-nav">
@@ -13,32 +25,42 @@
             </ul>
         </div>
     </div>
-</nav>
+</nav>-->
 {% endblock %}
 
 {% block hero %}
 <div class="hero">
-    <img src="{{ coreSettingsSource[0].theme }}/client/img/background-header-banner.jpg" />
+    <img src="{{ coreSettingsSource[0].theme }}/client/img/background-header-banner-2.jpg" />
 </div>
 {% endblock %}
 
 {% block secondaryMenu %}
-<nav class="secondary-menu navbar navbar-default ng-cloak">
-    <div class="collapse navbar-collapse">
-        <div class="container">
-            <ul class="nav navbar-nav">
-                <li ng-repeat="page in settings.secondaryMenu.items">
-                    <a ng-href="/{% raw %}{{ page.slug }}{% endraw %}">
-                        {% raw %}{{ page.title }}{% endraw %}
-                    </a>
-                </li>
-            </ul>
-        </div>
+<nav class="secondary-menu ng-cloak">
+    <div class="nav-wrapper pink">
+        <ul class="container">
+            <li ng-repeat="page in settings.secondaryMenu.items">
+                <a ng-href="/{% raw %}{{ page.slug }}{% endraw %}">
+                    {% raw %}{{ page.title }}{% endraw %}
+                </a>
+            </li>
+        </ul>
     </div>
 </nav>
 {% endblock %}
 
 {% block view %}
-<div class="view-fade-in page-content"ui-view></div>
-{% endblock %}
+<div class="container content {% raw %}{{ settings.sidebarContainerClass }}{% endraw %}">
 
+    <div ng-if="settings.sidebarLeft !== ''"
+         class="sidebar-left ng-cloak"
+         ui-view="sidebarLeft">
+    </div>
+
+    <div class="page-content ng-cloak" ui-view></div>
+
+    <div ng-if="settings.sidebarRight !== ''"
+         class="sidebar-right ng-cloak"
+         ui-view="sidebarRight">
+    </div>
+</div>
+{% endblock %}

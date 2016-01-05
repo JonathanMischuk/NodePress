@@ -14,15 +14,18 @@ function SiteController ($scope, $rootScope) {
     vm.menus = $rootScope.menus;
     vm.pages = $rootScope.pages;
 
-    vm.sidebars = {
-        left: true,
-        right: true
-    };
-
     $scope.$on('pageData', function (_, page) {
         var _ = require('lodash'),
-            sidebarLeftItems = page[1].items,
-            sidebarRightItems = page[2].items;
+            sidebarLeftItems = page[1] ? page[1].items : '',
+            sidebarRightItems = page[2] ? page[2].items : '';
+
+        if (sidebarLeftItems && !sidebarRightItems || !sidebarLeftItems && sidebarRightItems) {
+            vm.sidebarContainerClass = 'sidebars-2-col'
+        } else if (!sidebarLeftItems && !sidebarRightItems) {
+            vm.sidebarContainerClass = 'sidebars-1-col'
+        } else if (sidebarLeftItems !== '' && sidebarRightItems !== '') {
+            vm.sidebarContainerClass = 'sidebars-3-col'
+        }
 
         angular.forEach(sidebarLeftItems, function (sidebarItem, i) {
             if (sidebarItem.type === 'menu') {

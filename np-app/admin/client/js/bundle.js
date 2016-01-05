@@ -39809,6 +39809,7 @@
 	    AdminCategoriesAPIService,
 	    AdminUsersAPIService,
 	    AdminMenusAPIService,
+	    AdminSidebarsAPIService,
 	    AdminUtilitiesServices) {
 
 	    var vm = this;
@@ -39817,6 +39818,7 @@
 	    vm.categories = AdminCategoriesAPIService.query();
 	    vm.users = AdminUsersAPIService.query();
 	    vm.menus = AdminMenusAPIService.query();
+	    vm.sidebars = AdminSidebarsAPIService.query();
 
 	    // create host url to view front end page
 	    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');

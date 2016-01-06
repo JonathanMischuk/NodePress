@@ -25,6 +25,9 @@ var db = require('../../../config/admin.server.db'),
                 type: String
             }
         },
+        callback: {
+            type: String
+        },
         id: {
             type: Number
         }

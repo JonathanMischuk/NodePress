@@ -1,7 +1,8 @@
 'use strict';
 
 var fs = require('fs'),
-    User = require('../../users/models').User;
+    User = require('../../users/models').User,
+    Menu = require('../../menus/models').Menu;
 
 /**
  *

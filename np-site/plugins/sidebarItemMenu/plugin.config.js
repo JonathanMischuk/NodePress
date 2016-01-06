@@ -11,5 +11,6 @@ module.exports = {
         title: '',
         body: ''
     },
-    icon: 'toc'
+    icon: 'toc',
+    callback: 'sidebarItemMenuAugmentation'
 };

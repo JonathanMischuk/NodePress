@@ -8,6 +8,9 @@
         var menusSource = {{ menusSource | json | safe }};
         var pagesSource = {{ pagesSource | json | safe }};
         var plugins = "{{ plugins }}".split(",");
+        var np = {};
+        np.sidebars = {};
+        np.sidebars.callbacks = [];
     </script>
 
     <meta charset="UTF-8">
@@ -16,6 +19,9 @@
     <title ng-bind="settings.page.title"></title>
 
     <base href="/">
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ coreSettingsSource[0].theme }}/client/css/styles.css">
@@ -33,6 +39,7 @@
 
 {% for plugin in plugins %}
 <script src="/{{ plugin }}/site/index.js"></script>
+<script src="/{{ plugin }}/site/callback.js"></script>
 {% endfor %}
 
 </body>

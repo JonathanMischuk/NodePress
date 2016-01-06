@@ -65,8 +65,9 @@ a {
 
 .sidebar-left nav,
 .sidebar-right nav {
-    line-height: 40px;
     height: auto;
+    line-height: 40px;
+    background: #2196F3;
 }
 
 .sidebar-left nav li,

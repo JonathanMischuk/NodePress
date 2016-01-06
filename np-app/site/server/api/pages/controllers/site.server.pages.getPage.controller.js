@@ -1,7 +1,8 @@
 'use strict';
 
 var api = require('../../../../../admin/server/api'),
-    async = require('async');
+    async = require('async'),
+    fs = require('fs');
 
 // GET request: get single page content
 module.exports = function (req, res, next) {

@@ -10,6 +10,8 @@ CKEDITOR.editorConfig = function( config ) {
 
     config.skin = 'flat';
 
+    config.allowedContent = true
+
 	// The toolbar groups arrangement, optimized for two toolbar rows.
 	config.toolbarGroups = [
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },

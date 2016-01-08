@@ -10,7 +10,7 @@ CKEDITOR.editorConfig = function( config ) {
 
     config.skin = 'flat';
 
-    config.allowedContent = true
+    config.allowedContent = true;
 
 	// The toolbar groups arrangement, optimized for two toolbar rows.
 	config.toolbarGroups = [

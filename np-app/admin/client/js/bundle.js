@@ -40261,6 +40261,8 @@
 	    vm.newUser = newUser;
 	    vm.errors = __webpack_require__(52);
 
+	    console.log($rootScope.exists);
+
 	    function newUser() {
 	        if ($scope.userForm.$valid && vm.user.password === vm.user.cpassword) {
 	            var User = new AdminUsersAPIService({

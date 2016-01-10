@@ -18,6 +18,8 @@ function AdminNewUserController (
     vm.newUser = newUser;
     vm.errors = require('../errors/admin.client.users.errors');
 
+    console.log($rootScope.exists);
+
     function newUser() {
         if ($scope.userForm.$valid && vm.user.password === vm.user.cpassword) {
             var User = new AdminUsersAPIService({

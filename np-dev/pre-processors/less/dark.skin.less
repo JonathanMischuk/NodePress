@@ -465,7 +465,7 @@ nav .brand-logo {
     cursor: pointer;
 
     .edit {
-        color: #eee;
+        color: #393939;
         .transition();
 
         &:hover {
@@ -474,7 +474,7 @@ nav .brand-logo {
     }
 
     .delete {
-        color: #eee;
+        color: #393939;
         .transition();
 
         &:hover {
@@ -511,8 +511,13 @@ nav .brand-logo {
             background: #2b2b2b;
         }
 
-        &.selected {
+        &.selected,
+        &.active.selected {
             background: #2b2b2b;
+        }
+
+        &.active {
+            background-color: #3C3F41;
         }
     }
 }

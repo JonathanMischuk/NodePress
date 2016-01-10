@@ -6,12 +6,12 @@ var gulp = require('gulp'),
     concatCSS = require('gulp-concat-css'),
     sourcemaps = require('gulp-sourcemaps');
 
-gulp.task('adminCSS', function () {
-    gulp.src('np-dev/pre-processors/less/**/*.less')
+gulp.task('adminSkinDark', function () {
+    gulp.src('np-dev/pre-processors/less/dark.skin.less')
         .pipe(sourcemaps.init())
         .pipe(less())
         .pipe(concatCSS('app.min.css'))
         .pipe(minifyCSS())
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('np-app/admin/client/css'));
+        .pipe(gulp.dest('np-app/admin/client/skins/dark'));
 });

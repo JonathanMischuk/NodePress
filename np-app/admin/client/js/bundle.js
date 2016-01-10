@@ -50,7 +50,7 @@
 
 	// main angular admin module
 	__webpack_require__(3)();
-	__webpack_require__(100);
+	__webpack_require__(103);
 
 
 
@@ -29101,14 +29101,14 @@
 	        __webpack_require__(8),
 	        __webpack_require__(10),
 	        __webpack_require__(12),
-	        __webpack_require__(23),
-	        __webpack_require__(31),
-	        __webpack_require__(36),
-	        __webpack_require__(54),
-	        __webpack_require__(66),
-	        __webpack_require__(76),
-	        __webpack_require__(86),
-	        __webpack_require__(97)
+	        __webpack_require__(24),
+	        __webpack_require__(34),
+	        __webpack_require__(39),
+	        __webpack_require__(57),
+	        __webpack_require__(69),
+	        __webpack_require__(79),
+	        __webpack_require__(89),
+	        __webpack_require__(100)
 	    ];
 
 	    angular.module('admin', modules);
@@ -39299,6 +39299,7 @@
 	__webpack_require__(20);
 	__webpack_require__(21);
 	__webpack_require__(22);
+	__webpack_require__(23);
 
 
 /***/ },
@@ -39510,16 +39511,25 @@
 
 	'use strict';
 
-	var Modules = __webpack_require__(13);
+	var angular = __webpack_require__(1);
 
-	// angular settings module and module accessories
-	Modules.registerModule('settings');
-	__webpack_require__(24);
-	__webpack_require__(26);
-	__webpack_require__(28);
+	module.exports = angular.module('utils')
+	    .directive('materialboxed', materialboxed);
 
-	// exports module name as string for admin module dependency injection
-	module.exports = 'settings';
+	function materialboxed ($timeout) {
+	    return {
+	        restrict: 'C',
+	        link: link
+	    };
+
+	    function link (scope, elem, attrs) {
+	        $timeout(create);
+
+	        function create() {
+	            elem.materialbox();
+	        }
+	    }
+	}
 
 
 /***/ },
@@ -39528,11 +39538,29 @@
 
 	'use strict';
 
+	var Modules = __webpack_require__(13);
+
+	// angular settings module and module accessories
+	Modules.registerModule('settings');
 	__webpack_require__(25);
+	__webpack_require__(27);
+	__webpack_require__(29);
+
+	// exports module name as string for admin module dependency injection
+	module.exports = 'settings';
 
 
 /***/ },
 /* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(26);
+
+
+/***/ },
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39560,21 +39588,25 @@
 	        .state('settings.themes', {
 	            url: '/themes',
 	            templateUrl: 'admin.client.settings.themes.view.html'
+	        })
+	        .state('settings.skins', {
+	            url: '/skins',
+	            templateUrl: 'admin.client.settings.skins.view.html'
 	        });
 	}
 
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(27);
+	__webpack_require__(28);
 
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39602,17 +39634,53 @@
 
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(29);
 	__webpack_require__(30);
+	__webpack_require__(31);
+	__webpack_require__(32);
+	__webpack_require__(33);
 
 
 /***/ },
-/* 29 */
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var angular = __webpack_require__(1);
+
+	module.exports = angular.module('settings')
+	    .controller('AdminSettingsHeaderController', AdminSettingsHeaderController);
+
+	function AdminSettingsHeaderController (
+	    $scope,
+	    $rootScope,
+	    AdminAppSettingsService,
+	    AdminUtilitiesServices) {
+
+	    var vm = this;
+
+	    vm.angularInitialized = false;
+
+	    AdminAppSettingsService.getAppSettings()
+	        .then(function (appSettings) {
+	            vm.settings = appSettings.data[0];
+	            vm.angularInitialized = true;
+	        });
+
+	    $rootScope.$on('adminHeader', function (event, settings) {
+
+	        vm.settings.skin = settings;
+	    });
+
+	}
+
+/***/ },
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39683,7 +39751,7 @@
 
 
 /***/ },
-/* 30 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39737,7 +39805,79 @@
 
 
 /***/ },
-/* 31 */
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var angular = __webpack_require__(1);
+
+	module.exports = angular.module('settings')
+	    .controller('AdminSettingsSkinsController', AdminSettingsSkinsController);
+
+	function AdminSettingsSkinsController (
+	    $scope,
+	    $location,
+	    $rootScope,
+	    AdminAppSettingsService,
+	    AdminUtilitiesServices) {
+
+	    var vm = this;
+
+	    vm.skins = [];
+	    vm.updateAppSettings = updateAppSettings;
+
+	    angular.forEach($rootScope.skins, function (skin) {
+	        vm.skins.push({
+	            title: skin,
+	            preview: '/' + skin + '/preview-skin.jpg'
+	        });
+	    });
+
+	    AdminAppSettingsService.getAppSettings()
+	        .then(function (appSettings) {
+	            vm.settings = appSettings.data[0];
+	        });
+
+	    function updateAppSettings(skin) {
+
+	        // create human readable date for modified date
+	        var date = AdminUtilitiesServices.createHumanReadableDate();
+
+	        vm.settings.modifiedBy = $rootScope.auth.username;
+	        vm.settings.modifiedDate = date;
+	        vm.settings.skin = skin;
+
+	        AdminAppSettingsService.updateAppSettings(vm.settings)
+	            .then(function () {
+
+	                //location.reload();
+
+	                // display success dialog
+	                Materialize.toast(
+	                    'NodePress skin updated successfully.',
+	                    4000,
+	                    'success'
+	                );
+
+	                /*Materialize.toast(
+	                    '<span>NodePress skin updated successfully. ' +
+	                    '<a href="javascript:location.reload()">Refresh Browser</a></span>',
+	                    8000,
+	                    'success'
+	                );*/
+
+	                $rootScope.$emit('adminHeader', vm.settings.skin);
+	            })
+	            .catch(function (error) {
+	                //vm.errorTitle = error;
+	            });
+	    }
+	}
+
+
+/***/ },
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39746,24 +39886,24 @@
 
 	// angular dashboard module and module accessories
 	Modules.registerModule('dashboard');
-	__webpack_require__(32);
-	__webpack_require__(34);
+	__webpack_require__(35);
+	__webpack_require__(37);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'dashboard';
 
 
 /***/ },
-/* 32 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(33);
+	__webpack_require__(36);
 
 
 /***/ },
-/* 33 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39785,16 +39925,16 @@
 
 
 /***/ },
-/* 34 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(35);
+	__webpack_require__(38);
 
 
 /***/ },
-/* 35 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39826,7 +39966,7 @@
 
 
 /***/ },
-/* 36 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39835,26 +39975,26 @@
 
 	// angular users module and module accessories
 	Modules.registerModule('users');
-	__webpack_require__(37);
-	__webpack_require__(39);
-	__webpack_require__(45);
-	__webpack_require__(52);
+	__webpack_require__(40);
+	__webpack_require__(42);
+	__webpack_require__(48);
+	__webpack_require__(55);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'users';
 
 
 /***/ },
-/* 37 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(38);
+	__webpack_require__(41);
 
 
 /***/ },
-/* 38 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39888,20 +40028,20 @@
 
 
 /***/ },
-/* 39 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(40);
-	__webpack_require__(41);
-	__webpack_require__(42);
 	__webpack_require__(43);
 	__webpack_require__(44);
+	__webpack_require__(45);
+	__webpack_require__(46);
+	__webpack_require__(47);
 
 
 /***/ },
-/* 40 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39923,7 +40063,7 @@
 
 
 /***/ },
-/* 41 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39950,7 +40090,7 @@
 
 
 /***/ },
-/* 42 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39972,7 +40112,7 @@
 
 
 /***/ },
-/* 43 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39994,7 +40134,7 @@
 
 
 /***/ },
-/* 44 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40019,20 +40159,20 @@
 
 
 /***/ },
-/* 45 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(46);
-	__webpack_require__(47);
-	__webpack_require__(48);
+	__webpack_require__(49);
 	__webpack_require__(50);
 	__webpack_require__(51);
+	__webpack_require__(53);
+	__webpack_require__(54);
 
 
 /***/ },
-/* 46 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40058,7 +40198,7 @@
 
 
 /***/ },
-/* 47 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40098,7 +40238,7 @@
 
 
 /***/ },
-/* 48 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40119,7 +40259,7 @@
 
 	    vm.roles = AdminUserRolesService;
 	    vm.newUser = newUser;
-	    vm.errors = __webpack_require__(49);
+	    vm.errors = __webpack_require__(52);
 
 	    function newUser() {
 	        if ($scope.userForm.$valid && vm.user.password === vm.user.cpassword) {
@@ -40128,7 +40268,7 @@
 	                lastName: vm.user.lastName,
 	                username: vm.user.username,
 	                email: vm.user.email,
-	                role: vm.user.role,
+	                role: vm.user.role || 'Administration',
 	                password: vm.user.password
 	            });
 
@@ -40153,7 +40293,7 @@
 
 
 /***/ },
-/* 49 */
+/* 52 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40187,7 +40327,7 @@
 
 
 /***/ },
-/* 50 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40213,7 +40353,7 @@
 	    vm.getUser = getUser;
 	    vm.updateUser = updateUser;
 	    vm.updateUserPassword = updateUserPassword;
-	    vm.errors = __webpack_require__(49);
+	    vm.errors = __webpack_require__(52);
 
 	    function getUser () {
 	        vm.user = AdminUsersAPIService.get({
@@ -40274,7 +40414,7 @@
 
 
 /***/ },
-/* 51 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40305,16 +40445,16 @@
 	}
 
 /***/ },
-/* 52 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(53);
+	__webpack_require__(56);
 
 
 /***/ },
-/* 53 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40344,7 +40484,7 @@
 
 
 /***/ },
-/* 54 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40353,25 +40493,25 @@
 
 	// angular menus module and module accessories
 	Modules.registerModule('menus');
-	__webpack_require__(55);
-	__webpack_require__(57);
+	__webpack_require__(58);
 	__webpack_require__(60);
+	__webpack_require__(63);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'menus';
 
 
 /***/ },
-/* 55 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(56);
+	__webpack_require__(59);
 
 
 /***/ },
-/* 56 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40405,17 +40545,17 @@
 
 
 /***/ },
-/* 57 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(58);
-	__webpack_require__(59);
+	__webpack_require__(61);
+	__webpack_require__(62);
 
 
 /***/ },
-/* 58 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40437,7 +40577,7 @@
 
 
 /***/ },
-/* 59 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40465,19 +40605,19 @@
 
 
 /***/ },
-/* 60 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(61);
-	__webpack_require__(62);
-	__webpack_require__(63);
+	__webpack_require__(64);
 	__webpack_require__(65);
+	__webpack_require__(66);
+	__webpack_require__(68);
 
 
 /***/ },
-/* 61 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40510,7 +40650,7 @@
 
 
 /***/ },
-/* 62 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40575,7 +40715,7 @@
 
 
 /***/ },
-/* 63 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40602,7 +40742,7 @@
 	    vm.addMenuItems = addMenuItems;
 	    vm.removeMenuItem = removeMenuItem;
 	    vm.newMenu = newMenu;
-	    vm.errors = __webpack_require__(64);
+	    vm.errors = __webpack_require__(67);
 
 	    function addPropertiesToPagesModel () {
 	        return AdminPagesAPIService.query(function (pages) {
@@ -40677,7 +40817,7 @@
 
 
 /***/ },
-/* 64 */
+/* 67 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40691,7 +40831,7 @@
 
 
 /***/ },
-/* 65 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40720,7 +40860,7 @@
 	    vm.addMenuItems = addMenuItems;
 	    vm.removeMenuItem = removeMenuItem;
 	    vm.updateMenu = updateMenu;
-	    vm.errors = __webpack_require__(64);
+	    vm.errors = __webpack_require__(67);
 
 	    function addPropertiesToPagesModel() {
 	        return AdminPagesAPIService.query(function (pages) {
@@ -40806,7 +40946,7 @@
 
 
 /***/ },
-/* 66 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40815,25 +40955,25 @@
 
 	// angular categories module and module accessories
 	Modules.registerModule('categories');
-	__webpack_require__(67);
-	__webpack_require__(69);
-	__webpack_require__(71);
+	__webpack_require__(70);
+	__webpack_require__(72);
+	__webpack_require__(74);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'categories';
 
 
 /***/ },
-/* 67 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(68);
+	__webpack_require__(71);
 
 
 /***/ },
-/* 68 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40863,16 +41003,16 @@
 
 
 /***/ },
-/* 69 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(70);
+	__webpack_require__(73);
 
 
 /***/ },
-/* 70 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40894,18 +41034,18 @@
 
 
 /***/ },
-/* 71 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(72);
-	__webpack_require__(73);
 	__webpack_require__(75);
+	__webpack_require__(76);
+	__webpack_require__(78);
 
 
 /***/ },
-/* 72 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40942,7 +41082,7 @@
 
 
 /***/ },
-/* 73 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40964,7 +41104,7 @@
 	    vm.category    = {};
 	    vm.newCategory = newCategory;
 	    vm.errorTitle  = null;
-	    vm.errors = __webpack_require__(74);
+	    vm.errors = __webpack_require__(77);
 
 	    AdminUserAuthenticationService();
 
@@ -40991,7 +41131,7 @@
 
 
 /***/ },
-/* 74 */
+/* 77 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -41005,7 +41145,7 @@
 
 
 /***/ },
-/* 75 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41030,7 +41170,7 @@
 	    vm.category       = {};
 	    vm.updateCategory = updateCategory;
 	    vm.getCategory    = getCategory;
-	    vm.errors = __webpack_require__(74);
+	    vm.errors = __webpack_require__(77);
 
 	    function getCategory() {
 	        vm.category = AdminCategoriesAPIService.get({
@@ -41064,7 +41204,7 @@
 
 
 /***/ },
-/* 76 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41073,25 +41213,25 @@
 
 	// angular pages module and module accessories
 	Modules.registerModule('pages');
-	__webpack_require__(77);
-	__webpack_require__(79);
-	__webpack_require__(81);
+	__webpack_require__(80);
+	__webpack_require__(82);
+	__webpack_require__(84);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'pages';
 
 
 /***/ },
-/* 77 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(78);
+	__webpack_require__(81);
 
 
 /***/ },
-/* 78 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41121,16 +41261,16 @@
 
 
 /***/ },
-/* 79 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(80);
+	__webpack_require__(83);
 
 
 /***/ },
-/* 80 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41152,18 +41292,18 @@
 
 
 /***/ },
-/* 81 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(82);
-	__webpack_require__(83);
 	__webpack_require__(85);
+	__webpack_require__(86);
+	__webpack_require__(88);
 
 
 /***/ },
-/* 82 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41194,7 +41334,7 @@
 
 
 /***/ },
-/* 83 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41222,7 +41362,7 @@
 	    vm.newPage = newPage;
 	    vm.categories = AdminCategoriesAPIService.query();
 	    vm.sidebars = AdminSidebarsAPIService.query();
-	    vm.errors = __webpack_require__(84);
+	    vm.errors = __webpack_require__(87);
 
 	    // create host url to view front end page
 	    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
@@ -41257,7 +41397,7 @@
 
 
 /***/ },
-/* 84 */
+/* 87 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -41271,7 +41411,7 @@
 
 
 /***/ },
-/* 85 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41301,7 +41441,7 @@
 	    vm.updatePage = updatePage;
 	    vm.categories = AdminCategoriesAPIService.query();
 	    vm.sidebars = AdminSidebarsAPIService.query();
-	    vm.errors = __webpack_require__(84);
+	    vm.errors = __webpack_require__(87);
 	    vm.frontEndURL = '';
 
 	    function getPage() {
@@ -41354,7 +41494,7 @@
 
 
 /***/ },
-/* 86 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41363,26 +41503,26 @@
 
 	// angular sidebars module and module accessories
 	Modules.registerModule('sidebars');
-	__webpack_require__(87);
-	__webpack_require__(89);
-	__webpack_require__(91);
-	__webpack_require__(95);
+	__webpack_require__(90);
+	__webpack_require__(92);
+	__webpack_require__(94);
+	__webpack_require__(98);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'sidebars';
 
 
 /***/ },
-/* 87 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(88);
+	__webpack_require__(91);
 
 
 /***/ },
-/* 88 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41412,16 +41552,16 @@
 
 
 /***/ },
-/* 89 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(90);
+	__webpack_require__(93);
 
 
 /***/ },
-/* 90 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41443,18 +41583,18 @@
 
 
 /***/ },
-/* 91 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(92);
-	__webpack_require__(93);
-	__webpack_require__(94);
+	__webpack_require__(95);
+	__webpack_require__(96);
+	__webpack_require__(97);
 
 
 /***/ },
-/* 92 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41485,7 +41625,7 @@
 
 
 /***/ },
-/* 93 */
+/* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41555,7 +41695,7 @@
 
 
 /***/ },
-/* 94 */
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41648,16 +41788,16 @@
 
 
 /***/ },
-/* 95 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(96);
+	__webpack_require__(99);
 
 
 /***/ },
-/* 96 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41680,7 +41820,7 @@
 
 
 /***/ },
-/* 97 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41689,7 +41829,7 @@
 
 	// angular pages module and module accessories
 	Modules.registerModule('footer');
-	__webpack_require__(98);
+	__webpack_require__(101);
 	/*require('./services');
 	require('./controllers');*/
 
@@ -41698,16 +41838,16 @@
 
 
 /***/ },
-/* 98 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(99);
+	__webpack_require__(102);
 
 
 /***/ },
-/* 99 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41729,7 +41869,7 @@
 
 
 /***/ },
-/* 100 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41749,6 +41889,7 @@
 	    $rootScope.exists = $window.exists;
 	    $rootScope.auth = $window.auth;
 	    $rootScope.themes = $window.themes;
+	    $rootScope.skins = $window.skins;
 	    $rootScope.pluginsConfig = $window.pluginsConfig;
 	}
 

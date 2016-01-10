@@ -23,5 +23,9 @@ function adminSettingsRoutes ($stateProvider, $urlRouterProvider) {
         .state('settings.themes', {
             url: '/themes',
             templateUrl: 'admin.client.settings.themes.view.html'
+        })
+        .state('settings.skins', {
+            url: '/skins',
+            templateUrl: 'admin.client.settings.skins.view.html'
         });
 }

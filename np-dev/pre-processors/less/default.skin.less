@@ -76,6 +76,10 @@ h5 {
 .primary-menu {
     position: relative;
     z-index: 1;
+
+    .nav-wrapper {
+        background: #2196F3;
+    }
 }
 
 .secondary-menu {
@@ -324,9 +328,25 @@ nav .brand-logo {
     }
 }
 
+.card {
+    .card-image {
+        img {
+            border-radius: 0;
+        }
+
+        .card-title {
+            background: rgba(0,0,0,0.3);
+        }
+    }
+}
+
 .toast {
     &.success {
         background-color: #e91e63;
+
+        a {
+            color: #fff;
+        }
     }
 }
 

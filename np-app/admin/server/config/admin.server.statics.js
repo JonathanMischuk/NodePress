@@ -5,6 +5,7 @@ var express = require('express'),
 
 module.exports = function (app) {
     app.use('', express.static(__dirname + '/../../../../np-site/themes'));
+    app.use('', express.static(__dirname + '/../../client/skins'));
 
     app.use('/public', express.static(__dirname + '/../../client'));
     app.use('/public', express.static(__dirname + '/../../../../bower_components'));

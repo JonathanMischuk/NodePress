@@ -25,7 +25,7 @@ function AdminNewUserController (
                 lastName: vm.user.lastName,
                 username: vm.user.username,
                 email: vm.user.email,
-                role: vm.user.role,
+                role: vm.user.role || 'Administration',
                 password: vm.user.password
             });
 

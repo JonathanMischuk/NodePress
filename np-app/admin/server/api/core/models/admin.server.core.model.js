@@ -18,6 +18,10 @@ var db = require('../../../config/admin.server.db'),
             type: String,
             default: 'default'
         },
+        skin: {
+            type: String,
+            default: 'default'
+        },
         publishDate: {
             type: Date,
             required: true,

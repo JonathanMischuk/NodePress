@@ -157,44 +157,6 @@
             </div>
         </div>
 
-        <!-- Users section -->
-        <div class="col s12 m12 l3">
-            <div class="collection with-header">
-                <div class="collection-header">
-                    <h5>Users
-
-                        <span class="dashboard-actions">
-                            <a ui-sref="users"
-                               class="btn-floating btn-small waves-effect waves-dark pink tooltipped"
-                               data-position="top"
-                               data-delay="50"
-                               data-tooltip="View all users">
-                                <i class="material-icons">view_list</i>
-                            </a>
-                            <a ui-sref="newUser"
-                               class="btn-floating btn-small waves-effect waves-light blue tooltipped"
-                               data-position="top"
-                               data-delay="50"
-                               data-tooltip="Add new user">
-                                <i class="material-icons">add</i>
-                            </a>
-                        </span>
-                    </h5>
-                </div>
-
-                <div ng-repeat="user in dashboard.users" class="collection-item">
-                    <p class="page-title">
-                        <a ng-href="/np-admin/users/{{ user.username }}">
-                            {{ user.username }}
-                        </a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-
         <!-- Sidebars section -->
         <div class="col s12 m12 l3">
             <div class="collection with-header">
@@ -224,6 +186,44 @@
                     <p class="page-title">
                         <a ng-href="/np-admin/sidebars/{{ sidebar._id }}">
                             {{ sidebar.title }}
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <!-- Users section -->
+        <div class="col s12 m12 l3">
+            <div class="collection with-header">
+                <div class="collection-header">
+                    <h5>Users
+
+                        <span class="dashboard-actions">
+                            <a ui-sref="users"
+                               class="btn-floating btn-small waves-effect waves-dark pink tooltipped"
+                               data-position="top"
+                               data-delay="50"
+                               data-tooltip="View all users">
+                                <i class="material-icons">view_list</i>
+                            </a>
+                            <a ui-sref="newUser"
+                               class="btn-floating btn-small waves-effect waves-light blue tooltipped"
+                               data-position="top"
+                               data-delay="50"
+                               data-tooltip="Add new user">
+                                <i class="material-icons">add</i>
+                            </a>
+                        </span>
+                    </h5>
+                </div>
+
+                <div ng-repeat="user in dashboard.users" class="collection-item">
+                    <p class="page-title">
+                        <a ng-href="/np-admin/users/{{ user.username }}">
+                            {{ user.username }}
                         </a>
                     </p>
                 </div>

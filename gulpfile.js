@@ -13,8 +13,12 @@ gulp.task('watch:bundleAdmin', ['bundleAdmin'], function () {
 });
 
 // Admin LESS compilation
-gulp.task('watch:adminCSS', function () {
-    gulp.watch('np-dev/pre-processors/less/**/*.less', ['adminCSS']);
+gulp.task('watch:adminSkinDefault', function () {
+    gulp.watch('np-dev/pre-processors/less/**/*.less', ['adminSkinDefault']);
+});
+
+gulp.task('watch:adminSkinDark', function () {
+    gulp.watch('np-dev/pre-processors/less/**/*.less', ['adminSkinDark']);
 });
 
 // Site Browserify bundle

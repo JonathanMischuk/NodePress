@@ -79,7 +79,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" ng-if="exists.length">
             <div class="col s12">
                 <label for="role">Role</label>
                 <select ng-model="user.user.role"
@@ -87,11 +87,6 @@
                         id="role">
                     <option value="" disabled active>Select a Role</option>
                 </select>
-
-                <!--<select ng-model="user.user.role" id="role">
-                    <option value="Administration">Administration</option>
-                    <option value="Editor">Editor</option>
-                </select>-->
 
                 <div ng-show="userForm.$submitted">
                     <div class="error"

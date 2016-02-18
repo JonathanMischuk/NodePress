@@ -18,7 +18,7 @@ function AdminNewUserController (
     vm.newUser = newUser;
     vm.errors = require('../errors/admin.client.users.errors');
 
-    console.log($rootScope.exists);
+    console.log($rootScope.np.auth.exists);
 
     function newUser() {
         if ($scope.userForm.$valid && vm.user.password === vm.user.cpassword) {
@@ -35,9 +35,9 @@ function AdminNewUserController (
                 .then(function (user) {
                     $scope.userForm.$setPristine();
 
-                    if (!$rootScope.auth) {
+                    if (!$rootScope.np.auth.user) {
                         $location.path('/login');
-                    } else if ($rootScope.auth) {
+                    } else if ($rootScope.np.auth.user) {
                         $location.path('/users/' + user.username);
                     }
                 })

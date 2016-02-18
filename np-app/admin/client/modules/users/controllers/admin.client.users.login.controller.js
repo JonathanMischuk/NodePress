@@ -11,7 +11,7 @@ function AdminUserLoginController(
     $location,
     AdminUsersLoginService) {
 
-    if ($rootScope.auth) $location.path('/');
+    if ($rootScope.np.auth.user) $location.path('/');
 
     var vm = this;
 
@@ -26,7 +26,7 @@ function AdminUserLoginController(
                     $location.path('/');
                 })
                 .catch(function (error) {
-                    vm.error      = error.data.message || '';
+                    vm.error = error.data.message || '';
                     vm.errorField = error.data.field;
                 });
         }

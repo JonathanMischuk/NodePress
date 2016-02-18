@@ -1,7 +1,7 @@
 {% extends "templates/admin.server.default.template.html" %}
 
 {% block primaryMenu %}
-<nav class="primary-menu" ng-if="auth">
+<nav class="primary-menu" ng-if="np.auth.user">
     <div class="nav-wrapper">
         <a class="brand-logo tooltipped"
            ui-sref="dashboard"
@@ -10,7 +10,7 @@
            data-tooltip="Go to dashboard">NodePress</a>
 
         <ul id="dropdown-account" class="dropdown-content">
-            <li><a ng-href="/np-admin/users/{% raw %}{{ auth.username }}{% endraw %}">Profile</a></li>
+            <li><a ng-href="/np-admin/users/{% raw %}{{ np.auth.user.username }}{% endraw %}">Profile</a></li>
             <li><a ui-sref="settings">Settings</a></li>
             <li><a href="/auth/logout">Logout</a></li>
         </ul>
@@ -19,7 +19,7 @@
             <li>
                 <a class="dropdown-button"
                    data-activates="dropdown-account">
-                    Howdy, {% raw %}{{ auth.username }}{% endraw %}
+                    Howdy, {% raw %}{{ np.auth.user.username }}{% endraw %}
                     <i class="material-icons right">arrow_drop_down</i>
                 </a>
             </li>
@@ -29,7 +29,7 @@
 {% endblock %}
 
 {% block secondaryMenu %}
-<div class="secondary-menu" ng-if="auth">
+<div class="secondary-menu" ng-if="np.auth.user">
     <ul class="collapsible" data-collapsible="accordion">
 
         <!-- Pages section -->

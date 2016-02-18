@@ -14,7 +14,7 @@ function AdminNewSidebarController (
 
     var vm = this;
 
-    vm.avaliableSidebarItems = $rootScope.pluginsConfig;
+    vm.avaliableSidebarItems = $rootScope.np.settings.pluginsConfig;
     vm.sidebar = {};
     vm.sidebarItems = [];
     vm.sidebarItemIds = [];
@@ -40,7 +40,7 @@ function AdminNewSidebarController (
     }
 
     function newSidebar () {
-        vm.sidebar.createdBy = $rootScope.auth.username;
+        vm.sidebar.createdBy = $rootScope.np.auth.user.username;
         vm.sidebar.items = vm.sidebarItems;
 
         if ($scope.newSidebarForm.$valid) {

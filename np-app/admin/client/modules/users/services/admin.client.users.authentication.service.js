@@ -8,12 +8,12 @@ module.exports = angular.module('users')
 function AdminUserAuthenticationService($http, $location, $rootScope) {
     return function () {
         return $http.get('/auth').then(function (response) {
-            $rootScope.auth = response.data.user;
-            $rootScope.exists = response.data.exists;
+            $rootScope.np.auth.user = response.data.user;
+            $rootScope.np.auth.exists = response.data.exists;
 
-            if (!$rootScope.exists) {
+            if (!$rootScope.np.auth.exists) {
                 $location.path('/new-user/');
-            } else if ($rootScope.exists && !$rootScope.auth) {
+            } else if ($rootScope.np.auth.exists && !$rootScope.np.auth.user) {
                 $location.path('/login');
             }
         });

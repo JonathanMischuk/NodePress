@@ -54,7 +54,7 @@ function AdminUpdatePageController(
             // create human readable date for modified date
             var date = AdminUtilitiesServices.createHumanReadableDate();
 
-            vm.page.modifiedBy = $rootScope.auth.username;
+            vm.page.modifiedBy = $rootScope.np.auth.user.username;
             vm.page.modifiedDate = date;
 
             // Make sure value of page body textarea is identical to CKEditor value

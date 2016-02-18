@@ -75,7 +75,7 @@ function AdminNewMenuController(
     function newMenu() {
         if ($scope.newMenuForm.$valid) {
             var Menu = new AdminMenusAPIService({
-                createdBy: $rootScope.auth.username,
+                createdBy: $rootScope.np.auth.user.username,
                 title: vm.menu.title,
                 items: vm.menuItems
             });

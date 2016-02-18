@@ -5,7 +5,7 @@ var angular = require('angular');
 module.exports = angular.module('categories')
     .controller('AdminUpdateCategoryController', AdminUpdateCategoryController);
 
-function AdminUpdateCategoryController(
+function AdminUpdateCategoryController (
     $scope,
     $rootScope,
     $stateParams,
@@ -34,7 +34,7 @@ function AdminUpdateCategoryController(
             // create human readable date for modified date
             var date = AdminUtilitiesServices.createHumanReadableDate();
 
-            vm.category.modifiedBy   = $rootScope.auth.username;
+            vm.category.modifiedBy   = $rootScope.np.auth.user.username;
             vm.category.modifiedDate = date;
 
             vm.category.$update()

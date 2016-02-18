@@ -34,7 +34,7 @@ function AdminManageMenuLocationsController(
         // create human readable date for modified date
         var date = AdminUtilitiesServices.createHumanReadableDate();
 
-        vm.menuLocations.modifiedBy = $rootScope.auth.username;
+        vm.menuLocations.modifiedBy = $rootScope.np.auth.user.username;
         vm.menuLocations.modifiedDate = date;
 
         if (vm.menuLocations.primary === null) vm.menuLocations.primary = 'No Menu';

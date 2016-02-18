@@ -15,7 +15,7 @@ function AdminSettingsThemesController (
     vm.themes = [];
     vm.updateAppSettings = updateAppSettings;
 
-    angular.forEach($rootScope.themes, function (theme) {
+    angular.forEach($rootScope.np.settings.themes, function (theme) {
         vm.themes.push({
             title: theme,
             preview: '/' + theme + '/preview.jpg'
@@ -32,7 +32,7 @@ function AdminSettingsThemesController (
         // create human readable date for modified date
         var date = AdminUtilitiesServices.createHumanReadableDate();
 
-        vm.settings.modifiedBy = $rootScope.auth.username;
+        vm.settings.modifiedBy = $rootScope.np.auth.user.username;
         vm.settings.modifiedDate = date;
         vm.settings.theme = theme;
 

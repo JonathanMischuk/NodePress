@@ -5,7 +5,7 @@ var angular = require('angular');
 module.exports = angular.module('categories')
     .controller('AdminGetCategoriesController', AdminGetCategoriesController);
 
-function AdminGetCategoriesController(
+function AdminGetCategoriesController (
     AdminCategoriesAPIService,
     AdminUserAuthenticationService) {
 

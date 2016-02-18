@@ -27,14 +27,24 @@ module.exports = function (req, res, next) {
         getUser,
         getSkin
     ], function (err, results) {
+        console.log(results);
+
+        var np = {
+            auth: {
+                user: req.user || null,
+                exists: results[3]
+            },
+            settings: {
+                themes: results[0] || [],
+                skins: results[1] || [],
+                skin: results[4],
+                plugins: plugins,
+                pluginsConfig: results[2]
+            }
+        };
+
         res.render('admin.server.default.view.html', {
-            user: req.user || null,
-            exists: results[3],
-            themes: results[0] || [],
-            skins: results[1] || [],
-            skin: results[4],
-            plugins: plugins,
-            pluginsConfig: results[2]
+            np: np
         });
     });
 

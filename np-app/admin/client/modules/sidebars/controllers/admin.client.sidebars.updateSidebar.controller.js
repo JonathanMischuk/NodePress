@@ -15,7 +15,7 @@ function AdminUpdateSidebarController (
 
     var vm = this;
 
-    vm.avaliableSidebarItems = $rootScope.pluginsConfig;
+    vm.avaliableSidebarItems = $rootScope.np.settings.pluginsConfig;
     vm.sidebar = {};
     vm.sidebarItems = [];
     vm.sidebarItemIds = [];
@@ -66,7 +66,7 @@ function AdminUpdateSidebarController (
             // create human readable date for modified date
             var date = AdminUtilitiesServices.createHumanReadableDate();
 
-            vm.sidebar.modifiedBy = $rootScope.auth.username;
+            vm.sidebar.modifiedBy = $rootScope.np.auth.user.username;
             vm.sidebar.modifiedDate = date;
 
             vm.sidebar.$update()

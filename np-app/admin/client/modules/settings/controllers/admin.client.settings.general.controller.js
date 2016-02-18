@@ -20,7 +20,7 @@ function AdminSettingsGeneralController (
     vm.updateAppSettings = updateAppSettings;
     //vm.frontEndURL = AdminUtilitiesServices.createHostURL();
 
-    angular.forEach($rootScope.themes, function (theme) {
+    angular.forEach($rootScope.np.settings.themes, function (theme) {
         vm.themes.push({
             theme: theme
         });
@@ -43,7 +43,7 @@ function AdminSettingsGeneralController (
         // create human readable date for modified date
         var date = AdminUtilitiesServices.createHumanReadableDate();
 
-        vm.settings.modifiedBy = $rootScope.auth.username;
+        vm.settings.modifiedBy = $rootScope.np.auth.user.username;
         vm.settings.modifiedDate = date;
 
         AdminAppSettingsService.updateAppSettings(vm.settings)

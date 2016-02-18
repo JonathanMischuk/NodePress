@@ -35,14 +35,16 @@ function AdminNewPageController(
             vm.page.body = angular.element('.cke_wysiwyg_div').html() ||
                 angular.element('.cke_source').val();
 
+            console.log(vm.page.sidebarLeft, vm.page.sidebarRight);
+
             var Page = new AdminPagesAPIService({
-                createdBy: $rootScope.auth.username,
+                createdBy: $rootScope.np.auth.user.username,
                 slug: vm.page.slug,
                 title: vm.page.title,
                 category: vm.page.category,
+                body: vm.page.body,
                 sidebarLeft: vm.page.sidebarLeft,
-                sidebarRight: vm.page.sidebarRight,
-                body: vm.page.body
+                sidebarRight: vm.page.sidebarRight
             });
 
             Page.$save()

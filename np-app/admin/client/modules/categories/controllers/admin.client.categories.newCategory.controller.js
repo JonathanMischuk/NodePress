@@ -26,7 +26,7 @@ function AdminNewCategoryController(
 
             var Category = new AdminCategoriesAPIService({
                 title: vm.category.title,
-                createdBy: $rootScope.auth.username,
+                createdBy: $rootScope.np.auth.user.username,
                 description: vm.category.description,
                 slug: vm.category.slug
             });

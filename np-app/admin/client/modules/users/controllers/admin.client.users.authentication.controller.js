@@ -15,6 +15,6 @@ function AdminUserAuthenticationController(
     AdminUserAuthenticationService();
 
     $scope.$on('session', function (event, user) {
-        $rootScope.auth = user;
+        $rootScope.np.auth.user = user;
     });
 }

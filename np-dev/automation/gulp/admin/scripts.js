@@ -14,10 +14,3 @@ gulp.task('bundleAdmin', function () {
         .pipe(concat('bundle.js'))
         .pipe(gulp.dest('np-app/admin/client/js'));
 });
-
-/*gulp.task('bundleAdmin', function () {
-    gulp.src('np-app/admin/client/modules/index.js')
-        .pipe(browserify())
-        .pipe(concat('bundle.js'))
-        .pipe(gulp.dest('np-app/admin/client/js'));
-});*/

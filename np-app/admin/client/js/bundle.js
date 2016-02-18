@@ -39673,7 +39673,6 @@
 	        });
 
 	    $rootScope.$on('adminHeader', function (event, settings) {
-
 	        vm.settings.skin = settings;
 	    });
 
@@ -39705,7 +39704,7 @@
 	    vm.updateAppSettings = updateAppSettings;
 	    //vm.frontEndURL = AdminUtilitiesServices.createHostURL();
 
-	    angular.forEach($rootScope.themes, function (theme) {
+	    angular.forEach($rootScope.np.settings.themes, function (theme) {
 	        vm.themes.push({
 	            theme: theme
 	        });
@@ -39728,7 +39727,7 @@
 	        // create human readable date for modified date
 	        var date = AdminUtilitiesServices.createHumanReadableDate();
 
-	        vm.settings.modifiedBy = $rootScope.auth.username;
+	        vm.settings.modifiedBy = $rootScope.np.auth.user.username;
 	        vm.settings.modifiedDate = date;
 
 	        AdminAppSettingsService.updateAppSettings(vm.settings)
@@ -39771,7 +39770,7 @@
 	    vm.themes = [];
 	    vm.updateAppSettings = updateAppSettings;
 
-	    angular.forEach($rootScope.themes, function (theme) {
+	    angular.forEach($rootScope.np.settings.themes, function (theme) {
 	        vm.themes.push({
 	            title: theme,
 	            preview: '/' + theme + '/preview.jpg'
@@ -39788,7 +39787,7 @@
 	        // create human readable date for modified date
 	        var date = AdminUtilitiesServices.createHumanReadableDate();
 
-	        vm.settings.modifiedBy = $rootScope.auth.username;
+	        vm.settings.modifiedBy = $rootScope.np.auth.user.username;
 	        vm.settings.modifiedDate = date;
 	        vm.settings.theme = theme;
 
@@ -39827,7 +39826,7 @@
 	    vm.skins = [];
 	    vm.updateAppSettings = updateAppSettings;
 
-	    angular.forEach($rootScope.skins, function (skin) {
+	    angular.forEach($rootScope.np.settings.skins, function (skin) {
 	        vm.skins.push({
 	            title: skin,
 	            preview: '/' + skin + '/preview-skin.jpg'
@@ -39844,28 +39843,15 @@
 	        // create human readable date for modified date
 	        var date = AdminUtilitiesServices.createHumanReadableDate();
 
-	        vm.settings.modifiedBy = $rootScope.auth.username;
+	        vm.settings.modifiedBy = $rootScope.np.auth.user.username;
 	        vm.settings.modifiedDate = date;
 	        vm.settings.skin = skin;
 
 	        AdminAppSettingsService.updateAppSettings(vm.settings)
 	            .then(function () {
 
-	                //location.reload();
-
 	                // display success dialog
-	                Materialize.toast(
-	                    'NodePress skin updated successfully.',
-	                    4000,
-	                    'success'
-	                );
-
-	                /*Materialize.toast(
-	                    '<span>NodePress skin updated successfully. ' +
-	                    '<a href="javascript:location.reload()">Refresh Browser</a></span>',
-	                    8000,
-	                    'success'
-	                );*/
+	                Materialize.toast('NodePress skin updated successfully.', 4000, 'success');
 
 	                $rootScope.$emit('adminHeader', vm.settings.skin);
 	            })
@@ -40076,12 +40062,12 @@
 	function AdminUserAuthenticationService($http, $location, $rootScope) {
 	    return function () {
 	        return $http.get('/auth').then(function (response) {
-	            $rootScope.auth = response.data.user;
-	            $rootScope.exists = response.data.exists;
+	            $rootScope.np.auth.user = response.data.user;
+	            $rootScope.np.auth.exists = response.data.exists;
 
-	            if (!$rootScope.exists) {
+	            if (!$rootScope.np.auth.exists) {
 	                $location.path('/new-user/');
-	            } else if ($rootScope.exists && !$rootScope.auth) {
+	            } else if ($rootScope.np.auth.exists && !$rootScope.np.auth.user) {
 	                $location.path('/login');
 	            }
 	        });
@@ -40192,7 +40178,7 @@
 	    AdminUserAuthenticationService();
 
 	    $scope.$on('session', function (event, user) {
-	        $rootScope.auth = user;
+	        $rootScope.np.auth.user = user;
 	    });
 	}
 
@@ -40214,7 +40200,7 @@
 	    $location,
 	    AdminUsersLoginService) {
 
-	    if ($rootScope.auth) $location.path('/');
+	    if ($rootScope.np.auth.user) $location.path('/');
 
 	    var vm = this;
 
@@ -40229,7 +40215,7 @@
 	                    $location.path('/');
 	                })
 	                .catch(function (error) {
-	                    vm.error      = error.data.message || '';
+	                    vm.error = error.data.message || '';
 	                    vm.errorField = error.data.field;
 	                });
 	        }
@@ -40261,7 +40247,7 @@
 	    vm.newUser = newUser;
 	    vm.errors = __webpack_require__(52);
 
-	    console.log($rootScope.exists);
+	    console.log($rootScope.np.auth.exists);
 
 	    function newUser() {
 	        if ($scope.userForm.$valid && vm.user.password === vm.user.cpassword) {
@@ -40278,9 +40264,9 @@
 	                .then(function (user) {
 	                    $scope.userForm.$setPristine();
 
-	                    if (!$rootScope.auth) {
+	                    if (!$rootScope.np.auth.user) {
 	                        $location.path('/login');
-	                    } else if ($rootScope.auth) {
+	                    } else if ($rootScope.np.auth.user) {
 	                        $location.path('/users/' + user.username);
 	                    }
 	                })
@@ -40691,7 +40677,7 @@
 	        // create human readable date for modified date
 	        var date = AdminUtilitiesServices.createHumanReadableDate();
 
-	        vm.menuLocations.modifiedBy = $rootScope.auth.username;
+	        vm.menuLocations.modifiedBy = $rootScope.np.auth.user.username;
 	        vm.menuLocations.modifiedDate = date;
 
 	        if (vm.menuLocations.primary === null) vm.menuLocations.primary = 'No Menu';
@@ -40797,7 +40783,7 @@
 	    function newMenu() {
 	        if ($scope.newMenuForm.$valid) {
 	            var Menu = new AdminMenusAPIService({
-	                createdBy: $rootScope.auth.username,
+	                createdBy: $rootScope.np.auth.user.username,
 	                title: vm.menu.title,
 	                items: vm.menuItems
 	            });
@@ -40926,7 +40912,7 @@
 	            // create human readable date for modified date
 	            var date = AdminUtilitiesServices.createHumanReadableDate();
 
-	            vm.menu.modifiedBy = $rootScope.auth.username;
+	            vm.menu.modifiedBy = $rootScope.np.auth.user.username;
 	            vm.menu.modifiedDate = date;
 
 	            vm.menu.$update()
@@ -41057,7 +41043,7 @@
 	module.exports = angular.module('categories')
 	    .controller('AdminGetCategoriesController', AdminGetCategoriesController);
 
-	function AdminGetCategoriesController(
+	function AdminGetCategoriesController (
 	    AdminCategoriesAPIService,
 	    AdminUserAuthenticationService) {
 
@@ -41115,7 +41101,7 @@
 
 	            var Category = new AdminCategoriesAPIService({
 	                title: vm.category.title,
-	                createdBy: $rootScope.auth.username,
+	                createdBy: $rootScope.np.auth.user.username,
 	                description: vm.category.description,
 	                slug: vm.category.slug
 	            });
@@ -41157,7 +41143,7 @@
 	module.exports = angular.module('categories')
 	    .controller('AdminUpdateCategoryController', AdminUpdateCategoryController);
 
-	function AdminUpdateCategoryController(
+	function AdminUpdateCategoryController (
 	    $scope,
 	    $rootScope,
 	    $stateParams,
@@ -41186,7 +41172,7 @@
 	            // create human readable date for modified date
 	            var date = AdminUtilitiesServices.createHumanReadableDate();
 
-	            vm.category.modifiedBy   = $rootScope.auth.username;
+	            vm.category.modifiedBy   = $rootScope.np.auth.user.username;
 	            vm.category.modifiedDate = date;
 
 	            vm.category.$update()
@@ -41376,14 +41362,16 @@
 	            vm.page.body = angular.element('.cke_wysiwyg_div').html() ||
 	                angular.element('.cke_source').val();
 
+	            console.log(vm.page.sidebarLeft, vm.page.sidebarRight);
+
 	            var Page = new AdminPagesAPIService({
-	                createdBy: $rootScope.auth.username,
+	                createdBy: $rootScope.np.auth.user.username,
 	                slug: vm.page.slug,
 	                title: vm.page.title,
 	                category: vm.page.category,
+	                body: vm.page.body,
 	                sidebarLeft: vm.page.sidebarLeft,
-	                sidebarRight: vm.page.sidebarRight,
-	                body: vm.page.body
+	                sidebarRight: vm.page.sidebarRight
 	            });
 
 	            Page.$save()
@@ -41472,7 +41460,7 @@
 	            // create human readable date for modified date
 	            var date = AdminUtilitiesServices.createHumanReadableDate();
 
-	            vm.page.modifiedBy = $rootScope.auth.username;
+	            vm.page.modifiedBy = $rootScope.np.auth.user.username;
 	            vm.page.modifiedDate = date;
 
 	            // Make sure value of page body textarea is identical to CKEditor value
@@ -41646,7 +41634,7 @@
 
 	    var vm = this;
 
-	    vm.avaliableSidebarItems = $rootScope.pluginsConfig;
+	    vm.avaliableSidebarItems = $rootScope.np.settings.pluginsConfig;
 	    vm.sidebar = {};
 	    vm.sidebarItems = [];
 	    vm.sidebarItemIds = [];
@@ -41672,7 +41660,7 @@
 	    }
 
 	    function newSidebar () {
-	        vm.sidebar.createdBy = $rootScope.auth.username;
+	        vm.sidebar.createdBy = $rootScope.np.auth.user.username;
 	        vm.sidebar.items = vm.sidebarItems;
 
 	        if ($scope.newSidebarForm.$valid) {
@@ -41717,7 +41705,7 @@
 
 	    var vm = this;
 
-	    vm.avaliableSidebarItems = $rootScope.pluginsConfig;
+	    vm.avaliableSidebarItems = $rootScope.np.settings.pluginsConfig;
 	    vm.sidebar = {};
 	    vm.sidebarItems = [];
 	    vm.sidebarItemIds = [];
@@ -41768,7 +41756,7 @@
 	            // create human readable date for modified date
 	            var date = AdminUtilitiesServices.createHumanReadableDate();
 
-	            vm.sidebar.modifiedBy = $rootScope.auth.username;
+	            vm.sidebar.modifiedBy = $rootScope.np.auth.user.username;
 	            vm.sidebar.modifiedDate = date;
 
 	            vm.sidebar.$update()
@@ -41888,11 +41876,7 @@
 
 	// set global variables
 	function adminRun($window, $rootScope) {
-	    $rootScope.exists = $window.exists;
-	    $rootScope.auth = $window.auth;
-	    $rootScope.themes = $window.themes;
-	    $rootScope.skins = $window.skins;
-	    $rootScope.pluginsConfig = $window.pluginsConfig;
+	    $rootScope.np = $window.np;
 	}
 
 

@@ -3,13 +3,7 @@
 <head ng-controller="AdminSettingsHeaderController as settings">
 
     <script type="text/javascript">
-        var auth = {{ user | json | safe }};
-        var exists = {{ exists }};
-        var themes = "{{ themes }}".split(",");
-        var skins = "{{ skins }}".split(",");
-        var skin = "{{ skin }}";
-        var plugins = "{{ plugins }}".split(",");
-        var pluginsConfig = {{ pluginsConfig | json | safe }};
+        var np = {{ np | json | safe }};
     </script>
 
     <meta name="viewport"
@@ -25,7 +19,7 @@
 
     <link ng-if="settings.angularInitialized === false"
           rel="stylesheet"
-          href="/public/skins/{{ skin }}/app.min.css" />
+          href="/public/skins/{{ np.settings.skin }}/app.min.css" />
 
     <link ng-if="settings.angularInitialized === true"
           rel="stylesheet"
@@ -44,7 +38,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 <script src="/public/js/bundle.js"></script>
 
-{% for plugin in plugins %}
+{% for plugin in np.settings.plugins %}
 <script src="/public/{{ plugin }}/admin/index.js"></script>
 {% endfor %}
 

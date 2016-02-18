@@ -22,7 +22,6 @@ function AdminSettingsHeaderController (
         });
 
     $rootScope.$on('adminHeader', function (event, settings) {
-
         vm.settings.skin = settings;
     });
 

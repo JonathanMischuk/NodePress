@@ -88,7 +88,7 @@ function AdminUpdateMenuController(
             // create human readable date for modified date
             var date = AdminUtilitiesServices.createHumanReadableDate();
 
-            vm.menu.modifiedBy = $rootScope.auth.username;
+            vm.menu.modifiedBy = $rootScope.np.auth.user.username;
             vm.menu.modifiedDate = date;
 
             vm.menu.$update()

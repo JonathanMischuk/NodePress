@@ -27,6 +27,13 @@
             </div>
         </div>
 
+        <div ng-if="!sidebars.sidebars.length"
+             class="collection-item">
+
+            <p>No Sidebars.
+                <a ui-sref="newSidebar">Create new sidebar</a>?</p>
+        </div>
+
         <div ng-repeat="sidebar in sidebars.sidebars" class="collection-item">
             <span class="badge">
                 <i ng-click="sidebars.removeSidebar(sidebar)"

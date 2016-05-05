@@ -29,6 +29,13 @@
             </div>
         </div>
 
+        <div ng-if="!menus.menus.length"
+             class="collection-item">
+
+            <p>No Menus.
+                <a ui-sref="newMenu">Create new menu</a>?</p>
+        </div>
+
         <div ng-repeat="menu in menus.menus" class="collection-item">
             <span class="badge">
                 <i ng-click="menus.removeMenu(menu)"

@@ -35,6 +35,13 @@
             </div>
         </div>
 
+        <div ng-if="!pages.pages.length"
+             class="collection-item">
+
+            <p>No Pages.
+                <a ui-sref="newPage">Create new page</a>?</p>
+        </div>
+
         <div ng-repeat="page in pages.pages" class="collection-item">
             <span class="badge">
                 <i ng-click="pages.removePage(page)"

@@ -34,6 +34,13 @@
             </div>
         </div>
 
+        <div ng-if="!categories.categories.length"
+             class="collection-item">
+
+            <p>No Categories.
+                <a ui-sref="newCategory">Create new category</a>?</p>
+        </div>
+
         <div ng-repeat="category in categories.categories" class="collection-item">
             <span class="badge">
                 <i ng-click="categories.removeCategory(category)"

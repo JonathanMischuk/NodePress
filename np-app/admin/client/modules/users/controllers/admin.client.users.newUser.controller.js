@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('users')
@@ -10,15 +8,15 @@ function AdminNewUserController (
     $rootScope,
     $location,
     AdminUsersAPIService,
-    AdminUserRolesService) {
+    AdminUserRolesService
+) {
+    'use strict';
 
     var vm = this;
 
     vm.roles = AdminUserRolesService;
     vm.newUser = newUser;
     vm.errors = require('../errors/admin.client.users.errors');
-
-    console.log($rootScope.np.auth.exists);
 
     function newUser() {
         if ($scope.userForm.$valid && vm.user.password === vm.user.cpassword) {

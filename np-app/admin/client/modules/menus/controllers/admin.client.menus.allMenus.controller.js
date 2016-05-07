@@ -1,23 +1,19 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('menus')
     .controller('AdminGetMenusController', AdminGetMenusController);
 
-function AdminGetMenusController(AdminMenusAPIService) {
+function AdminGetMenusController (
+    menus
+) {
+    'use strict';
 
     var vm = this;
 
-    vm.menus      = {};
-    vm.getMenus   = getMenus;
+    vm.menus = menus;
     vm.removeMenu = removeMenu;
     vm.setSelectedMenu = setSelectedMenu;
     vm.selectedMenu = null;
-
-    function getMenus() {
-        vm.menus = AdminMenusAPIService.query();
-    }
 
     function removeMenu() {
         var index = vm.menus.indexOf(vm.selectedMenu);

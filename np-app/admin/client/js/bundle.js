@@ -42281,20 +42281,41 @@
 /* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('dashboard')
 	    .config(adminDashboardRoutes);
 
-	function adminDashboardRoutes ($stateProvider, $urlRouterProvider) {
+	function adminDashboardRoutes (
+	    $stateProvider, 
+	    $urlRouterProvider
+	) {
+	    'use strict';
+	    
 	    $urlRouterProvider.otherwise('/');
 
 	    $stateProvider
 	        .state('dashboard', {
 	            url: '/',
-	            templateUrl: 'admin.client.dashboard.view.html'
+	            templateUrl: 'admin.client.dashboard.view.html',
+	            controller: 'AdminDashboardController as dashboard',
+	            resolve: {
+	                pages: function (AdminPagesAPIService) {
+	                    return AdminPagesAPIService.query();
+	                },
+	                categories: function (AdminCategoriesAPIService) {
+	                    return AdminCategoriesAPIService.query();
+	                },
+	                users: function (AdminUsersAPIService) {
+	                    return AdminUsersAPIService.query();
+	                },
+	                menus: function (AdminMenusAPIService) {
+	                    return AdminMenusAPIService.query();
+	                },
+	                sidebars: function (AdminSidebarsAPIService) {
+	                    return AdminSidebarsAPIService.query();
+	                }
+	            }
 	        });
 	}
 
@@ -42312,28 +42333,28 @@
 /* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('dashboard')
 	    .controller('AdminDashboardController', AdminDashboardController);
 
-	function AdminDashboardController(
-	    AdminPagesAPIService,
-	    AdminCategoriesAPIService,
-	    AdminUsersAPIService,
-	    AdminMenusAPIService,
-	    AdminSidebarsAPIService,
-	    AdminUtilitiesServices) {
+	function AdminDashboardController (
+	    AdminUtilitiesServices,
+	    pages,
+	    categories,
+	    users,
+	    menus,
+	    sidebars
+	) {
+	    'use strict';
 
 	    var vm = this;
 
-	    vm.pages = AdminPagesAPIService.query();
-	    vm.categories = AdminCategoriesAPIService.query();
-	    vm.users = AdminUsersAPIService.query();
-	    vm.menus = AdminMenusAPIService.query();
-	    vm.sidebars = AdminSidebarsAPIService.query();
+	    vm.pages = pages;
+	    vm.categories = categories;
+	    vm.users = users;
+	    vm.menus = menus;
+	    vm.sidebars = sidebars;
 
 	    // create host url to view front end page
 	    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
@@ -42372,14 +42393,17 @@
 /* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('users')
 	    .config(adminUserRoutes);
 
-	function adminUserRoutes ($stateProvider, $urlRouterProvider) {
+	function adminUserRoutes (
+	    $stateProvider, 
+	    $urlRouterProvider
+	) {
+	    'use strict';
+	    
 	    $urlRouterProvider.otherwise('/');
 
 	    $stateProvider
@@ -42389,7 +42413,13 @@
 	        })
 	        .state('users', {
 	            url: '/users/',
-	            templateUrl: 'admin.client.users.view.html'
+	            templateUrl: 'admin.client.users.view.html',
+	            controller: 'AdminGetUsersController as users',
+	            resolve: {
+	                users: function (AdminUsersAPIService) {
+	                    return AdminUsersAPIService.query();
+	                }
+	            }
 	        })
 	        .state('newUser', {
 	            url: '/new-user/',
@@ -42397,7 +42427,15 @@
 	        })
 	        .state('user', {
 	            url: '/users/:user',
-	            templateUrl: 'admin.client.usersEdit.view.html'
+	            templateUrl: 'admin.client.usersEdit.view.html',
+	            controller: 'AdminUpdateUserController as user',
+	            resolve: {
+	                user: function ($stateParams, AdminUsersAPIService) {
+	                    return AdminUsersAPIService.get({
+	                        user: $stateParams.user
+	                    });
+	                }
+	            }
 	        });
 	}
 
@@ -42512,23 +42550,17 @@
 /* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('users')
 	    .factory('AdminUserRolesService', AdminUserRolesService);
 
 	function AdminUserRolesService () {
-
-	    // TODO: find a better way to do this
+	    'use strict';
+	    
 	    return [
-	        {
-	            role: 'Administration'
-	        },
-	        {
-	            role: 'Editor'
-	        }
+	        { role: 'Administration' },
+	        { role: 'Editor' }
 	    ];
 	}
 
@@ -42616,8 +42648,6 @@
 /* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('users')
@@ -42628,15 +42658,15 @@
 	    $rootScope,
 	    $location,
 	    AdminUsersAPIService,
-	    AdminUserRolesService) {
+	    AdminUserRolesService
+	) {
+	    'use strict';
 
 	    var vm = this;
 
 	    vm.roles = AdminUserRolesService;
 	    vm.newUser = newUser;
 	    vm.errors = __webpack_require__(54);
-
-	    console.log($rootScope.np.auth.exists);
 
 	    function newUser() {
 	        if ($scope.userForm.$valid && vm.user.password === vm.user.cpassword) {
@@ -42707,42 +42737,33 @@
 /* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('users')
 	    .controller('AdminUpdateUserController', AdminUpdateUserController);
 
-	function AdminUpdateUserController(
+	function AdminUpdateUserController (
 	    $scope,
-	    $stateParams,
 	    $timeout,
-	    AdminUsersAPIService,
 	    AdminUserUpdatePasswordService,
 	    AdminUserRolesService,
-	    AdminUtilitiesServices) {
+	    AdminUtilitiesServices,
+	    user
+	) {
+	    'use strict';
 
 	    var vm = this;
 
-	    vm.user = {};
+	    vm.user = user;
 	    vm.roles = AdminUserRolesService;
-	    vm.getUser = getUser;
 	    vm.updateUser = updateUser;
 	    vm.updateUserPassword = updateUserPassword;
 	    vm.errors = __webpack_require__(54);
 
-	    function getUser () {
-	        vm.user = AdminUsersAPIService.get({
-	            user: $stateParams.user
-	        }, function (user) {
-
-	            // set Materialize select box default value
-	            $timeout(function () {
-	                angular.element('.site-user-role .select-dropdown').val(user.role);
-	            });
-	        });
-	    }
+	    // set Materialize select box default value
+	    $timeout(function () {
+	        angular.element('.site-user-role .select-dropdown').val(user.role);
+	    });
 
 	    function updateUser () {
 	        if ($scope.userForm.$valid) {
@@ -42794,25 +42815,22 @@
 /* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('users')
 	    .controller('AdminGetUsersController', AdminGetUsersController);
 
-	function AdminGetUsersController(AdminUsersAPIService) {
+	function AdminGetUsersController (
+	    users
+	) {
+	    'use strict';
+	    
 	    var vm = this;
 
-	    vm.users      = [];
-	    vm.getUsers   = getUsers;
+	    vm.users = users;
 	    vm.removeUser = removeUser;
 	    vm.setSelectedUser = setSelectedUser;
 	    vm.selectedUser = null;
-
-	    function getUsers() {
-	        vm.users = AdminUsersAPIService.query();
-	    }
 
 	    function removeUser() {
 	        var index = vm.users.indexOf(vm.selectedUser);
@@ -42913,19 +42931,65 @@
 	    $stateProvider
 	        .state('menus', {
 	            url: '/menus/',
-	            templateUrl: 'admin.client.menus.view.html'
+	            templateUrl: 'admin.client.menus.view.html',
+	            controller: 'AdminGetMenusController as menus',
+	            resolve: {
+	                menus: function (AdminMenusAPIService) {
+	                    return AdminMenusAPIService.query();
+	                }
+	            }
 	        })
 	        .state('manageMenus', {
 	            url: '/menus/manage-menus',
-	            templateUrl: 'admin.client.menusManageLocations.view.html'
+	            templateUrl: 'admin.client.menusManageLocations.view.html',
+	            controller: 'AdminManageMenuLocationsController as menus',
+	            resolve: {
+	                menus: function (AdminMenusAPIService) {
+	                    return AdminMenusAPIService.query();
+	                },
+	                menuLocations: function (AdminManageMenuLocationsService) {
+	                    return AdminManageMenuLocationsService.getMenuLocations();
+	                }
+	            }
 	        })
 	        .state('newMenu', {
 	            url: '/menus/new-menu/',
-	            templateUrl: 'admin.client.menusNew.view.html'
+	            templateUrl: 'admin.client.menusNew.view.html',
+	            controller: 'AdminNewMenuController as menu',
+	            resolve: {
+	                pages: function (AdminPagesAPIService) {
+	                    return AdminPagesAPIService.query(function (pages) {
+	                        pages.forEach(function (page, i) {
+	                            page.checked = false;
+	                            page.menuItemId = i;
+	                        });
+
+	                        return pages;
+	                    });
+	                }
+	            }
 	        })
 	        .state('editMenu', {
 	            url: '/menus/:menuId',
-	            templateUrl: 'admin.client.menusEdit.view.html'
+	            templateUrl: 'admin.client.menusEdit.view.html',
+	            controller: 'AdminUpdateMenuController as menu',
+	            resolve: {
+	                pages: function (AdminPagesAPIService) {
+	                    return AdminPagesAPIService.query(function (pages) {
+	                        pages.forEach(function (page, i) {
+	                            page.checked = false;
+	                            page.menuItemId = i;
+	                        });
+
+	                        return pages;
+	                    });
+	                },
+	                menu: function ($stateParams, AdminMenusAPIService) {
+	                    return AdminMenusAPIService.get({
+	                        menuId: $stateParams.menuId
+	                    });
+	                }
+	            }
 	        });
 	}
 
@@ -43006,26 +43070,22 @@
 /* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('menus')
 	    .controller('AdminGetMenusController', AdminGetMenusController);
 
-	function AdminGetMenusController(AdminMenusAPIService) {
+	function AdminGetMenusController (
+	    menus
+	) {
+	    'use strict';
 
 	    var vm = this;
 
-	    vm.menus      = {};
-	    vm.getMenus   = getMenus;
+	    vm.menus = menus;
 	    vm.removeMenu = removeMenu;
 	    vm.setSelectedMenu = setSelectedMenu;
 	    vm.selectedMenu = null;
-
-	    function getMenus() {
-	        vm.menus = AdminMenusAPIService.query();
-	    }
 
 	    function removeMenu() {
 	        var index = vm.menus.indexOf(vm.selectedMenu);
@@ -43048,36 +43108,31 @@
 /* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('menus')
 	    .controller('AdminManageMenuLocationsController', AdminManageMenuLocationsController);
 
-	function AdminManageMenuLocationsController(
-	    $scope,
+	function AdminManageMenuLocationsController (
 	    $rootScope,
 	    $timeout,
-	    AdminMenusAPIService,
 	    AdminManageMenuLocationsService,
-	    AdminUtilitiesServices) {
+	    AdminUtilitiesServices,
+	    menus,
+	    menuLocations
+	) {
+	    'use strict';
 
 	    var vm = this;
 
-	    vm.menus = AdminMenusAPIService.query();
+	    vm.menus = menus;
 	    vm.updateMenuLocations = updateMenuLocations;
+	    vm.menuLocations = menuLocations.data[0];
 
-	    AdminManageMenuLocationsService.getMenuLocations()
-	        .then(function (menuLocations) {
-	            vm.menuLocations = menuLocations.data[0];
-
-
-	            $timeout(function () {
-	                angular.element('.site-primary-menu .select-dropdown').val(vm.menuLocations.primary);
-	                angular.element('.site-secondary-menu .select-dropdown').val(vm.menuLocations.secondary);
-	            });
-	        });
+	    $timeout(function () {
+	        angular.element('.site-primary-menu .select-dropdown').val(vm.menuLocations.primary);
+	        angular.element('.site-secondary-menu .select-dropdown').val(vm.menuLocations.secondary);
+	    });
 
 	    function updateMenuLocations() {
 
@@ -43113,23 +43168,23 @@
 /* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('menus')
 	    .controller('AdminNewMenuController', AdminNewMenuController);
 
-	function AdminNewMenuController(
+	function AdminNewMenuController (
 	    $scope,
 	    $location,
 	    $rootScope,
-	    AdminPagesAPIService,
-	    AdminMenusAPIService) {
+	    AdminMenusAPIService,
+	    pages
+	) {
+	    'use strict';
 
 	    var vm = this;
 
-	    vm.pages = addPropertiesToPagesModel();
+	    vm.pages = pages;
 	    vm.menu = {};
 	    vm.menuItems = [];
 	    vm.menuItemsProxy = [];
@@ -43138,17 +43193,6 @@
 	    vm.removeMenuItem = removeMenuItem;
 	    vm.newMenu = newMenu;
 	    vm.errors = __webpack_require__(69);
-
-	    function addPropertiesToPagesModel () {
-	        return AdminPagesAPIService.query(function (pages) {
-	            pages.forEach(function (page, i) {
-	                page.checked = false;
-	                page.menuItemId = i;
-	            });
-
-	            return pages;
-	        });
-	    }
 
 	    function addMenuItemToProxy (page, menuItemId) {
 	        var index = vm.pages.indexOf(page);
@@ -43229,52 +43273,31 @@
 /* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('menus')
 	    .controller('AdminUpdateMenuController', AdminUpdateMenuController);
 
-	function AdminUpdateMenuController(
+	function AdminUpdateMenuController (
 	    $scope,
 	    $rootScope,
-	    $stateParams,
-	    AdminPagesAPIService,
-	    AdminMenusAPIService,
-	    AdminUtilitiesServices) {
+	    AdminUtilitiesServices,
+	    pages,
+	    menu
+	) {
+	    'use strict';
 
 	    var vm = this;
 
-	    vm.pages = addPropertiesToPagesModel();
-	    vm.menu = {};
-	    vm.menuItems = [];
+	    vm.pages = pages;
+	    vm.menu = menu;
+	    vm.menuItems = vm.menu.items;
 	    vm.menuItemsProxy = [];
-	    vm.getMenu = getMenu;
 	    vm.addMenuItemToProxy = addMenuItemToProxy;
 	    vm.addMenuItems = addMenuItems;
 	    vm.removeMenuItem = removeMenuItem;
 	    vm.updateMenu = updateMenu;
 	    vm.errors = __webpack_require__(69);
-
-	    function addPropertiesToPagesModel() {
-	        return AdminPagesAPIService.query(function (pages) {
-	            pages.forEach(function (page, i) {
-	                page.checked    = false;
-	                page.menuItemId = i;
-	            });
-
-	            return pages;
-	        });
-	    }
-
-	    function getMenu() {
-	        vm.menu = AdminMenusAPIService.get({
-	            menuId: $stateParams.menuId
-	        }, function () {
-	            vm.menuItems = vm.menu.items;
-	        });
-	    }
 
 	    function addMenuItemToProxy(page, menuItemId) {
 	        var index = vm.pages.indexOf(page);
@@ -43371,20 +43394,29 @@
 /* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('categories')
 	    .config(adminCategoryRoutes);
 
-	function adminCategoryRoutes ($stateProvider, $urlRouterProvider) {
+	function adminCategoryRoutes (
+	    $stateProvider, 
+	    $urlRouterProvider
+	) {
+	    'use strict';
+	    
 	    $urlRouterProvider.otherwise('/');
 
 	    $stateProvider
 	        .state('categories', {
 	            url: '/categories/',
-	            templateUrl: 'admin.client.categories.view.html'
+	            templateUrl: 'admin.client.categories.view.html',
+	            controller: 'AdminGetCategoriesController as categories',
+	            resolve: {
+	                categories: function (AdminCategoriesAPIService) {
+	                    return AdminCategoriesAPIService.query();
+	                }
+	            }
 	        })
 	        .state('newCategory', {
 	            url: '/new-category/',
@@ -43392,7 +43424,15 @@
 	        })
 	        .state('editCategory', {
 	            url: '/categories/:categoryId',
-	            templateUrl: 'admin.client.categoriesEdit.view.html'
+	            templateUrl: 'admin.client.categoriesEdit.view.html',
+	            controller: 'AdminUpdateCategoryController as category',
+	            resolve: {
+	                category: function ($stateParams, AdminCategoriesAPIService) {
+	                    return AdminCategoriesAPIService.get({
+	                        categoryId: $stateParams.categoryId
+	                    });
+	                }
+	            }
 	        })
 	}
 
@@ -43443,30 +43483,25 @@
 /* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('categories')
 	    .controller('AdminGetCategoriesController', AdminGetCategoriesController);
 
 	function AdminGetCategoriesController (
-	    AdminCategoriesAPIService,
-	    AdminUserAuthenticationService) {
+	    AdminUserAuthenticationService,
+	    categories
+	) {
+	    'use strict';
 
 	    var vm = this;
 
-	    vm.categories     = {};
-	    vm.getCategories  = getCategories;
+	    vm.categories = categories;
 	    vm.removeCategory = removeCategory;
 	    vm.setSelectedCategory = setSelectedCategory;
 	    vm.selectedCategory = null;
 
 	    AdminUserAuthenticationService();
-
-	    function getCategories() {
-	        vm.categories = AdminCategoriesAPIService.query();
-	    }
 
 	    function removeCategory() {
 	        var index = vm.categories.indexOf(vm.selectedCategory);
@@ -43489,30 +43524,30 @@
 /* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('categories')
 	    .controller('AdminNewCategoryController', AdminNewCategoryController);
 
-	function AdminNewCategoryController(
+	function AdminNewCategoryController (
 	    $scope,
 	    $location,
 	    $rootScope,
 	    AdminCategoriesAPIService,
-	    AdminUserAuthenticationService) {
+	    AdminUserAuthenticationService
+	) {
+	    'use strict';
 
 	    var vm = this;
 
-	    vm.category    = {};
+	    vm.category = {};
 	    vm.newCategory = newCategory;
-	    vm.errorTitle  = null;
+	    vm.errorTitle = null;
 	    vm.errors = __webpack_require__(79);
 
 	    AdminUserAuthenticationService();
 
-	    function newCategory() {
+	    function newCategory () {
 	        if ($scope.newCategoryForm.$valid) {
 
 	            var Category = new AdminCategoriesAPIService({
@@ -43552,8 +43587,6 @@
 /* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('categories')
@@ -43562,25 +43595,19 @@
 	function AdminUpdateCategoryController (
 	    $scope,
 	    $rootScope,
-	    $stateParams,
-	    AdminCategoriesAPIService,
 	    AdminUserAuthenticationService,
-	    AdminUtilitiesServices) {
+	    AdminUtilitiesServices,
+	    category
+	) {
+	    'use strict';
 
 	    AdminUserAuthenticationService();
 
 	    var vm = this;
 
-	    vm.category       = {};
+	    vm.category = category;
 	    vm.updateCategory = updateCategory;
-	    vm.getCategory    = getCategory;
 	    vm.errors = __webpack_require__(79);
-
-	    function getCategory() {
-	        vm.category = AdminCategoriesAPIService.get({
-	            categoryId: $stateParams.categoryId
-	        });
-	    }
 
 	    function updateCategory() {
 	        if ($scope.updateCategoryForm.$valid) {
@@ -43638,28 +43665,53 @@
 /* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('pages')
 	    .config(adminPageRoutes);
 
 	function adminPageRoutes ($stateProvider, $urlRouterProvider) {
+	    'use strict';
+	    
 	    $urlRouterProvider.otherwise('/');
 
 	    $stateProvider
 	        .state('pages', {
 	            url: '/pages/',
-	            templateUrl: 'admin.client.pages.view.html'
+	            templateUrl: 'admin.client.pages.view.html',
+	            controller: 'AdminGetPagesController as pages',
+	            resolve: {
+	                pages: function (AdminPagesAPIService) {
+	                    return AdminPagesAPIService.query()
+	                }
+	            }
 	        })
 	        .state('newPage', {
 	            url: '/pages/new-page/',
-	            templateUrl: 'admin.client.pagesNew.view.html'
+	            templateUrl: 'admin.client.pagesNew.view.html',
+	            controller: 'AdminNewPageController as page',
+	            resolve: {
+	                categories: function (AdminCategoriesAPIService) {
+	                    console.log(AdminCategoriesAPIService.query());
+	                    return AdminCategoriesAPIService.query();
+	                },
+	                sidebars: function (AdminSidebarsAPIService) {
+	                    return AdminSidebarsAPIService.query();
+	                }
+	            }
 	        })
 	        .state('editPage', {
 	            url: '/pages/:pageId',
-	            templateUrl: 'admin.client.pagesEdit.view.html'
+	            templateUrl: 'admin.client.pagesEdit.view.html',
+	            controller: 'AdminUpdatePageController as page',
+	            resolve: {
+	                categories: function (AdminCategoriesAPIService) {
+	                    return AdminCategoriesAPIService.query();
+	                },
+	                sidebars: function (AdminSidebarsAPIService) {
+	                    return AdminSidebarsAPIService.query();
+	                }
+	            }
 	        });
 	}
 
@@ -43710,20 +43762,20 @@
 /* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('pages')
 	    .controller('AdminGetPagesController', AdminGetPagesController);
 
 	function AdminGetPagesController (
-	    AdminPagesAPIService,
-	    AdminUtilitiesServices) {
-
+	    AdminUtilitiesServices,
+	    pages
+	) {
+	    'use strict';
+	    
 	    var vm = this;
 
-	    vm.pages = AdminPagesAPIService.query();
+	    vm.pages = pages;
 	    vm.frontEndURL = AdminUtilitiesServices.createHostURL();
 	    vm.removePage = removePage;
 	    vm.setSelectedPage = setSelectedPage;
@@ -43751,31 +43803,31 @@
 /* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('pages')
 	    .controller('AdminNewPageController', AdminNewPageController);
 
-	function AdminNewPageController(
+	function AdminNewPageController (
 	    $scope,
 	    $rootScope,
 	    $location,
 	    AdminPagesAPIService,
-	    AdminCategoriesAPIService,
 	    AdminUserAuthenticationService,
-	    AdminSidebarsAPIService,
-	    AdminUtilitiesServices) {
-
+	    AdminUtilitiesServices,
+	    categories,
+	    sidebars
+	) {
+	    'use strict';
+	    
 	    AdminUserAuthenticationService();
 
 	    var vm = this;
 
 	    vm.page = {};
 	    vm.newPage = newPage;
-	    vm.categories = AdminCategoriesAPIService.query();
-	    vm.sidebars = AdminSidebarsAPIService.query();
+	    vm.categories = categories;
+	    vm.sidebars = sidebars;
 	    vm.errors = __webpack_require__(89);
 
 	    // create host url to view front end page
@@ -43787,8 +43839,6 @@
 	            // Make sure value of page body textarea is identical to CKEditor value
 	            vm.page.body = angular.element('.cke_wysiwyg_div').html() ||
 	                angular.element('.cke_source').val();
-
-	            console.log(vm.page.sidebarLeft, vm.page.sidebarRight);
 
 	            var Page = new AdminPagesAPIService({
 	                createdBy: $rootScope.np.auth.user.username,
@@ -43830,24 +43880,24 @@
 /* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('pages')
 	    .controller('AdminUpdatePageController', AdminUpdatePageController);
 
-	function AdminUpdatePageController(
+	function AdminUpdatePageController (
 	    $scope,
 	    $rootScope,
 	    $stateParams,
 	    $timeout,
-	    AdminCategoriesAPIService,
 	    AdminPagesAPIService,
-	    AdminSidebarsAPIService,
 	    AdminUserAuthenticationService,
-	    AdminUtilitiesServices) {
-
+	    AdminUtilitiesServices,
+	    categories,
+	    sidebars
+	) {
+	    'use strict';
+	    
 	    AdminUserAuthenticationService();
 
 	    var vm = this;
@@ -43855,10 +43905,11 @@
 	    vm.page = {};
 	    vm.getPage = getPage();
 	    vm.updatePage = updatePage;
-	    vm.categories = AdminCategoriesAPIService.query();
-	    vm.sidebars = AdminSidebarsAPIService.query();
+	    vm.init = init;
 	    vm.errors = __webpack_require__(89);
 	    vm.frontEndURL = '';
+	    vm.categories = categories;
+	    vm.sidebars = sidebars;
 
 	    function getPage() {
 	        vm.page = AdminPagesAPIService.get({
@@ -43954,15 +44005,30 @@
 	    $stateProvider
 	        .state('sidebars', {
 	            url: '/sidebars/',
-	            templateUrl: 'admin.client.sidebars.view.html'
+	            templateUrl: 'admin.client.sidebars.view.html',
+	            controller: 'AdminGetSidebarsController as sidebars',
+	            resolve: {
+	                sidebars: function (AdminSidebarsAPIService) {
+	                    return AdminSidebarsAPIService.query()
+	                }
+	            }
 	        })
 	        .state('newSidebar', {
 	            url: '/sidebars/new-sidebar',
-	            templateUrl: 'admin.client.sidebarsNew.view.html'
+	            templateUrl: 'admin.client.sidebarsNew.view.html',
+	            controller: 'AdminNewSidebarController as sidebar'
 	        })
 	        .state('editSidebar', {
 	            url: '/sidebars/:sidebarId',
-	            templateUrl: 'admin.client.sidebarsEdit.view.html'
+	            templateUrl: 'admin.client.sidebarsEdit.view.html',
+	            controller: 'AdminUpdateSidebarController as sidebar',
+	            resolve: {
+	                sidebar: function ($stateParams, AdminSidebarsAPIService) {
+	                    return AdminSidebarsAPIService.get({
+	                        sidebarId: $stateParams.sidebarId
+	                    });
+	                }
+	            }
 	        });
 	}
 
@@ -44013,23 +44079,22 @@
 /* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('sidebars')
 	    .controller('AdminGetSidebarsController', AdminGetSidebarsController);
 
-	function AdminGetSidebarsController (AdminSidebarsAPIService) {
+	function AdminGetSidebarsController (
+	    sidebars
+	) {
+	    'use strict';
 
 	    var vm = this;
 
-	    vm.sidebars = {};
+	    vm.sidebars = sidebars;
 	    vm.removeSidebar = removeSidebar;
 	    vm.setSelectedSidebar = setSelectedSidebar;
 	    vm.selectedSidebar = null;
-
-	    vm.sidebars = AdminSidebarsAPIService.query();
 
 	    function removeSidebar() {
 	        var index = vm.sidebars.indexOf(vm.selectedSidebar);
@@ -44123,10 +44188,7 @@
 /* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
-
 
 	module.exports = angular.module('menus')
 	    .controller('AdminUpdateSidebarController', AdminUpdateSidebarController);
@@ -44134,20 +44196,21 @@
 	function AdminUpdateSidebarController (
 	    $scope,
 	    $rootScope,
-	    $stateParams,
-	    AdminSidebarsAPIService,
-	    AdminUtilitiesServices) {
+	    AdminUtilitiesServices,
+	    sidebar
+	) {
+	    'use strict';
 
 	    var vm = this;
 
 	    vm.avaliableSidebarItems = $rootScope.np.settings.pluginsConfig;
-	    vm.sidebar = {};
-	    vm.sidebarItems = [];
+	    vm.sidebar = sidebar;
+	    vm.sidebarItems = vm.sidebar.items;
 	    vm.sidebarItemIds = [];
+	    vm.counter = getSidebarCount();
 	    vm.updateSidebar = updateSidebar;
 	    vm.addSidebarItem = addSidebarItem;
 	    vm.removeSidebarItem = removeSidebarItem;
-	    vm.getSidebar = getSidebar;
 	    vm.sortableOptions = {
 	        handle: '.sort-handle'
 	    };
@@ -44160,15 +44223,6 @@
 	        return Math.max.apply(null, vm.sidebarItemIds) || 0;
 	    }
 
-	    function getSidebar () {
-	        vm.sidebar = AdminSidebarsAPIService.get({
-	            sidebarId: $stateParams.sidebarId
-	        }, function () {
-	            vm.sidebarItems = vm.sidebar.items;
-	            vm.counter = getSidebarCount();
-	        });
-	    }
-
 	    function addSidebarItem (index) {
 	        var sidebarItem = angular.copy(vm.avaliableSidebarItems[index]);
 
@@ -44179,6 +44233,7 @@
 
 	    function removeSidebarItem (sidebarItem) {
 	        var index = vm.sidebarItems.indexOf(sidebarItem);
+	        
 	        vm.sidebarItems.splice(index, 1);
 	        vm.counter = getSidebarCount();
 	    }

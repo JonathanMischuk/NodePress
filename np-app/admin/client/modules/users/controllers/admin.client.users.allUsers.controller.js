@@ -1,22 +1,19 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('users')
     .controller('AdminGetUsersController', AdminGetUsersController);
 
-function AdminGetUsersController(AdminUsersAPIService) {
+function AdminGetUsersController (
+    users
+) {
+    'use strict';
+    
     var vm = this;
 
-    vm.users      = [];
-    vm.getUsers   = getUsers;
+    vm.users = users;
     vm.removeUser = removeUser;
     vm.setSelectedUser = setSelectedUser;
     vm.selectedUser = null;
-
-    function getUsers() {
-        vm.users = AdminUsersAPIService.query();
-    }
 
     function removeUser() {
         var index = vm.users.indexOf(vm.selectedUser);

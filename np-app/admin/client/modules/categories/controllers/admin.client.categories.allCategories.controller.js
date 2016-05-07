@@ -1,27 +1,22 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('categories')
     .controller('AdminGetCategoriesController', AdminGetCategoriesController);
 
 function AdminGetCategoriesController (
-    AdminCategoriesAPIService,
-    AdminUserAuthenticationService) {
+    AdminUserAuthenticationService,
+    categories
+) {
+    'use strict';
 
     var vm = this;
 
-    vm.categories     = {};
-    vm.getCategories  = getCategories;
+    vm.categories = categories;
     vm.removeCategory = removeCategory;
     vm.setSelectedCategory = setSelectedCategory;
     vm.selectedCategory = null;
 
     AdminUserAuthenticationService();
-
-    function getCategories() {
-        vm.categories = AdminCategoriesAPIService.query();
-    }
 
     function removeCategory() {
         var index = vm.categories.indexOf(vm.selectedCategory);

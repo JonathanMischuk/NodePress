@@ -1,17 +1,17 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('pages')
     .controller('AdminGetPagesController', AdminGetPagesController);
 
 function AdminGetPagesController (
-    AdminPagesAPIService,
-    AdminUtilitiesServices) {
-
+    AdminUtilitiesServices,
+    pages
+) {
+    'use strict';
+    
     var vm = this;
 
-    vm.pages = AdminPagesAPIService.query();
+    vm.pages = pages;
     vm.frontEndURL = AdminUtilitiesServices.createHostURL();
     vm.removePage = removePage;
     vm.setSelectedPage = setSelectedPage;

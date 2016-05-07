@@ -1,28 +1,28 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('pages')
     .controller('AdminNewPageController', AdminNewPageController);
 
-function AdminNewPageController(
+function AdminNewPageController (
     $scope,
     $rootScope,
     $location,
     AdminPagesAPIService,
-    AdminCategoriesAPIService,
     AdminUserAuthenticationService,
-    AdminSidebarsAPIService,
-    AdminUtilitiesServices) {
-
+    AdminUtilitiesServices,
+    categories,
+    sidebars
+) {
+    'use strict';
+    
     AdminUserAuthenticationService();
 
     var vm = this;
 
     vm.page = {};
     vm.newPage = newPage;
-    vm.categories = AdminCategoriesAPIService.query();
-    vm.sidebars = AdminSidebarsAPIService.query();
+    vm.categories = categories;
+    vm.sidebars = sidebars;
     vm.errors = require('../errors/admin.client.pages.errors');
 
     // create host url to view front end page
@@ -34,8 +34,6 @@ function AdminNewPageController(
             // Make sure value of page body textarea is identical to CKEditor value
             vm.page.body = angular.element('.cke_wysiwyg_div').html() ||
                 angular.element('.cke_source').val();
-
-            console.log(vm.page.sidebarLeft, vm.page.sidebarRight);
 
             var Page = new AdminPagesAPIService({
                 createdBy: $rootScope.np.auth.user.username,

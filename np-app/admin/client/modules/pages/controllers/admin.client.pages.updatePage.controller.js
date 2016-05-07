@@ -1,21 +1,21 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('pages')
     .controller('AdminUpdatePageController', AdminUpdatePageController);
 
-function AdminUpdatePageController(
+function AdminUpdatePageController (
     $scope,
     $rootScope,
     $stateParams,
     $timeout,
-    AdminCategoriesAPIService,
     AdminPagesAPIService,
-    AdminSidebarsAPIService,
     AdminUserAuthenticationService,
-    AdminUtilitiesServices) {
-
+    AdminUtilitiesServices,
+    categories,
+    sidebars
+) {
+    'use strict';
+    
     AdminUserAuthenticationService();
 
     var vm = this;
@@ -23,10 +23,11 @@ function AdminUpdatePageController(
     vm.page = {};
     vm.getPage = getPage();
     vm.updatePage = updatePage;
-    vm.categories = AdminCategoriesAPIService.query();
-    vm.sidebars = AdminSidebarsAPIService.query();
+    vm.init = init;
     vm.errors = require('../errors/admin.client.pages.errors');
     vm.frontEndURL = '';
+    vm.categories = categories;
+    vm.sidebars = sidebars;
 
     function getPage() {
         vm.page = AdminPagesAPIService.get({

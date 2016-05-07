@@ -1,27 +1,27 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('categories')
     .controller('AdminNewCategoryController', AdminNewCategoryController);
 
-function AdminNewCategoryController(
+function AdminNewCategoryController (
     $scope,
     $location,
     $rootScope,
     AdminCategoriesAPIService,
-    AdminUserAuthenticationService) {
+    AdminUserAuthenticationService
+) {
+    'use strict';
 
     var vm = this;
 
-    vm.category    = {};
+    vm.category = {};
     vm.newCategory = newCategory;
-    vm.errorTitle  = null;
+    vm.errorTitle = null;
     vm.errors = require('../errors/admin.client.categories.errors');
 
     AdminUserAuthenticationService();
 
-    function newCategory() {
+    function newCategory () {
         if ($scope.newCategoryForm.$valid) {
 
             var Category = new AdminCategoriesAPIService({

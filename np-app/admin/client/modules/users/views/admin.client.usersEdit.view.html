@@ -1,7 +1,4 @@
-<div class="page-gutter-right ng-cloak"
-     ng-controller="AdminUpdateUserController as user"
-     ng-init="user.getUser()">
-
+<div class="page-gutter-right ng-cloak">
     <h1>Edit User Information</h1>
 
     <form name="userForm" ng-submit="user.updateUser()" novalidate>
@@ -115,8 +112,10 @@
                     </a>
                 </span>
             </h5>
-            <form ng-show="!user.success" role="form" name="updateUserPasswordForm"
-                   ng-submit="user.updateUserPassword()" novalidate>
+            <form ng-show="!user.success"
+                  role="form" name="updateUserPasswordForm"
+                  ng-submit="user.updateUserPassword()"
+                  novalidate>
 
                 <div>
                     <label for="password">New password</label>

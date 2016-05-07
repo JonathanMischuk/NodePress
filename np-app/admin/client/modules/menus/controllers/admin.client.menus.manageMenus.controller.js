@@ -1,33 +1,28 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('menus')
     .controller('AdminManageMenuLocationsController', AdminManageMenuLocationsController);
 
-function AdminManageMenuLocationsController(
-    $scope,
+function AdminManageMenuLocationsController (
     $rootScope,
     $timeout,
-    AdminMenusAPIService,
     AdminManageMenuLocationsService,
-    AdminUtilitiesServices) {
+    AdminUtilitiesServices,
+    menus,
+    menuLocations
+) {
+    'use strict';
 
     var vm = this;
 
-    vm.menus = AdminMenusAPIService.query();
+    vm.menus = menus;
     vm.updateMenuLocations = updateMenuLocations;
+    vm.menuLocations = menuLocations.data[0];
 
-    AdminManageMenuLocationsService.getMenuLocations()
-        .then(function (menuLocations) {
-            vm.menuLocations = menuLocations.data[0];
-
-
-            $timeout(function () {
-                angular.element('.site-primary-menu .select-dropdown').val(vm.menuLocations.primary);
-                angular.element('.site-secondary-menu .select-dropdown').val(vm.menuLocations.secondary);
-            });
-        });
+    $timeout(function () {
+        angular.element('.site-primary-menu .select-dropdown').val(vm.menuLocations.primary);
+        angular.element('.site-secondary-menu .select-dropdown').val(vm.menuLocations.secondary);
+    });
 
     function updateMenuLocations() {
 

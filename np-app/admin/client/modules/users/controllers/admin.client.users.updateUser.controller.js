@@ -1,39 +1,30 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('users')
     .controller('AdminUpdateUserController', AdminUpdateUserController);
 
-function AdminUpdateUserController(
+function AdminUpdateUserController (
     $scope,
-    $stateParams,
     $timeout,
-    AdminUsersAPIService,
     AdminUserUpdatePasswordService,
     AdminUserRolesService,
-    AdminUtilitiesServices) {
+    AdminUtilitiesServices,
+    user
+) {
+    'use strict';
 
     var vm = this;
 
-    vm.user = {};
+    vm.user = user;
     vm.roles = AdminUserRolesService;
-    vm.getUser = getUser;
     vm.updateUser = updateUser;
     vm.updateUserPassword = updateUserPassword;
     vm.errors = require('../errors/admin.client.users.errors');
 
-    function getUser () {
-        vm.user = AdminUsersAPIService.get({
-            user: $stateParams.user
-        }, function (user) {
-
-            // set Materialize select box default value
-            $timeout(function () {
-                angular.element('.site-user-role .select-dropdown').val(user.role);
-            });
-        });
-    }
+    // set Materialize select box default value
+    $timeout(function () {
+        angular.element('.site-user-role .select-dropdown').val(user.role);
+    });
 
     function updateUser () {
         if ($scope.userForm.$valid) {

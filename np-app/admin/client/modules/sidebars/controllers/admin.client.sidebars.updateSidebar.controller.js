@@ -1,7 +1,4 @@
-'use strict';
-
 var angular = require('angular');
-
 
 module.exports = angular.module('menus')
     .controller('AdminUpdateSidebarController', AdminUpdateSidebarController);
@@ -9,20 +6,21 @@ module.exports = angular.module('menus')
 function AdminUpdateSidebarController (
     $scope,
     $rootScope,
-    $stateParams,
-    AdminSidebarsAPIService,
-    AdminUtilitiesServices) {
+    AdminUtilitiesServices,
+    sidebar
+) {
+    'use strict';
 
     var vm = this;
 
     vm.avaliableSidebarItems = $rootScope.np.settings.pluginsConfig;
-    vm.sidebar = {};
-    vm.sidebarItems = [];
+    vm.sidebar = sidebar;
+    vm.sidebarItems = vm.sidebar.items;
     vm.sidebarItemIds = [];
+    vm.counter = getSidebarCount();
     vm.updateSidebar = updateSidebar;
     vm.addSidebarItem = addSidebarItem;
     vm.removeSidebarItem = removeSidebarItem;
-    vm.getSidebar = getSidebar;
     vm.sortableOptions = {
         handle: '.sort-handle'
     };
@@ -35,15 +33,6 @@ function AdminUpdateSidebarController (
         return Math.max.apply(null, vm.sidebarItemIds) || 0;
     }
 
-    function getSidebar () {
-        vm.sidebar = AdminSidebarsAPIService.get({
-            sidebarId: $stateParams.sidebarId
-        }, function () {
-            vm.sidebarItems = vm.sidebar.items;
-            vm.counter = getSidebarCount();
-        });
-    }
-
     function addSidebarItem (index) {
         var sidebarItem = angular.copy(vm.avaliableSidebarItems[index]);
 
@@ -54,6 +43,7 @@ function AdminUpdateSidebarController (
 
     function removeSidebarItem (sidebarItem) {
         var index = vm.sidebarItems.indexOf(sidebarItem);
+        
         vm.sidebarItems.splice(index, 1);
         vm.counter = getSidebarCount();
     }

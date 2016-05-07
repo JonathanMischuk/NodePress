@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('categories')
@@ -8,25 +6,19 @@ module.exports = angular.module('categories')
 function AdminUpdateCategoryController (
     $scope,
     $rootScope,
-    $stateParams,
-    AdminCategoriesAPIService,
     AdminUserAuthenticationService,
-    AdminUtilitiesServices) {
+    AdminUtilitiesServices,
+    category
+) {
+    'use strict';
 
     AdminUserAuthenticationService();
 
     var vm = this;
 
-    vm.category       = {};
+    vm.category = category;
     vm.updateCategory = updateCategory;
-    vm.getCategory    = getCategory;
     vm.errors = require('../errors/admin.client.categories.errors');
-
-    function getCategory() {
-        vm.category = AdminCategoriesAPIService.get({
-            categoryId: $stateParams.categoryId
-        });
-    }
 
     function updateCategory() {
         if ($scope.updateCategoryForm.$valid) {

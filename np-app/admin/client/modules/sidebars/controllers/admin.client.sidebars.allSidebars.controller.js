@@ -1,20 +1,19 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('sidebars')
     .controller('AdminGetSidebarsController', AdminGetSidebarsController);
 
-function AdminGetSidebarsController (AdminSidebarsAPIService) {
+function AdminGetSidebarsController (
+    sidebars
+) {
+    'use strict';
 
     var vm = this;
 
-    vm.sidebars = {};
+    vm.sidebars = sidebars;
     vm.removeSidebar = removeSidebar;
     vm.setSelectedSidebar = setSelectedSidebar;
     vm.selectedSidebar = null;
-
-    vm.sidebars = AdminSidebarsAPIService.query();
 
     function removeSidebar() {
         var index = vm.sidebars.indexOf(vm.selectedSidebar);

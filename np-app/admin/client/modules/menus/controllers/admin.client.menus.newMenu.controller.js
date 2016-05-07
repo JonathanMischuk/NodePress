@@ -1,20 +1,20 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('menus')
     .controller('AdminNewMenuController', AdminNewMenuController);
 
-function AdminNewMenuController(
+function AdminNewMenuController (
     $scope,
     $location,
     $rootScope,
-    AdminPagesAPIService,
-    AdminMenusAPIService) {
+    AdminMenusAPIService,
+    pages
+) {
+    'use strict';
 
     var vm = this;
 
-    vm.pages = addPropertiesToPagesModel();
+    vm.pages = pages;
     vm.menu = {};
     vm.menuItems = [];
     vm.menuItemsProxy = [];
@@ -23,17 +23,6 @@ function AdminNewMenuController(
     vm.removeMenuItem = removeMenuItem;
     vm.newMenu = newMenu;
     vm.errors = require('../errors/admin.client.menus.errors');
-
-    function addPropertiesToPagesModel () {
-        return AdminPagesAPIService.query(function (pages) {
-            pages.forEach(function (page, i) {
-                page.checked = false;
-                page.menuItemId = i;
-            });
-
-            return pages;
-        });
-    }
 
     function addMenuItemToProxy (page, menuItemId) {
         var index = vm.pages.indexOf(page);

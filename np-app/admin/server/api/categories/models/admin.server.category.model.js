@@ -2,6 +2,7 @@
 
 var db = require('../../../config/admin.server.db'),
     uniqueValidator = require('mongoose-unique-validator'),
+    NpDatesTool = require('../../../../../../np-tools/human.readable.date'),
     Category = db.Schema({
         createdBy: {
             type: String
@@ -18,8 +19,8 @@ var db = require('../../../config/admin.server.db'),
             type: String
         },
         publishDate: {
-            type: Date,
-            default: Date.now
+            type: String,
+            default: NpDatesTool.createHumanReadableDate
         },
         modifiedBy: {
             type: String

@@ -2,6 +2,7 @@
 
 var db = require('../../../config/admin.server.db'),
     uniqueValidator = require('mongoose-unique-validator'),
+    NpDatesTool = require('../../../../../../np-tools/human.readable.date'),
     SidebarItem = require('./admin.server.sidebarItem.model'),
     Sidebar = db.Schema({
         createdBy: {
@@ -14,8 +15,8 @@ var db = require('../../../config/admin.server.db'),
         },
         items: [SidebarItem],
         publishDate: {
-            type: Date,
-            default: Date.now
+            type: String,
+            default: NpDatesTool.createHumanReadableDate
         },
         modifiedBy: {
             type: String

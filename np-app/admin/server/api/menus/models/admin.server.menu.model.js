@@ -2,6 +2,7 @@
 
 var db = require('../../../config/admin.server.db'),
     uniqueValidator = require('mongoose-unique-validator'),
+    NpDatesTool = require('../../../../../../np-tools/human.readable.date'),
     MenuItem = require('./admin.server.menu.menuItem.model'),
     Menu = db.Schema({
         createdBy: {
@@ -17,8 +18,8 @@ var db = require('../../../config/admin.server.db'),
         },
         items: [MenuItem],
         publishDate: {
-            type: Date,
-            default: Date.now
+            type: String,
+            default: NpDatesTool.createHumanReadableDate
         },
         modifiedBy: {
             type: String

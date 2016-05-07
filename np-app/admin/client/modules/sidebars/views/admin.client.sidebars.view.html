@@ -36,11 +36,13 @@
 
         <div ng-repeat="sidebar in sidebars.sidebars" class="collection-item">
             <span class="badge">
-                <i ng-click="sidebars.removeSidebar(sidebar)"
-                   class="material-icons delete tooltipped"
+                <i ng-click="sidebars.setSelectedSidebar(sidebar)"
+                   class="material-icons delete tooltipped modal-trigger"
                    data-position="top"
                    data-delay="50"
-                   data-tooltip="Remove sidebar">delete</i>
+                   data-tooltip="Remove sidebar"
+                   data-target="modal-delete"
+                   popup-trigger>delete</i>
 
                 <a class="tooltipped"
                    ng-href="/np-admin/sidebars/{{ sidebar._id }}"
@@ -68,6 +70,26 @@
                     <p class="page-title">{{ sidebar.modifiedDate || page.publishDate }}</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-delete">
+        <div class="modal-content">
+            <h5 class="modal-title">Are you sure you want to remove the sidebar?
+
+                <span class="dashboard-actions">
+                    <a class="btn-floating btn-small waves-effect waves-dark pink modal-close">
+                        <i class="material-icons">close</i>
+                    </a>
+                </span>
+            </h5>
+
+            <a ng-click="sidebars.removeSidebar()"
+               class="waves-effect waves-light btn blue modal-close">Remove Sidebar
+            </a>
+
+            <a class="waves-effect waves-light btn blue modal-close">Cancel
+            </a>
         </div>
     </div>
 </div>

@@ -43,11 +43,13 @@
 
         <div ng-repeat="category in categories.categories" class="collection-item">
             <span class="badge">
-                <i ng-click="categories.removeCategory(category)"
-                   class="material-icons delete tooltipped"
+                <i ng-click="categories.setSelectedCategory(category)"
+                   class="material-icons delete tooltipped modal-trigger"
                    data-position="top"
                    data-delay="50"
-                   data-tooltip="Remove category">delete</i>
+                   data-tooltip="Remove category"
+                   data-target="modal-delete"
+                   popup-trigger>delete</i>
 
                 <a ng-href="/np-admin/categories/{{ category._id }}"
                    class="tooltipped"
@@ -79,6 +81,26 @@
                     <p class="page-title">{{ category.modifiedDate || category.publishDate }}</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-delete">
+        <div class="modal-content">
+            <h5 class="modal-title">Are you sure you want to remove the category?
+
+                <span class="dashboard-actions">
+                    <a class="btn-floating btn-small waves-effect waves-dark pink modal-close">
+                        <i class="material-icons">close</i>
+                    </a>
+                </span>
+            </h5>
+
+            <a ng-click="categories.removeCategory()"
+               class="waves-effect waves-light btn blue modal-close">Remove Category
+            </a>
+
+            <a class="waves-effect waves-light btn blue modal-close">Cancel
+            </a>
         </div>
     </div>
 </div>

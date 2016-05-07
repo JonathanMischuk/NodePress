@@ -14,6 +14,8 @@ function AdminGetCategoriesController (
     vm.categories     = {};
     vm.getCategories  = getCategories;
     vm.removeCategory = removeCategory;
+    vm.setSelectedCategory = setSelectedCategory;
+    vm.selectedCategory = null;
 
     AdminUserAuthenticationService();
 
@@ -21,11 +23,18 @@ function AdminGetCategoriesController (
         vm.categories = AdminCategoriesAPIService.query();
     }
 
-    // TODO: find it's own home
-    function removeCategory(category) {
-        var index = vm.categories.indexOf(category);
-        category.$remove();
+    function removeCategory() {
+        var index = vm.categories.indexOf(vm.selectedCategory);
+        vm.selectedCategory.$remove();
 
         vm.categories.splice(index, 1);
+        vm.selectedCategory = null;
+
+        // display success dialog
+        Materialize.toast('Category removed successfully', 4000, 'success');
+    }
+
+    function setSelectedCategory (category) {
+        vm.selectedCategory = category;
     }
 }

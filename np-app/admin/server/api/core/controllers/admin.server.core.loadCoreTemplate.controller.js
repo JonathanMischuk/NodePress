@@ -15,9 +15,6 @@ var fs = require('fs'),
  *
  */
 module.exports = function (req, res, next) {
-    /*var themes = [],
-        skins = [],
-        pluginsConfig = [],*/
     var plugins = fs.readdirSync(__dirname + '/../../../../../../np-site/plugins');
 
     async.series([

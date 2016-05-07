@@ -32,11 +32,14 @@
 
         <div ng-repeat="user in users.users" class="collection-item">
             <span class="badge">
-                <i ng-click="users.removeUser(user)"
-                   class="material-icons delete tooltipped"
+                <i ng-click="users.setSelectedUser(user)"
+                   class="material-icons delete tooltipped modal-trigger"
                    data-position="top"
                    data-delay="50"
-                   data-tooltip="Remove user">delete</i>
+                   data-tooltip="Remove user"
+                   data-target="modal-delete"
+                   popup-trigger>delete
+                </i>
 
                 <a ng-href="/np-admin/users/{{ user.username }}"
                    class="tooltipped"
@@ -65,6 +68,26 @@
                     <p class="page-title">{{ user.modifiedDate }}</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-delete">
+        <div class="modal-content">
+            <h5 class="modal-title">Are you sure you want to remove the user?
+
+                <span class="dashboard-actions">
+                    <a class="btn-floating btn-small waves-effect waves-dark pink modal-close">
+                        <i class="material-icons">close</i>
+                    </a>
+                </span>
+            </h5>
+
+            <a ng-click="users.removeUser()"
+               class="waves-effect waves-light btn blue modal-close">Remove User
+            </a>
+
+            <a class="waves-effect waves-light btn blue modal-close">Cancel
+            </a>
         </div>
     </div>
 </div>

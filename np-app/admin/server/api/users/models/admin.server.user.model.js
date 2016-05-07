@@ -2,6 +2,7 @@
 
 var db = require('../../../config/admin.server.db'),
     uniqueValidator = require('mongoose-unique-validator'),
+    NpDatesTool = require('../../../../../../np-tools/human.readable.date'),
     User = db.Schema({
         firstName: {
             type: String,
@@ -30,9 +31,9 @@ var db = require('../../../config/admin.server.db'),
             required: true
         },
         signUpDate: {
-            type: Date,
-            required: true,
-            default: Date.now
+            type: String,
+            default: NpDatesTool.createHumanReadableDate,
+            required: true
         },
         modifiedBy: {
             type: String

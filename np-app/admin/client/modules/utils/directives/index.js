@@ -7,3 +7,4 @@ require('./admin.client.utils.tooltip.directive');
 require('./admin.client.utils.dropdown.directive');
 require('./admin.client.utils.tabs.directive');
 require('./admin.client.utils.materialboxed.directive');
+require('./admin.client.popupTrigger.directive');

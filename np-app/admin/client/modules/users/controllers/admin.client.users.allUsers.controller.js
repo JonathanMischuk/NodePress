@@ -11,16 +11,25 @@ function AdminGetUsersController(AdminUsersAPIService) {
     vm.users      = [];
     vm.getUsers   = getUsers;
     vm.removeUser = removeUser;
+    vm.setSelectedUser = setSelectedUser;
+    vm.selectedUser = null;
 
     function getUsers() {
         vm.users = AdminUsersAPIService.query();
     }
 
-    // TODO: find it's own home
-    function removeUser(user) {
-        var index = vm.users.indexOf(user);
-        user.$remove();
+    function removeUser() {
+        var index = vm.users.indexOf(vm.selectedUser);
+        vm.selectedUser.$remove();
 
         vm.users.splice(index, 1);
+        vm.selectedUser = null;
+
+        // display success dialog
+        Materialize.toast('User removed successfully', 4000, 'success');
+    }
+
+    function setSelectedUser (user) {
+        vm.selectedUser = user;
     }
 }

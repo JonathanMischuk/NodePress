@@ -24,6 +24,10 @@
                 </div>
 
                 <div class="col s12 m12 l2">
+                    <h5>Publish Date</h5>
+                </div>
+
+                <div class="col s12 m12 l2">
                     <h5>Last Modified</h5>
                 </div>
             </div>
@@ -38,11 +42,14 @@
 
         <div ng-repeat="menu in menus.menus" class="collection-item">
             <span class="badge">
-                <i ng-click="menus.removeMenu(menu)"
-                   class="material-icons delete tooltipped"
+                <i ng-click="menus.setSelectedMenu(menu)"
+                   class="material-icons delete tooltipped modal-trigger"
                    data-position="top"
                    data-delay="50"
-                   data-tooltip="Remove menu">delete</i>
+                   data-tooltip="Remove menu"
+                   data-target="modal-delete"
+                   popup-trigger>delete
+                </i>
 
                 <a ng-href="/np-admin/menus/{{ menu._id }}"
                    class="tooltipped"
@@ -67,9 +74,33 @@
                 </div>
 
                 <div class="col s12 m12 l2">
+                    <p class="page-title">{{ menu.publishDate }}</p>
+                </div>
+
+                <div class="col s12 m12 l2">
                     <p class="page-title">{{ menu.modifiedDate }}</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-delete">
+        <div class="modal-content">
+            <h5 class="modal-title">Are you sure you want to remove the menu?
+
+                <span class="dashboard-actions">
+                    <a class="btn-floating btn-small waves-effect waves-dark pink modal-close">
+                        <i class="material-icons">close</i>
+                    </a>
+                </span>
+            </h5>
+
+            <a ng-click="menus.removeMenu()"
+               class="waves-effect waves-light btn blue modal-close">Remove Menu
+            </a>
+
+            <a class="waves-effect waves-light btn blue modal-close">Cancel
+            </a>
         </div>
     </div>
 </div>

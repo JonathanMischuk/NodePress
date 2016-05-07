@@ -44,17 +44,21 @@
 
         <div ng-repeat="page in pages.pages" class="collection-item">
             <span class="badge">
-                <i ng-click="pages.removePage(page)"
-                   class="material-icons delete tooltipped"
+                <i ng-click="pages.setSelectedPage(page)"
+                   class="material-icons delete tooltipped modal-trigger"
                    data-position="top"
                    data-delay="50"
-                   data-tooltip="Remove page">delete</i>
+                   data-tooltip="Remove page"
+                   data-target="modal-delete"
+                   popup-trigger>delete
+                </i>
 
                 <a class="tooltipped"
                    ng-href="/np-admin/pages/{{ page._id }}"
                    data-position="top"
                    data-delay="50"
                    data-tooltip="Edit page">
+
                     <i class="material-icons edit">edit</i>
                 </a>
             </span>
@@ -88,6 +92,26 @@
                     </p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-delete">
+        <div class="modal-content">
+            <h5 class="modal-title">Are you sure you want to remove the page?
+
+                <span class="dashboard-actions">
+                    <a class="btn-floating btn-small waves-effect waves-dark pink modal-close">
+                        <i class="material-icons">close</i>
+                    </a>
+                </span>
+            </h5>
+
+            <a ng-click="pages.removePage()"
+               class="waves-effect waves-light btn blue modal-close">Remove Page
+            </a>
+
+            <a class="waves-effect waves-light btn blue modal-close">Cancel
+            </a>
         </div>
     </div>
 </div>

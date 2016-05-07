@@ -17,7 +17,9 @@
         <!-- Pages section -->
         <div class="col s12 m12 l3">
             <div class="collection with-header" ng-init="limit = 5">
-                <div class="collection-header">
+                <div class="collection-header"
+                     ng-class="{ 'no-border-bottom': !dashboard.pages.length }">
+
                     <h5>Pages
 
                         <span class="dashboard-actions">
@@ -74,7 +76,9 @@
         <!-- Categories section -->
         <div class="col s12 m12 l3">
             <div class="collection with-header">
-                <div class="collection-header">
+                <div class="collection-header"
+                     ng-class="{ 'no-border-bottom': !dashboard.categories.length }">
+
                     <h5>Categories
 
                         <span class="dashboard-actions">
@@ -96,7 +100,9 @@
                     </h5>
                 </div>
 
-                <div ng-repeat="category in dashboard.categories" class="collection-item">
+                <div ng-repeat="category in dashboard.categories"
+                     class="collection-item">
+
                     <p class="page-title">
                         <a ng-href="/np-admin/categories/{{ category._id }}">
                             {{ category.title }}
@@ -114,7 +120,9 @@
         <!-- Menus section -->
         <div class="col s12 m12 l3">
             <div class="collection with-header">
-                <div class="collection-header">
+                <div class="collection-header"
+                     ng-class="{ 'no-border-bottom': !dashboard.menus.length }">
+
                     <h5>Menus
 
                         <span class="dashboard-actions">
@@ -160,7 +168,9 @@
         <!-- Sidebars section -->
         <div class="col s12 m12 l3">
             <div class="collection with-header">
-                <div class="collection-header">
+                <div class="collection-header"
+                     ng-class="{ 'no-border-bottom': !dashboard.sidebars.length }">
+
                     <h5>Sidebars
 
                         <span class="dashboard-actions">
@@ -190,6 +200,11 @@
                     </p>
                 </div>
             </div>
+
+            <div ng-if="!dashboard.sidebars.length">
+                <p>No sidebars exist yet.</p>
+                <a ui-sref="newSidebar" class="waves-effect waves-light btn blue">Create a Sidebar</a>
+            </div>
         </div>
     </div>
 
@@ -198,7 +213,9 @@
         <!-- Users section -->
         <div class="col s12 m12 l3">
             <div class="collection with-header">
-                <div class="collection-header">
+                <div class="collection-header"
+                     ng-class="{ 'no-border-bottom': !dashboard.users.length }">
+
                     <h5>Users
 
                         <span class="dashboard-actions">

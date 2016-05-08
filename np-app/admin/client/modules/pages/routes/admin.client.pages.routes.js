@@ -38,6 +38,11 @@ function adminPageRoutes ($stateProvider, $urlRouterProvider) {
             templateUrl: 'admin.client.pagesEdit.view.html',
             controller: 'AdminUpdatePageController as page',
             resolve: {
+                page: function ($stateParams, AdminPagesAPIService) {
+                    return AdminPagesAPIService.get({
+                        pageId: $stateParams.pageId
+                    });
+                },
                 categories: function (AdminCategoriesAPIService) {
                     return AdminCategoriesAPIService.query();
                 },

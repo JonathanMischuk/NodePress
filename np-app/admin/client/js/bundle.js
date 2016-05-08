@@ -43705,6 +43705,11 @@
 	            templateUrl: 'admin.client.pagesEdit.view.html',
 	            controller: 'AdminUpdatePageController as page',
 	            resolve: {
+	                page: function ($stateParams, AdminPagesAPIService) {
+	                    return AdminPagesAPIService.get({
+	                        pageId: $stateParams.pageId
+	                    });
+	                },
 	                categories: function (AdminCategoriesAPIService) {
 	                    return AdminCategoriesAPIService.query();
 	                },
@@ -43888,13 +43893,12 @@
 	function AdminUpdatePageController (
 	    $scope,
 	    $rootScope,
-	    $stateParams,
 	    $timeout,
-	    AdminPagesAPIService,
 	    AdminUserAuthenticationService,
 	    AdminUtilitiesServices,
 	    categories,
-	    sidebars
+	    sidebars,
+	    page
 	) {
 	    'use strict';
 	    
@@ -43902,34 +43906,25 @@
 
 	    var vm = this;
 
-	    vm.page = {};
-	    vm.getPage = getPage();
+	    vm.page = page;
 	    vm.updatePage = updatePage;
-	    vm.init = init;
 	    vm.errors = __webpack_require__(89);
 	    vm.frontEndURL = '';
 	    vm.categories = categories;
 	    vm.sidebars = sidebars;
 
-	    function getPage() {
-	        vm.page = AdminPagesAPIService.get({
-	            pageId: $stateParams.pageId
-	        }, function (page) {
+	    // set Materialize select box default value
+	    $timeout(function () {
+	        angular.element('.site-page-category .select-dropdown').val(page.category);
+	        angular.element('.site-page-sidebar-left .select-dropdown').val(page.sidebarLeft);
+	        angular.element('.site-page-sidebar-right .select-dropdown').val(page.sidebarRight);
+	    });
 
-	            // set Materialize select box default value
-	            $timeout(function () {
-	                angular.element('.site-page-category .select-dropdown').val(page.category);
-	                angular.element('.site-page-sidebar-left .select-dropdown').val(page.sidebarLeft);
-	                angular.element('.site-page-sidebar-right .select-dropdown').val(page.sidebarRight);
-	            });
+	    // create host url to view front end page
+	    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
 
-	            // create host url to view front end page
-	            vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
-
-	            // replace page body textarea with CKEditor
-	            CKEDITOR.replace('html-editor', { extraPlugins: 'divarea' });
-	        });
-	    }
+	    // replace page body textarea with CKEditor
+	    CKEDITOR.replace('html-editor', { extraPlugins: 'divarea' });
 
 	    function updatePage() {
 	        if ($scope.updatePageForm.$valid) {

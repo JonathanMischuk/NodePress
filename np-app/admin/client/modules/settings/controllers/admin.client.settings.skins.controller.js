@@ -1,20 +1,20 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('settings')
     .controller('AdminSettingsSkinsController', AdminSettingsSkinsController);
 
 function AdminSettingsSkinsController (
-    $scope,
-    $location,
     $rootScope,
     AdminAppSettingsService,
-    AdminUtilitiesServices) {
+    AdminUtilitiesServices,
+    settings
+) {
+    'use strict';
 
     var vm = this;
 
     vm.skins = [];
+    vm.settings = settings.data[0];
     vm.updateAppSettings = updateAppSettings;
 
     angular.forEach($rootScope.np.settings.skins, function (skin) {
@@ -23,11 +23,6 @@ function AdminSettingsSkinsController (
             preview: '/' + skin + '/preview-skin.jpg'
         });
     });
-
-    AdminAppSettingsService.getAppSettings()
-        .then(function (appSettings) {
-            vm.settings = appSettings.data[0];
-        });
 
     function updateAppSettings(skin) {
 

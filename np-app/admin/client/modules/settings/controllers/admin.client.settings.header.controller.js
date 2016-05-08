@@ -1,15 +1,13 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('settings')
     .controller('AdminSettingsHeaderController', AdminSettingsHeaderController);
 
 function AdminSettingsHeaderController (
-    $scope,
     $rootScope,
-    AdminAppSettingsService,
-    AdminUtilitiesServices) {
+    AdminAppSettingsService
+) {
+    'use strict';
 
     var vm = this;
 
@@ -24,5 +22,4 @@ function AdminSettingsHeaderController (
     $rootScope.$on('adminHeader', function (event, settings) {
         vm.settings.skin = settings;
     });
-
 }

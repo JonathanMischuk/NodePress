@@ -1,41 +1,36 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('settings')
     .controller('AdminSettingsGeneralController', AdminSettingsGeneralController);
 
 function AdminSettingsGeneralController (
-    $scope,
     $rootScope,
     $timeout,
-    AdminPagesAPIService,
     AdminAppSettingsService,
-    AdminUtilitiesServices) {
+    AdminUtilitiesServices,
+    pages,
+    settings
+) {
+    'use strict';
 
     var vm = this;
 
-    vm.pages = AdminPagesAPIService.query();
+    vm.pages = pages;
     vm.themes = [];
+    vm.settings = settings.data[0];
+    vm.settings.siteHomePage = convertSlugToString(vm.settings.siteHomePage);
     vm.updateAppSettings = updateAppSettings;
-    //vm.frontEndURL = AdminUtilitiesServices.createHostURL();
+
+    // set Materialize select box default value
+    $timeout(function () {
+        angular.element('.site-home-page .select-dropdown').val(vm.settings.siteHomePage);
+    }, 100);
 
     angular.forEach($rootScope.np.settings.themes, function (theme) {
         vm.themes.push({
             theme: theme
         });
     });
-
-    AdminAppSettingsService.getAppSettings()
-        .then(function (appSettings) {
-            vm.settings = appSettings.data[0];
-            vm.settings.siteHomePage = convertSlugToString(vm.settings.siteHomePage);
-
-            // set Materialize select box default value
-            $timeout(function () {
-                angular.element('.site-home-page .select-dropdown').val(vm.settings.siteHomePage);
-            });
-        });
 
     function updateAppSettings() {
         if (vm.settings.siteHomePage === null) vm.settings.siteHomePage = 'Home';

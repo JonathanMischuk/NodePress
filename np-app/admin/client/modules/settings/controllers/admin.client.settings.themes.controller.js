@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('settings')
@@ -8,11 +6,15 @@ module.exports = angular.module('settings')
 function AdminSettingsThemesController (
     $rootScope,
     AdminAppSettingsService,
-    AdminUtilitiesServices) {
+    AdminUtilitiesServices,
+    settings
+) {
+    'use strict';
 
     var vm = this;
 
     vm.themes = [];
+    vm.settings = settings.data[0];
     vm.updateAppSettings = updateAppSettings;
 
     angular.forEach($rootScope.np.settings.themes, function (theme) {
@@ -21,11 +23,6 @@ function AdminSettingsThemesController (
             preview: '/' + theme + '/preview.jpg'
         });
     });
-
-    AdminAppSettingsService.getAppSettings()
-        .then(function (appSettings) {
-            vm.settings = appSettings.data[0];
-        });
 
     function updateAppSettings(theme) {
 

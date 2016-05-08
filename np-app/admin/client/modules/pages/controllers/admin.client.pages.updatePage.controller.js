@@ -22,7 +22,7 @@ function AdminUpdatePageController (
     vm.page = page;
     vm.updatePage = updatePage;
     vm.errors = require('../errors/admin.client.pages.errors');
-    vm.frontEndURL = '';
+    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
     vm.categories = categories;
     vm.sidebars = sidebars;
 
@@ -32,9 +32,6 @@ function AdminUpdatePageController (
         angular.element('.site-page-sidebar-left .select-dropdown').val(page.sidebarLeft);
         angular.element('.site-page-sidebar-right .select-dropdown').val(page.sidebarRight);
     });
-
-    // create host url to view front end page
-    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
 
     // replace page body textarea with CKEditor
     CKEDITOR.replace('html-editor', { extraPlugins: 'divarea' });

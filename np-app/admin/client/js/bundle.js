@@ -41952,14 +41952,17 @@
 /* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('settings')
 	    .config(adminSettingsRoutes);
 
-	function adminSettingsRoutes ($stateProvider, $urlRouterProvider) {
+	function adminSettingsRoutes (
+	    $stateProvider, 
+	    $urlRouterProvider
+	) {
+	    'use strict';
+	    
 	    $urlRouterProvider.otherwise('/settings');
 
 	    $stateProvider
@@ -41972,15 +41975,36 @@
 	        })
 	        .state('settings.general', {
 	            url: '/general',
-	            templateUrl: 'admin.client.settings.general.view.html'
+	            templateUrl: 'admin.client.settings.general.view.html',
+	            controller: 'AdminSettingsGeneralController as settings',
+	            resolve: {
+	                pages: function (AdminPagesAPIService) {
+	                    return AdminPagesAPIService.query();
+	                },
+	                settings: function (AdminAppSettingsService) {
+	                    return AdminAppSettingsService.getAppSettings();
+	                }
+	            }
 	        })
 	        .state('settings.themes', {
 	            url: '/themes',
-	            templateUrl: 'admin.client.settings.themes.view.html'
+	            templateUrl: 'admin.client.settings.themes.view.html',
+	            controller: 'AdminSettingsThemesController as settings',
+	            resolve: {
+	                settings: function (AdminAppSettingsService) {
+	                    return AdminAppSettingsService.getAppSettings();
+	                }
+	            }
 	        })
 	        .state('settings.skins', {
 	            url: '/skins',
-	            templateUrl: 'admin.client.settings.skins.view.html'
+	            templateUrl: 'admin.client.settings.skins.view.html',
+	            controller: 'AdminSettingsSkinsController as settings',
+	            resolve: {
+	                settings: function (AdminAppSettingsService) {
+	                    return AdminAppSettingsService.getAppSettings();
+	                }
+	            }
 	        });
 	}
 
@@ -42038,18 +42062,16 @@
 /* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('settings')
 	    .controller('AdminSettingsHeaderController', AdminSettingsHeaderController);
 
 	function AdminSettingsHeaderController (
-	    $scope,
 	    $rootScope,
-	    AdminAppSettingsService,
-	    AdminUtilitiesServices) {
+	    AdminAppSettingsService
+	) {
+	    'use strict';
 
 	    var vm = this;
 
@@ -42064,14 +42086,11 @@
 	    $rootScope.$on('adminHeader', function (event, settings) {
 	        vm.settings.skin = settings;
 	    });
-
 	}
 
 /***/ },
 /* 33 */
 /***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
 
 	var angular = __webpack_require__(1);
 
@@ -42079,36 +42098,33 @@
 	    .controller('AdminSettingsGeneralController', AdminSettingsGeneralController);
 
 	function AdminSettingsGeneralController (
-	    $scope,
 	    $rootScope,
 	    $timeout,
-	    AdminPagesAPIService,
 	    AdminAppSettingsService,
-	    AdminUtilitiesServices) {
+	    AdminUtilitiesServices,
+	    pages,
+	    settings
+	) {
+	    'use strict';
 
 	    var vm = this;
 
-	    vm.pages = AdminPagesAPIService.query();
+	    vm.pages = pages;
 	    vm.themes = [];
+	    vm.settings = settings.data[0];
+	    vm.settings.siteHomePage = convertSlugToString(vm.settings.siteHomePage);
 	    vm.updateAppSettings = updateAppSettings;
-	    //vm.frontEndURL = AdminUtilitiesServices.createHostURL();
+
+	    // set Materialize select box default value
+	    $timeout(function () {
+	        angular.element('.site-home-page .select-dropdown').val(vm.settings.siteHomePage);
+	    }, 100);
 
 	    angular.forEach($rootScope.np.settings.themes, function (theme) {
 	        vm.themes.push({
 	            theme: theme
 	        });
 	    });
-
-	    AdminAppSettingsService.getAppSettings()
-	        .then(function (appSettings) {
-	            vm.settings = appSettings.data[0];
-	            vm.settings.siteHomePage = convertSlugToString(vm.settings.siteHomePage);
-
-	            // set Materialize select box default value
-	            $timeout(function () {
-	                angular.element('.site-home-page .select-dropdown').val(vm.settings.siteHomePage);
-	            });
-	        });
 
 	    function updateAppSettings() {
 	        if (vm.settings.siteHomePage === null) vm.settings.siteHomePage = 'Home';
@@ -42142,8 +42158,6 @@
 /* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('settings')
@@ -42152,11 +42166,15 @@
 	function AdminSettingsThemesController (
 	    $rootScope,
 	    AdminAppSettingsService,
-	    AdminUtilitiesServices) {
+	    AdminUtilitiesServices,
+	    settings
+	) {
+	    'use strict';
 
 	    var vm = this;
 
 	    vm.themes = [];
+	    vm.settings = settings.data[0];
 	    vm.updateAppSettings = updateAppSettings;
 
 	    angular.forEach($rootScope.np.settings.themes, function (theme) {
@@ -42165,11 +42183,6 @@
 	            preview: '/' + theme + '/preview.jpg'
 	        });
 	    });
-
-	    AdminAppSettingsService.getAppSettings()
-	        .then(function (appSettings) {
-	            vm.settings = appSettings.data[0];
-	        });
 
 	    function updateAppSettings(theme) {
 
@@ -42196,23 +42209,23 @@
 /* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('settings')
 	    .controller('AdminSettingsSkinsController', AdminSettingsSkinsController);
 
 	function AdminSettingsSkinsController (
-	    $scope,
-	    $location,
 	    $rootScope,
 	    AdminAppSettingsService,
-	    AdminUtilitiesServices) {
+	    AdminUtilitiesServices,
+	    settings
+	) {
+	    'use strict';
 
 	    var vm = this;
 
 	    vm.skins = [];
+	    vm.settings = settings.data[0];
 	    vm.updateAppSettings = updateAppSettings;
 
 	    angular.forEach($rootScope.np.settings.skins, function (skin) {
@@ -42221,11 +42234,6 @@
 	            preview: '/' + skin + '/preview-skin.jpg'
 	        });
 	    });
-
-	    AdminAppSettingsService.getAppSettings()
-	        .then(function (appSettings) {
-	            vm.settings = appSettings.data[0];
-	        });
 
 	    function updateAppSettings(skin) {
 
@@ -43909,7 +43917,7 @@
 	    vm.page = page;
 	    vm.updatePage = updatePage;
 	    vm.errors = __webpack_require__(89);
-	    vm.frontEndURL = '';
+	    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
 	    vm.categories = categories;
 	    vm.sidebars = sidebars;
 
@@ -43919,9 +43927,6 @@
 	        angular.element('.site-page-sidebar-left .select-dropdown').val(page.sidebarLeft);
 	        angular.element('.site-page-sidebar-right .select-dropdown').val(page.sidebarRight);
 	    });
-
-	    // create host url to view front end page
-	    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
 
 	    // replace page body textarea with CKEditor
 	    CKEDITOR.replace('html-editor', { extraPlugins: 'divarea' });

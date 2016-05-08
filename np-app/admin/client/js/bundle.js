@@ -42195,6 +42195,7 @@
 
 	        AdminAppSettingsService.updateAppSettings(vm.settings)
 	            .then(function () {
+	                
 	                // display success dialog
 	                Materialize.toast('NodePress theme updated successfully', 4000, 'success');
 	            })

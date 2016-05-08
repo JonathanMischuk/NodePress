@@ -8,8 +8,11 @@
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1">
+
     <title>NodePress</title>
+
     <base href="/np-admin/">
+
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
@@ -23,7 +26,7 @@
 
     <link ng-if="settings.angularInitialized === true"
           rel="stylesheet"
-          href="/public/skins/{% raw %}{{ settings.settings.skin }}{% endraw %}/app.min.css" />
+          ng-href="/public/skins/{% raw %}{{ settings.settings.skin }}{% endraw %}/app.min.css" />
 
     <script src="/public/vendors/ckeditor/ckeditor.js"></script>
 </head>

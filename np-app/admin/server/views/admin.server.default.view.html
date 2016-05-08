@@ -19,7 +19,8 @@
             <li>
                 <a class="dropdown-button"
                    data-activates="dropdown-account">
-                    Howdy, {% raw %}{{ np.auth.user.username }}{% endraw %}
+                    Howdy, <span ng-bind="np.auth.user.username"></span>
+
                     <i class="material-icons right">arrow_drop_down</i>
                 </a>
             </li>

@@ -20,13 +20,14 @@ function AdminGetPagesController (
     // TODO: find it's own home
     function removePage () {
         var index = vm.pages.indexOf(vm.selectedPage);
-        vm.selectedPage.$remove();
+        
+        vm.selectedPage.$remove(function () {
+            vm.pages.splice(index, 1);
+            vm.selectedPage = null;
 
-        vm.pages.splice(index, 1);
-        vm.selectedPage = null;
-
-        // display success dialog
-        Materialize.toast('Page removed successfully', 4000, 'success');
+            // display success dialog
+            Materialize.toast('Page removed successfully', 4000, 'success');
+        });        
     }
 
     function setSelectedPage (page) {

@@ -50,7 +50,7 @@
 
 	// main angular admin module
 	__webpack_require__(3)();
-	__webpack_require__(105);
+	__webpack_require__(106);
 
 
 
@@ -30955,10 +30955,10 @@
 	        __webpack_require__(36),
 	        __webpack_require__(41),
 	        __webpack_require__(59),
-	        __webpack_require__(71),
-	        __webpack_require__(81),
-	        __webpack_require__(91),
-	        __webpack_require__(102)
+	        __webpack_require__(72),
+	        __webpack_require__(82),
+	        __webpack_require__(92),
+	        __webpack_require__(103)
 	    ];
 
 	    angular.module('admin', modules);
@@ -42843,13 +42843,14 @@
 
 	    function removeUser() {
 	        var index = vm.users.indexOf(vm.selectedUser);
-	        vm.selectedUser.$remove();
+	        
+	        vm.selectedUser.$remove(function () {
+	            vm.users.splice(index, 1);
+	            vm.selectedUser = null;
 
-	        vm.users.splice(index, 1);
-	        vm.selectedUser = null;
-
-	        // display success dialog
-	        Materialize.toast('User removed successfully', 4000, 'success');
+	            // display success dialog
+	            Materialize.toast('User removed successfully', 4000, 'success');
+	        });
 	    }
 
 	    function setSelectedUser (user) {
@@ -42908,7 +42909,7 @@
 	Modules.registerModule('menus');
 	__webpack_require__(60);
 	__webpack_require__(62);
-	__webpack_require__(65);
+	__webpack_require__(66);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'menus';
@@ -42968,8 +42969,7 @@
 	            resolve: {
 	                pages: function (AdminPagesAPIService) {
 	                    return AdminPagesAPIService.query(function (pages) {
-	                        pages.forEach(function (page, i) {
-	                            page.checked = false;
+	                        angular.forEach(pages, function (page, i) {
 	                            page.menuItemId = i;
 	                        });
 
@@ -42985,18 +42985,23 @@
 	            resolve: {
 	                pages: function (AdminPagesAPIService) {
 	                    return AdminPagesAPIService.query(function (pages) {
-	                        pages.forEach(function (page, i) {
-	                            page.checked = false;
+	                        angular.forEach(pages, function (page, i) {
 	                            page.menuItemId = i;
 	                        });
 
 	                        return pages;
 	                    });
 	                },
-	                menu: function ($stateParams, AdminMenusAPIService) {
-	                    return AdminMenusAPIService.get({
+	                menu: function ($q, $stateParams, AdminMenusAPIService) {
+	                    var deferred = $q.defer();
+
+	                    AdminMenusAPIService.get({
 	                        menuId: $stateParams.menuId
+	                    }, function (response) {
+	                        deferred.resolve(response);
 	                    });
+
+	                    return deferred.promise;
 	                }
 	            }
 	        });
@@ -43011,6 +43016,7 @@
 
 	__webpack_require__(63);
 	__webpack_require__(64);
+	__webpack_require__(65);
 
 
 /***/ },
@@ -43039,7 +43045,44 @@
 /* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	var angular = __webpack_require__(1);
+
+	module.exports = angular.module('menus')
+	    .factory('AdminMenuService', AdminMenuService);
+
+	function AdminMenuService () {
+	    'use strict';
+
+	    var self = this;
+	    
+	    self.addMenuItemsToProxy = addMenuItemToProxy;
+
+	    function addMenuItemToProxy (page, menuItemId) {
+	        var index = vm.pages.indexOf(page);
+	        vm.pages[index].checked = !vm.pages[index].checked;
+
+	        if (vm.pages[index].checked === false) {
+	            for (var i = 0; i < vm.menuItemsProxy.length; i += 1) {
+	                if (vm.menuItemsProxy[i].menuItemId === menuItemId) {
+	                    vm.menuItemsProxy.splice(i, 1);
+	                }
+	            }
+	        } else {
+	            vm.menuItemsProxy.push({
+	                title: vm.pages[index].title,
+	                slug: vm.pages[index].slug,
+	                menuItemId: menuItemId
+	            });
+	        }
+	    }
+	    
+	    return self;
+	}
+
+
+/***/ },
+/* 65 */
+/***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
 
@@ -43047,6 +43090,7 @@
 	    .service('AdminManageMenuLocationsService', AdminManageMenuLocationsService);
 
 	function AdminManageMenuLocationsService($http) {
+	    'use strict';
 
 	    var self = this;
 
@@ -43064,19 +43108,19 @@
 
 
 /***/ },
-/* 65 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(66);
 	__webpack_require__(67);
 	__webpack_require__(68);
-	__webpack_require__(70);
+	__webpack_require__(69);
+	__webpack_require__(71);
 
 
 /***/ },
-/* 66 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43098,13 +43142,14 @@
 
 	    function removeMenu() {
 	        var index = vm.menus.indexOf(vm.selectedMenu);
-	        vm.selectedMenu.$remove();
+	        
+	        vm.selectedMenu.$remove(function () {
+	            vm.menus.splice(index, 1);
+	            vm.selectedMenu = null;
 
-	        vm.menus.splice(index, 1);
-	        vm.selectedMenu = null;
-
-	        // display success dialog
-	        Materialize.toast('Menu removed successfully', 4000, 'success');
+	            // display success dialog
+	            Materialize.toast('Menu removed successfully', 4000, 'success');
+	        });
 	    }
 
 	    function setSelectedMenu (menu) {
@@ -43114,7 +43159,7 @@
 
 
 /***/ },
-/* 67 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43174,7 +43219,7 @@
 
 
 /***/ },
-/* 68 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43196,43 +43241,17 @@
 	    vm.pages = pages;
 	    vm.menu = {};
 	    vm.menuItems = [];
-	    vm.menuItemsProxy = [];
-	    vm.addMenuItemToProxy = addMenuItemToProxy;
-	    vm.addMenuItems = addMenuItems;
+	    vm.addMenuItem = addMenuItem;
 	    vm.removeMenuItem = removeMenuItem;
 	    vm.newMenu = newMenu;
-	    vm.errors = __webpack_require__(69);
+	    vm.errors = __webpack_require__(70);
 
-	    function addMenuItemToProxy (page, menuItemId) {
-	        var index = vm.pages.indexOf(page);
-	        vm.pages[index].checked = !vm.pages[index].checked;
-
-	        if (vm.pages[index].checked === false) {
-	            for (var i = 0; i < vm.menuItemsProxy.length; i += 1) {
-	                if (vm.menuItemsProxy[i].menuItemId === menuItemId) {
-	                    vm.menuItemsProxy.splice(i, 1);
-	                }
-	            }
-	        } else {
-	            vm.menuItemsProxy.push({
-	                title: vm.pages[index].title,
-	                slug: vm.pages[index].slug,
-	                menuItemId: menuItemId
-	            });
-	        }
-	    }
-
-	    function addMenuItems () {
-	        angular.forEach(vm.menuItemsProxy, function (menuItem) {
-	            vm.menuItems.push(menuItem);
+	    function addMenuItem (menuItem) {
+	        vm.menuItems.unshift({
+	            title: menuItem.title,
+	            slug: menuItem.slug,
+	            menuItemId: menuItem.menuItemId
 	        });
-
-	        angular.forEach(vm.pages, function (page) {
-	            page.Selected = false;
-	            page.checked = false;
-	        });
-
-	        vm.menuItemsProxy = [];
 	    }
 
 	    function removeMenuItem (menuItem) {
@@ -43265,7 +43284,7 @@
 
 
 /***/ },
-/* 69 */
+/* 70 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -43279,7 +43298,7 @@
 
 
 /***/ },
-/* 70 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43303,10 +43322,11 @@
 	    vm.menuItems = vm.menu.items;
 	    vm.menuItemsProxy = [];
 	    vm.addMenuItemToProxy = addMenuItemToProxy;
+	    vm.addMenuItem = addMenuItem;
 	    vm.addMenuItems = addMenuItems;
 	    vm.removeMenuItem = removeMenuItem;
 	    vm.updateMenu = updateMenu;
-	    vm.errors = __webpack_require__(69);
+	    vm.errors = __webpack_require__(70);
 
 	    function addMenuItemToProxy(page, menuItemId) {
 	        var index = vm.pages.indexOf(page);
@@ -43325,6 +43345,14 @@
 	                menuItemId: menuItemId
 	            });
 	        }
+	    }
+
+	    function addMenuItem (menuItem) {
+	        vm.menuItems.unshift({
+	            title: menuItem.title,
+	            slug: menuItem.slug,
+	            menuItemId: menuItem.menuItemId
+	        });
 	    }
 
 	    function addMenuItems() {
@@ -43373,7 +43401,7 @@
 
 
 /***/ },
-/* 71 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43382,25 +43410,25 @@
 
 	// angular categories module and module accessories
 	Modules.registerModule('categories');
-	__webpack_require__(72);
-	__webpack_require__(74);
-	__webpack_require__(76);
+	__webpack_require__(73);
+	__webpack_require__(75);
+	__webpack_require__(77);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'categories';
 
 
 /***/ },
-/* 72 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(73);
+	__webpack_require__(74);
 
 
 /***/ },
-/* 73 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43447,16 +43475,16 @@
 
 
 /***/ },
-/* 74 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(75);
+	__webpack_require__(76);
 
 
 /***/ },
-/* 75 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43478,18 +43506,18 @@
 
 
 /***/ },
-/* 76 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(77);
 	__webpack_require__(78);
-	__webpack_require__(80);
+	__webpack_require__(79);
+	__webpack_require__(81);
 
 
 /***/ },
-/* 77 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43514,13 +43542,14 @@
 
 	    function removeCategory() {
 	        var index = vm.categories.indexOf(vm.selectedCategory);
-	        vm.selectedCategory.$remove();
+	        
+	        vm.selectedCategory.$remove(function () {
+	            vm.categories.splice(index, 1);
+	            vm.selectedCategory = null;
 
-	        vm.categories.splice(index, 1);
-	        vm.selectedCategory = null;
-
-	        // display success dialog
-	        Materialize.toast('Category removed successfully', 4000, 'success');
+	            // display success dialog
+	            Materialize.toast('Category removed successfully', 4000, 'success');
+	        });
 	    }
 
 	    function setSelectedCategory (category) {
@@ -43530,7 +43559,7 @@
 
 
 /***/ },
-/* 78 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43552,7 +43581,7 @@
 	    vm.category = {};
 	    vm.newCategory = newCategory;
 	    vm.errorTitle = null;
-	    vm.errors = __webpack_require__(79);
+	    vm.errors = __webpack_require__(80);
 
 	    AdminUserAuthenticationService();
 
@@ -43579,7 +43608,7 @@
 
 
 /***/ },
-/* 79 */
+/* 80 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -43593,7 +43622,7 @@
 
 
 /***/ },
-/* 80 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43616,7 +43645,7 @@
 
 	    vm.category = category;
 	    vm.updateCategory = updateCategory;
-	    vm.errors = __webpack_require__(79);
+	    vm.errors = __webpack_require__(80);
 
 	    function updateCategory() {
 	        if ($scope.updateCategoryForm.$valid) {
@@ -43644,7 +43673,7 @@
 
 
 /***/ },
-/* 81 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43653,25 +43682,25 @@
 
 	// angular pages module and module accessories
 	Modules.registerModule('pages');
-	__webpack_require__(82);
-	__webpack_require__(84);
-	__webpack_require__(86);
+	__webpack_require__(83);
+	__webpack_require__(85);
+	__webpack_require__(87);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'pages';
 
 
 /***/ },
-/* 82 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(83);
+	__webpack_require__(84);
 
 
 /***/ },
-/* 83 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43701,7 +43730,6 @@
 	            controller: 'AdminNewPageController as page',
 	            resolve: {
 	                categories: function (AdminCategoriesAPIService) {
-	                    console.log(AdminCategoriesAPIService.query());
 	                    return AdminCategoriesAPIService.query();
 	                },
 	                sidebars: function (AdminSidebarsAPIService) {
@@ -43731,16 +43759,16 @@
 
 
 /***/ },
-/* 84 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(85);
+	__webpack_require__(86);
 
 
 /***/ },
-/* 85 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43762,18 +43790,18 @@
 
 
 /***/ },
-/* 86 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(87);
 	__webpack_require__(88);
-	__webpack_require__(90);
+	__webpack_require__(89);
+	__webpack_require__(91);
 
 
 /***/ },
-/* 87 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43798,13 +43826,14 @@
 	    // TODO: find it's own home
 	    function removePage () {
 	        var index = vm.pages.indexOf(vm.selectedPage);
-	        vm.selectedPage.$remove();
+	        
+	        vm.selectedPage.$remove(function () {
+	            vm.pages.splice(index, 1);
+	            vm.selectedPage = null;
 
-	        vm.pages.splice(index, 1);
-	        vm.selectedPage = null;
-
-	        // display success dialog
-	        Materialize.toast('Page removed successfully', 4000, 'success');
+	            // display success dialog
+	            Materialize.toast('Page removed successfully', 4000, 'success');
+	        });        
 	    }
 
 	    function setSelectedPage (page) {
@@ -43814,7 +43843,7 @@
 
 
 /***/ },
-/* 88 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43842,7 +43871,7 @@
 	    vm.newPage = newPage;
 	    vm.categories = categories;
 	    vm.sidebars = sidebars;
-	    vm.errors = __webpack_require__(89);
+	    vm.errors = __webpack_require__(90);
 
 	    // create host url to view front end page
 	    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
@@ -43877,7 +43906,7 @@
 
 
 /***/ },
-/* 89 */
+/* 90 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -43891,7 +43920,7 @@
 
 
 /***/ },
-/* 90 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43917,7 +43946,7 @@
 
 	    vm.page = page;
 	    vm.updatePage = updatePage;
-	    vm.errors = __webpack_require__(89);
+	    vm.errors = __webpack_require__(90);
 	    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
 	    vm.categories = categories;
 	    vm.sidebars = sidebars;
@@ -43962,7 +43991,7 @@
 
 
 /***/ },
-/* 91 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43971,26 +44000,26 @@
 
 	// angular sidebars module and module accessories
 	Modules.registerModule('sidebars');
-	__webpack_require__(92);
-	__webpack_require__(94);
-	__webpack_require__(96);
-	__webpack_require__(100);
+	__webpack_require__(93);
+	__webpack_require__(95);
+	__webpack_require__(97);
+	__webpack_require__(101);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'sidebars';
 
 
 /***/ },
-/* 92 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(93);
+	__webpack_require__(94);
 
 
 /***/ },
-/* 93 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44035,16 +44064,16 @@
 
 
 /***/ },
-/* 94 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(95);
+	__webpack_require__(96);
 
 
 /***/ },
-/* 95 */
+/* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44066,18 +44095,18 @@
 
 
 /***/ },
-/* 96 */
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(97);
 	__webpack_require__(98);
 	__webpack_require__(99);
+	__webpack_require__(100);
 
 
 /***/ },
-/* 97 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -44099,13 +44128,14 @@
 
 	    function removeSidebar() {
 	        var index = vm.sidebars.indexOf(vm.selectedSidebar);
-	        vm.selectedSidebar.$remove();
+	        
+	        vm.selectedSidebar.$remove(function () {
+	            vm.sidebars.splice(index, 1);
+	            vm.selectedSidebar = null;
 
-	        vm.sidebars.splice(index, 1);
-	        vm.selectedSidebar = null;
-
-	        // display success dialog
-	        Materialize.toast('Sidebar removed successfully', 4000, 'success');
+	            // display success dialog
+	            Materialize.toast('Sidebar removed successfully', 4000, 'success');
+	        });
 	    }
 
 	    function setSelectedSidebar (sidebar) {
@@ -44116,7 +44146,7 @@
 
 
 /***/ },
-/* 98 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44186,7 +44216,7 @@
 
 
 /***/ },
-/* 99 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -44269,16 +44299,16 @@
 
 
 /***/ },
-/* 100 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(101);
+	__webpack_require__(102);
 
 
 /***/ },
-/* 101 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44301,7 +44331,7 @@
 
 
 /***/ },
-/* 102 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44310,7 +44340,7 @@
 
 	// angular pages module and module accessories
 	Modules.registerModule('footer');
-	__webpack_require__(103);
+	__webpack_require__(104);
 	/*require('./services');
 	require('./controllers');*/
 
@@ -44319,16 +44349,16 @@
 
 
 /***/ },
-/* 103 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(104);
+	__webpack_require__(105);
 
 
 /***/ },
-/* 104 */
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44350,7 +44380,7 @@
 
 
 /***/ },
-/* 105 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

@@ -1,7 +1,7 @@
 'use strict';
 
 var sidebarItemMenuAugmentation = function sidebarItemMenuAugmentation (sidebarItems, vm) {
-    angular.forEach(sidebarItems, function (sidebarItem) {
+    sidebarItems.forEach(function (sidebarItem) {
         if (sidebarItem.type === 'menu') {
             if (sidebarItem.model.body !== '') {
                 sidebarItem.model.body = _.filter(

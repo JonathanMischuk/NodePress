@@ -6,5 +6,7 @@ var models = require('../models');
 module.exports = function (req, res, next) {
     models.Sidebar.findByIdAndRemove(req.params.sidebarId, function (err) {
         if (err) return next(err);
+
+        return res.sendStatus(201);
     });
 };

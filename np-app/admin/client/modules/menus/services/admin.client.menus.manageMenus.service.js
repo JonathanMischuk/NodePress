@@ -1,11 +1,10 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('menus')
     .service('AdminManageMenuLocationsService', AdminManageMenuLocationsService);
 
 function AdminManageMenuLocationsService($http) {
+    'use strict';
 
     var self = this;
 

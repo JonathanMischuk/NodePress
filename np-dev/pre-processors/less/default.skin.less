@@ -243,8 +243,34 @@ h5 {
     }
 }
 
+.menu-items {
+    .menu-item-add-icon,
+    .menu-item-delete-icon {
+        .transition();
+
+        color: #eee !important;
+    }
+
+    .collection-item.menu-item-add {
+        cursor: pointer;
+    }
+
+    .collection-item:hover .menu-item-add-icon,
+    .collection-item:hover .menu-item-delete-icon {
+        color: #2196F3 !important;
+    }
+
+    .collection-item.last {
+        border-bottom: none;
+    }
+}
+
 .menu-item-title {
     margin-left: 20px;
+
+    &.flat-left {
+        margin-left: 0;
+    }
 }
 
 .theme-activate {

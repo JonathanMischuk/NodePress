@@ -17,13 +17,14 @@ function AdminGetSidebarsController (
 
     function removeSidebar() {
         var index = vm.sidebars.indexOf(vm.selectedSidebar);
-        vm.selectedSidebar.$remove();
+        
+        vm.selectedSidebar.$remove(function () {
+            vm.sidebars.splice(index, 1);
+            vm.selectedSidebar = null;
 
-        vm.sidebars.splice(index, 1);
-        vm.selectedSidebar = null;
-
-        // display success dialog
-        Materialize.toast('Sidebar removed successfully', 4000, 'success');
+            // display success dialog
+            Materialize.toast('Sidebar removed successfully', 4000, 'success');
+        });
     }
 
     function setSelectedSidebar (sidebar) {

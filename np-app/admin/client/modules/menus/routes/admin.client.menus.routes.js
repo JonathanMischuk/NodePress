@@ -39,8 +39,7 @@ function adminMenuRoutes ($stateProvider, $urlRouterProvider) {
             resolve: {
                 pages: function (AdminPagesAPIService) {
                     return AdminPagesAPIService.query(function (pages) {
-                        pages.forEach(function (page, i) {
-                            page.checked = false;
+                        angular.forEach(pages, function (page, i) {
                             page.menuItemId = i;
                         });
 
@@ -56,18 +55,23 @@ function adminMenuRoutes ($stateProvider, $urlRouterProvider) {
             resolve: {
                 pages: function (AdminPagesAPIService) {
                     return AdminPagesAPIService.query(function (pages) {
-                        pages.forEach(function (page, i) {
-                            page.checked = false;
+                        angular.forEach(pages, function (page, i) {
                             page.menuItemId = i;
                         });
 
                         return pages;
                     });
                 },
-                menu: function ($stateParams, AdminMenusAPIService) {
-                    return AdminMenusAPIService.get({
+                menu: function ($q, $stateParams, AdminMenusAPIService) {
+                    var deferred = $q.defer();
+
+                    AdminMenusAPIService.get({
                         menuId: $stateParams.menuId
+                    }, function (response) {
+                        deferred.resolve(response);
                     });
+
+                    return deferred.promise;
                 }
             }
         });

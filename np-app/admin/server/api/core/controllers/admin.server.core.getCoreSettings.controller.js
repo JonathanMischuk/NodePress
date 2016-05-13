@@ -6,6 +6,7 @@ var Core = require('../../core/models').Core;
 module.exports = function (req, res, next) {
     Core.find(function (err, core) {
         if (err) return next(err);
+        
         res.json(core);
     });
 };

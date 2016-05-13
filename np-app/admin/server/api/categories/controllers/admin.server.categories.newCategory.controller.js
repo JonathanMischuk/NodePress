@@ -13,6 +13,7 @@ module.exports = function (req, res) {
 
     category.save(function (err, category) {
         if (err) return res.status(400).send(err);
+        
         res.json(category);
     });
 };

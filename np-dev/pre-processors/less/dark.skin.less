@@ -301,9 +301,31 @@ label {
     }
 }
 
+.menu-items {
+    .menu-item-add-icon,
+    .menu-item-delete-icon {
+        .transition();
+
+        color: #393939 !important;
+    }
+
+    .collection-item.menu-item-add {
+        cursor: pointer;
+    }
+
+    .collection-item:hover .menu-item-add-icon,
+    .collection-item:hover .menu-item-delete-icon {
+        color: #9C27B0 !important;
+    }
+}
+
 .menu-item-title {
     margin-left: 20px;
     color: #ffc66d;
+
+    &.flat-left {
+        margin-left: 0;
+    }
 }
 
 .theme-activate {

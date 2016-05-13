@@ -26,7 +26,8 @@ var db = require('../../../config/admin.server.db'),
             type: String
         },
         modifiedDate: {
-            type: String
+            type: String,
+            default: NpDatesTool.createHumanReadableDate
         }
     });
 

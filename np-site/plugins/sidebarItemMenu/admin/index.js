@@ -22,7 +22,7 @@
             vm.menus = AdminMenusAPIService.query();
 
             // set Materialize select box default value
-            angular.forEach($scope.sidebar.sidebar.items, function (sidebarItem) {
+            $scope.sidebar.sidebar.items.forEach(function (sidebarItem) {
                 if (sidebarItem.type === 'menu') {
                     $timeout(function () {
                         angular.element('.sidebar-item-id-' + sidebarItem.id + ' .select-dropdown')

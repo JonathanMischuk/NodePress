@@ -24,35 +24,23 @@
 
         <div class="row">
             <div class="col s12 m12 l6">
-                <div class="collection with-header buttons-below"
+                <div class="collection with-header menu-items buttons-below"
                      ng-init="limit = 5">
 
                     <div class="collection-header">
-                        <h5>Pages
-
-                            <span class="dashboard-actions">
-                                <a class="btn-floating btn-small waves-effect waves-dark blue tooltipped"
-                                   ng-click="menu.addMenuItems()"
-                                   data-position="bottom"
-                                   data-delay="50"
-                                   data-tooltip="Add menu items">
-                                    <i class="material-icons">add</i>
-                                </a>
-                            </span>
-                        </h5>
+                        <h5>Pages</h5>
                     </div>
 
-                    <div class="collection-item"
-                         ng-repeat="page in menu.pages | limitTo: limit as results">
+                    <div class="collection-item menu-item-add"
+                         ng-class="{ 'last': $last }"
+                         ng-repeat="page in menu.pages | limitTo: limit as results"
+                         ng-click="menu.addMenuItem(page)">
 
-                        <input ng-click="menu.addMenuItemToProxy(page, page.menuItemId)"
-                               type="checkbox"
-                               id="menu-item-before-{{ page.title }}"
-                               ng-value="page.title"
-                               ng-model="page.Selected" />
-                        <label for="menu-item-before-{{ page.title }}">
+                        <span class="menu-item-title flat-left">
                             {{ page.title }}
-                        </label>
+                        </span>
+
+                        <i class="material-icons menu-item-add-icon right">add</i>
                     </div>
 
                     <a class="dashboard-extra-link"
@@ -71,7 +59,7 @@
             </div>
 
             <div class="col s12 m12 l6">
-                <div class="collection with-header buttons-below">
+                <div class="collection with-header menu-items buttons-below">
                     <div class="collection-header">
                         <h5>Menu Items</h5>
                     </div>
@@ -80,12 +68,13 @@
                          class="sortable"
                          ng-model="menu.menuItems">
 
-                        <div class="collection-item valign-wrapper ui-state-default"
+                        <div class="collection-item menu-item-delete valign-wrapper ui-state-default"
                              ng-repeat="menuItem in menu.menuItems">
 
                             <span class="badge"
                                   ng-click="menu.removeMenuItem(menuItem)">
-                                <i class="material-icons delete">delete</i>
+
+                                <i class="material-icons menu-item-delete-icon delete">delete</i>
                             </span>
 
                             <i class="material-icons">sort</i>

@@ -19,6 +19,7 @@ function AdminUpdateMenuController (
     vm.menuItems = vm.menu.items;
     vm.menuItemsProxy = [];
     vm.addMenuItemToProxy = addMenuItemToProxy;
+    vm.addMenuItem = addMenuItem;
     vm.addMenuItems = addMenuItems;
     vm.removeMenuItem = removeMenuItem;
     vm.updateMenu = updateMenu;
@@ -41,6 +42,14 @@ function AdminUpdateMenuController (
                 menuItemId: menuItemId
             });
         }
+    }
+
+    function addMenuItem (menuItem) {
+        vm.menuItems.unshift({
+            title: menuItem.title,
+            slug: menuItem.slug,
+            menuItemId: menuItem.menuItemId
+        });
     }
 
     function addMenuItems() {

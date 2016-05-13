@@ -7,5 +7,7 @@ module.exports = exports.removeUser = function (req, res, next) {
     models.User.findOneAndRemove({ username: req.params.user },
         function (err) {
             if (err) return next(err);
+
+            return res.sendStatus(201);
         });
 };

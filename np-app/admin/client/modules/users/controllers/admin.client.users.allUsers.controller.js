@@ -17,13 +17,14 @@ function AdminGetUsersController (
 
     function removeUser() {
         var index = vm.users.indexOf(vm.selectedUser);
-        vm.selectedUser.$remove();
+        
+        vm.selectedUser.$remove(function () {
+            vm.users.splice(index, 1);
+            vm.selectedUser = null;
 
-        vm.users.splice(index, 1);
-        vm.selectedUser = null;
-
-        // display success dialog
-        Materialize.toast('User removed successfully', 4000, 'success');
+            // display success dialog
+            Materialize.toast('User removed successfully', 4000, 'success');
+        });
     }
 
     function setSelectedUser (user) {

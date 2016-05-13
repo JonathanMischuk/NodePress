@@ -25,7 +25,6 @@ function adminPageRoutes ($stateProvider, $urlRouterProvider) {
             controller: 'AdminNewPageController as page',
             resolve: {
                 categories: function (AdminCategoriesAPIService) {
-                    console.log(AdminCategoriesAPIService.query());
                     return AdminCategoriesAPIService.query();
                 },
                 sidebars: function (AdminSidebarsAPIService) {

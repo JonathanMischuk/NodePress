@@ -1,7 +1,5 @@
 'use strict';
 
-var angular = require('angular'),
-    Module = require('../admin.client.register.module');
+var angular = require('angular');
 
-//module.exports = Module.addModule('footer');
 module.exports = angular.module('footer', []);

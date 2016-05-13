@@ -17,13 +17,14 @@ function AdminGetMenusController (
 
     function removeMenu() {
         var index = vm.menus.indexOf(vm.selectedMenu);
-        vm.selectedMenu.$remove();
+        
+        vm.selectedMenu.$remove(function () {
+            vm.menus.splice(index, 1);
+            vm.selectedMenu = null;
 
-        vm.menus.splice(index, 1);
-        vm.selectedMenu = null;
-
-        // display success dialog
-        Materialize.toast('Menu removed successfully', 4000, 'success');
+            // display success dialog
+            Materialize.toast('Menu removed successfully', 4000, 'success');
+        });
     }
 
     function setSelectedMenu (menu) {

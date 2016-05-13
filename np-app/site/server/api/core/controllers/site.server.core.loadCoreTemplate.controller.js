@@ -47,6 +47,7 @@ module.exports = function (req, res) {
             api.menusAPI.models.Menu.findOne({ title: menuLocations[0].primary },
                 function (err, menu) {
                     if (err) callback(err);
+                    
                     callback(null, menu);
                 });
         });
@@ -64,6 +65,7 @@ module.exports = function (req, res) {
             api.menusAPI.models.Menu.findOne({title: menuLocations[0].secondary},
                 function (err, menu) {
                     if (err) callback(err);
+
                     callback(null, menu);
                 });
         });

@@ -24,8 +24,6 @@ module.exports = function (req, res, next) {
         getUser,
         getSkin
     ], function (err, results) {
-        console.log(results);
-
         var np = {
             auth: {
                 user: req.user || null,
@@ -51,6 +49,7 @@ module.exports = function (req, res, next) {
         fs.readdirSync(__dirname + '/../../../../../../np-site/themes/')
             .forEach(function (dir) {
                 if (!dir) return new Error("No directories found.");
+                
                 themes.push(dir);
             });
 
@@ -63,6 +62,7 @@ module.exports = function (req, res, next) {
         fs.readdirSync(__dirname + '/../../../../client/skins')
             .forEach(function (dir) {
                 if (!dir) return new Error("No directories found.");
+                
                 skins.push(dir);
             });
 
@@ -90,6 +90,7 @@ module.exports = function (req, res, next) {
     function getSkin (callback) {
         Core.find(function (err, core) {
             if (err) return next(err);
+            
             callback(null, core[0].skin);
         });
     }

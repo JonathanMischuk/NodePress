@@ -20,13 +20,14 @@ function AdminGetCategoriesController (
 
     function removeCategory() {
         var index = vm.categories.indexOf(vm.selectedCategory);
-        vm.selectedCategory.$remove();
+        
+        vm.selectedCategory.$remove(function () {
+            vm.categories.splice(index, 1);
+            vm.selectedCategory = null;
 
-        vm.categories.splice(index, 1);
-        vm.selectedCategory = null;
-
-        // display success dialog
-        Materialize.toast('Category removed successfully', 4000, 'success');
+            // display success dialog
+            Materialize.toast('Category removed successfully', 4000, 'success');
+        });
     }
 
     function setSelectedCategory (category) {

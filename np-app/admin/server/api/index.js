@@ -6,5 +6,6 @@ module.exports = {
     pagesAPI: require('./pages'),
     menusAPI: require('./menus'),
     categoriesAPI: require('./categories'),
-    sidebarsAPI: require('./sidebars')
+    sidebarsAPI: require('./sidebars'),
+    pluginsAPI: require('./plugins')
 };

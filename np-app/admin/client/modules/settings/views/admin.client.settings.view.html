@@ -4,9 +4,14 @@
     <div class="row">
         <div class="col s12">
             <ul class="tabs">
-                <li class="tab col s4"><a ui-sref="settings.general">General</a></li>
-                <li class="tab col s4"><a ui-sref="settings.themes">Themes</a></li>
-                <li class="tab col s4"><a ui-sref="settings.skins">Skins</a></li>
+                <li class="tab col s3"
+                    ng-repeat="tab in np.tabs">
+
+                    <a ui-sref="{{ tab.state }}"
+                       ng-bind="tab.title"
+                       ng-class="{ 'active': tab.slug === np.currentTab }">
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

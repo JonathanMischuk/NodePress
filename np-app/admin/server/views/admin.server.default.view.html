@@ -7,11 +7,17 @@
            ui-sref="dashboard"
            data-position="right"
            data-delay="50"
-           data-tooltip="Go to dashboard">NodePress</a>
+           data-tooltip="Dashboard">NodePress</a>
+
+        <a ui-sref="settings.general"
+           class="settings-icon">
+
+            <i class="material-icons">settings</i>
+        </a>
 
         <ul id="dropdown-account" class="dropdown-content">
             <li><a ng-href="/np-admin/users/{% raw %}{{ np.auth.user.username }}{% endraw %}">Profile</a></li>
-            <li><a ui-sref="settings">Settings</a></li>
+            <li><a ui-sref="settings.general">Settings</a></li>
             <li><a href="/auth/logout">Logout</a></li>
         </ul>
 
@@ -120,3 +126,5 @@
     <div class="view-fade-in" ui-view></div>
 </div>
 {% endblock %}
+
+

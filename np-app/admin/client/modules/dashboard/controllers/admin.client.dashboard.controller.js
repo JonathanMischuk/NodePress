@@ -5,21 +5,31 @@ module.exports = angular.module('dashboard')
 
 function AdminDashboardController (
     AdminUtilitiesServices,
+    AdminDashboardItemsService,
     pages,
     categories,
-    users,
     menus,
     sidebars
 ) {
     'use strict';
 
-    var vm = this;
+    var vm = this,
+        items = [
+            pages,
+            categories,
+            menus,
+            sidebars
+        ];
 
     vm.pages = pages;
     vm.categories = categories;
-    vm.users = users;
     vm.menus = menus;
     vm.sidebars = sidebars;
+    vm.dashboardItems = AdminDashboardItemsService;
+
+    angular.forEach(vm.dashboardItems, function (item, i) {
+        item.items = items[i];
+    });
 
     // create host url to view front end page
     vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');

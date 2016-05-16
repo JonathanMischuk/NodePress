@@ -17,6 +17,7 @@ module.exports = function () {
         require('./categories'),
         require('./pages'),
         require('./sidebars'),
+        require('./plugins'),
         require('./footer')
     ];
 

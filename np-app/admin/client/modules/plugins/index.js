@@ -2,11 +2,9 @@
 
 var Modules = require('../admin.client.register.module');
 
-// angular dashboard module and module accessories
-Modules.registerModule('dashboard');
-require('./routes');
+// angular sidebars module and module accessories
+Modules.registerModule('plugins');
 require('./services');
-require('./controllers');
 
 // exports module name as string for admin module dependency injection
-module.exports = 'dashboard';
+module.exports = 'plugins';

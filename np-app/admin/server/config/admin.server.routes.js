@@ -19,4 +19,7 @@ module.exports = function (app) {
 
     // admin sidebars api routes
     require('../api').sidebarsAPI.routes.endPoints(app);
+
+    // admin plugins api routes
+    require('../api').pluginsAPI.routes.endPoints(app);
 };

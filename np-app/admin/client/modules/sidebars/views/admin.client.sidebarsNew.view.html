@@ -39,11 +39,8 @@
                     data-collapsible="accordion">
                     <li ng-repeat="sidebarItem in sidebar.avaliableSidebarItems">
 
-                        <i class="material-icons add-item tooltipped"
-                           ng-click="sidebar.addSidebarItem($index)"
-                           data-position="left"
-                           data-delay="50"
-                           data-tooltip="Add sidebar item">add
+                        <i class="material-icons add-item"
+                           ng-click="sidebar.addSidebarItem($index)">add
                         </i>
 
                         <div class="collapsible-header">
@@ -89,11 +86,8 @@
                     <li ng-repeat="sidebarItem in sidebar.sidebarItems track by sidebarItem.id"
                         sidebar-item-id="{{ sidebarItem.id }}">
 
-                        <i class="material-icons delete remove-item tooltipped"
-                           ng-click="sidebar.removeSidebarItem(sidebarItem)"
-                           data-position="left"
-                           data-delay="50"
-                           data-tooltip="Remove sidebar item">delete
+                        <i class="material-icons delete remove-item"
+                           ng-click="sidebar.removeSidebarItem(sidebarItem)">delete
                         </i>
 
                          <div class="collapsible-header">
@@ -108,11 +102,12 @@
 
                              <label>Content Body</label>
 
-                             <sidebar-item ng-model="sidebarItem.model.body"
-                                           model="sidebarItem.model.body"
-                                           slug="{{ sidebarItem.directiveSlug }}"
-                                           obj="sidebarItem.model.body"
-                                           index="{{ sidebarItem.id }}">
+                             <sidebar-item
+                                     model="sidebarItem.model.body"
+                                     slug="{{ sidebarItem.directiveSlug }}"
+                                     item="sidebarItem"
+                                     data="sidebar.data"
+                                     index="{{ sidebarItem.id }}">
                              </sidebar-item>
                          </div>
                     </li>

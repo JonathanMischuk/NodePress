@@ -7,13 +7,16 @@ function AdminUpdateSidebarController (
     $scope,
     $rootScope,
     AdminUtilitiesServices,
-    sidebar
+    pluginsConfig,
+    sidebar,
+    menus
 ) {
     'use strict';
 
     var vm = this;
 
-    vm.avaliableSidebarItems = $rootScope.np.settings.pluginsConfig;
+    vm.menus = menus;
+    vm.avaliableSidebarItems = pluginsConfig;
     vm.sidebar = sidebar;
     vm.sidebarItems = vm.sidebar.items;
     vm.sidebarItemIds = [];
@@ -23,6 +26,12 @@ function AdminUpdateSidebarController (
     vm.removeSidebarItem = removeSidebarItem;
     vm.sortableOptions = {
         handle: '.sort-handle'
+    };
+
+    vm.data = {
+        menus: menus,
+        sidebar: sidebar,
+        sidebarItems: sidebar.items
     };
 
     function getSidebarCount () {

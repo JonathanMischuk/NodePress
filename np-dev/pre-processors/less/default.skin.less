@@ -25,18 +25,26 @@ ul, ol {
 }
 
 a {
-    .transition();
+    color: rgba(0, 0, 0, 0.5);
     cursor: pointer;
+    .transition();
+
+    &:hover {
+        color: rgba(0, 0, 0, 0.75);
+    }
+}
+
+h1, h5 {
+    color: rgba(0, 0, 0, 0.75);
 }
 
 h1 {
     margin: 50px 0;
-    font-size: 40px;
-    color: #757575;
+    font-size: 2.5rem;
 }
 
 h5 {
-    color: #757575;
+    font-size: 1.4rem;
 }
 
 .no-border-bottom {
@@ -288,7 +296,12 @@ h5 {
 }
 
 nav .brand-logo {
-    left: 20px;
+    left: 60px;
+    font-size: 2rem;
+
+    &:hover {
+        color: rgba(255, 255, 255, 1);
+    }
 }
 
 .dashboard {
@@ -318,6 +331,74 @@ nav .brand-logo {
 .admin-footer {
     [type="checkbox"]+label {
         color: #757575;
+    }
+}
+
+.add-new {
+    &.under-list {
+        span {
+            position: relative;
+            top: -6px;
+            color: rgba(0, 0, 0, 0.5);
+            .transition();
+        }
+
+        .material-icons {
+            font-size: 24px;
+            color: rgba(0, 0, 0, 0.5);
+            .transition();
+        }
+
+        &:hover {
+            span,
+            .material-icons {
+                color: rgba(0, 0, 0, 1);
+            }
+        }
+    }
+}
+
+.material-icons {
+    font-size: 30px;
+    color: rgba(0, 0, 0, 0.25);
+    .transition();
+
+    &:hover {
+        color: rgba(0, 0, 0, 0.75);
+    }
+}
+
+.nav-wrapper {
+    .settings-icon {
+        .material-icons {
+            position: absolute;
+            left: 15px;
+            width: 30px;
+            height: 30px;
+        }
+    }
+}
+
+.actions-list-header {
+    .material-icons {
+        position: relative;
+        top: 4px;
+    }
+}
+
+.dashboard-actions {
+    margin-top: -2px;
+
+    .material-icons {
+        font-size: 24px;
+    }
+}
+
+.collection-item {
+    .material-icons {
+        position: relative;
+        top: -2px;
+        font-size: 24px;
     }
 }
 
@@ -354,8 +435,16 @@ nav .brand-logo {
     }
 
     &.with-header {
+        .collection-header {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+
         .collection-item {
             padding-left: 18px;
+
+            &:nth-child(odd) {
+                background-color: rgba(0, 0, 0, 0.01);
+            }
         }
     }
 }
@@ -380,6 +469,10 @@ nav .brand-logo {
             color: #fff;
         }
     }
+}
+
+.backdrop {
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
 .badge {

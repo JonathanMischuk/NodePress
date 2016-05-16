@@ -7,8 +7,8 @@
     function sidebarItemHtmlContent () {
         return {
             replace: true,
-            restrict: 'C',
-            template: '<textarea class="materialize-textarea"></textarea>'
+            restrict: 'E',
+            template: '<textarea class="materialize-textarea" ng-model="item.model.body"></textarea>'
         };
     }
 })();

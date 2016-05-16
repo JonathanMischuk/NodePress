@@ -2,10 +2,10 @@
     <form name="appSettingsForm" ng-submit="settings.updateAppSettings()" novalidate>
         <div class="site-home-page">
             <label for="home">Home Page</label>
-            <select ng-model="settings.settings.siteHomePage"
+            <select ng-model="np.settings.siteHomePage"
                     id="home"
                     name="home"
-                    ng-options="page.slug as page.title for page in settings.pages">
+                    ng-options="page.slug as page.title for page in np.pages">
                 <option value="" disabled>Select the Front End Home Page</option>
             </select>
         </div>

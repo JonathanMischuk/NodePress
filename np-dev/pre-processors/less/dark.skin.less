@@ -12,7 +12,7 @@
 }
 
 body {
-    background: #2b2b2b;
+    background: rgba(0, 0, 0, 0.87);
 }
 
 table {
@@ -24,11 +24,11 @@ input, select, textarea {
 }
 
 input[type=text] {
-    color: #fff;
+    color: rgba(255, 255, 255, 0.75);
 }
 
 input[type=text][readonly="readonly"] {
-    color: #666;
+    color: rgba(255, 255, 255, 0.25);
     border-bottom: 1px dotted #666;
 }
 
@@ -38,22 +38,31 @@ ul, ol {
 }
 
 a {
-    .transition();
+    color: rgba(225, 255, 255, 0.5);
     cursor: pointer;
-    color: #ffc66d;
+    .transition();
+
+    &:hover {
+        color: rgba(255, 255, 255, 0.75);
+    }
 }
 
 h1 {
     margin: 50px 0;
-    font-size: 40px;
-    color: #fff;
+    font-size: 2.5rem;
+    color: rgba(255, 255, 255, 1);
 
     a {
-        color: #9C27B0;
+        color: rgba(255, 255, 255, 0.5);
+
+        &:hover {
+            color: rgba(255, 255, 255, 1);
+        }
     }
 }
 
 h5 {
+    font-size: 1.4rem;
     color: #fff;
 }
 
@@ -62,7 +71,7 @@ p {
 }
 
 label {
-    color: #ffc66d;
+    color: rgba(255, 255, 255, 0.25);
 }
 
 .no-border-bottom {
@@ -94,7 +103,7 @@ label {
 }
 
 .dashboard-actions {
-    margin-top: -5px;
+    margin-top: -2px;
     float: right;
 
     .btn-floating i {
@@ -104,8 +113,8 @@ label {
 
 .dashboard-extra-link {
     font-size: 14px;
-    color: #fff;
     line-height: 18px;
+    color: rgba(255, 255, 255, 1);
 }
 
 .primary-menu {
@@ -114,7 +123,7 @@ label {
     z-index: 1;
 
     .nav-wrapper {
-        background: #3c3f41;
+        background-color: rgba(0, 0, 0, 0.15);
     }
 }
 
@@ -126,7 +135,7 @@ label {
     padding: 75px 0 0;
     width: 232px;
     height: 100%;
-    background: #3c3f41;
+    background-color: rgba(0, 0, 0, 0.15);
     z-index: 0;
     -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
     -moz-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
@@ -145,13 +154,17 @@ label {
         }
 
         .collapsible-body {
-            background: #2B2B2B;
+            background-color: rgba(0,0,0,0.25);
             border-bottom: 1px solid #393939;
 
             a {
                 display: block;
                 padding: 10px 20px;
                 color: #fff;
+
+                &:hover {
+                    background-color: rgba(0,0,0,0.5);
+                }
             }
         }
     }
@@ -275,10 +288,6 @@ label {
 
 .admin-view-page {
     font-size: 14px;
-
-    &:hover {
-        color: #757575;
-    }
 }
 
 .show-more-less {
@@ -342,9 +351,17 @@ label {
     color: #9C27B0;
 }
 
-nav .brand-logo {
-    left: 20px;
-    color: #ffc66d;
+nav {
+    background-color: #1C1C1C;
+
+    .brand-logo {
+        left: 60px;
+        font-size: 2rem;
+
+        &:hover {
+            color: rgba(255, 255, 255, 1);
+        }
+    }
 }
 
 .dashboard {
@@ -377,13 +394,75 @@ nav .brand-logo {
     }
 }
 
+.add-new {
+    &.under-list {
+        span {
+            position: relative;
+            top: -6px;
+            color: rgba(255, 255, 255, 0.75);
+            .transition();
+        }
+
+        .material-icons {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.75);
+            .transition();
+        }
+
+        &:hover {
+            span,
+            .material-icons {
+                color: rgba(255, 255, 255, 1);
+            }
+        }
+    }
+}
+
 .material-icons {
-    color: #fff;
+    font-size: 30px;
+    color: rgba(255, 255, 255, 0.25);
+    .transition();
+
+    &:hover {
+        color: rgba(255, 255, 255, 0.75);
+    }
+}
+
+.nav-wrapper {
+    .settings-icon {
+        .material-icons {
+            position: absolute;
+            left: 15px;
+            width: 30px;
+            height: 30px;
+        }
+    }
+}
+
+.actions-list-header {
+    .material-icons {
+        position: relative;
+        top: 4px;
+    }
+}
+
+.dashboard-actions {
+    .material-icons {
+        font-size: 24px;
+    }
+}
+
+.collection-item {
+    .material-icons {
+        position: relative;
+        top: -2px;
+        font-size: 24px;
+    }
 }
 
 .tabs {
     margin-bottom: 50px;
-    background: #2B2B2B;
+    background-color: rgba(0, 0, 0, 0);
     border-bottom: 1px solid #eee;
 
     .tab {
@@ -435,11 +514,11 @@ nav .brand-logo {
 
     &.with-header {
         .collection-header {
-            background: #3C3F41;
+            background-color: rgba(0, 0, 0, 0.15);
             border-bottom: transparent;
 
             h5 {
-                color: #fff;
+                color: rgba(255, 255, 255, 1);
             }
         }
 
@@ -447,24 +526,40 @@ nav .brand-logo {
             padding-left: 18px;
             color: #fff;
             background: #313335;
-            border-bottom: 1px solid #393939;
-            border-right: 1px solid #393939;
-            border-left: 1px solid #393939;
+            border-bottom: none;
+            border-right: 1px solid #1C1C1C;
+            border-left: 1px solid #1C1C1C;
 
             a {
-                color: #ffc66d;
+                color: rgba(255, 255, 255, 0.75);
 
                 &:hover {
                     color: #fff;
                 }
             }
 
-            &:nth-child(even) {
-                background: #2b2b2b;
+            .row {
+                margin-bottom: 10px;
+
+                &:last-child {
+                    margin: 0;
+                }
+            }
+
+            .collection-item-description {
+                color: rgba(255, 255, 255, 0.5);
+            }
+
+            &:last-child {
+                border-bottom: 1px solid #1C1C1C;
             }
 
             &:nth-child(odd) {
-                background: #303030;
+                background-color: rgba(0, 0, 0, 0.15);
+            }
+
+            &:nth-child(even) {
+                background-color: rgba(255, 255, 255, 0);
             }
         }
     }
@@ -501,24 +596,12 @@ nav .brand-logo {
 }
 
 .badge {
+    color: rgba(255, 255, 255, 0.25);
     cursor: pointer;
+    .transition();
 
-    .edit {
-        color: #393939;
-        .transition();
-
-        &:hover {
-            color: #2196F3;
-        }
-    }
-
-    .delete {
-        color: #393939;
-        .transition();
-
-        &:hover {
-            color: #9C27B0;
-        }
+    &:hover {
+        color: rgba(255, 255, 255, 0.75);
     }
 }
 
@@ -563,11 +646,11 @@ nav .brand-logo {
 
 .dropdown-content li > a,
 .dropdown-content li > span {
-    color: #fff;
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .backdrop {
-    background-color: #9C27B0;
+    background-color: rgba(0, 0, 0, 0.15);
 }
 
 .info {

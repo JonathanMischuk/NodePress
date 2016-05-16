@@ -2,7 +2,6 @@
 
 var angular = require('angular');
 
-
 module.exports = angular.module('menus')
     .controller('AdminNewSidebarController', AdminNewSidebarController);
 
@@ -10,11 +9,14 @@ function AdminNewSidebarController (
     $scope,
     $location,
     $rootScope,
-    AdminSidebarsAPIService) {
+    AdminSidebarsAPIService,
+    pluginsConfig,
+    menus
+) {
 
     var vm = this;
 
-    vm.avaliableSidebarItems = $rootScope.np.settings.pluginsConfig;
+    vm.avaliableSidebarItems = pluginsConfig;
     vm.sidebar = {};
     vm.sidebarItems = [];
     vm.sidebarItemIds = [];
@@ -24,6 +26,10 @@ function AdminNewSidebarController (
     vm.counter = 0;
     vm.sortableOptions = {
         handle: '.sort-handle'
+    };
+
+    vm.data = {
+        menus: menus
     };
 
     function addSidebarItem (index) {

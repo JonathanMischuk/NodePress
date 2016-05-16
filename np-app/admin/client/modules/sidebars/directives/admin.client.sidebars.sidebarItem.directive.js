@@ -7,11 +7,17 @@ module.exports = angular.module('sidebars')
 
 function sidebarItem ($compile) {
     return {
-        link: link
+        link: link,
+        scope: {
+            item: '=',
+            data: '='
+        }
     };
 
-    function link (scope, elem, attrs) {
-        var html = '<span ng-model="' + attrs.model + '" class="' + attrs.slug + '">';
-        elem.append($compile(html)(scope));
+    function link (scope, elem) {
+        var template = '<' + scope.item.directiveSlug + ' class="' + scope.item.directiveSlug + '">' +
+            '</' + scope.item.directiveSlug + '>';
+        
+        elem.append($compile(template)(scope));
     }
 }

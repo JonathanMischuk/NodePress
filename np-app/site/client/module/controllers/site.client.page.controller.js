@@ -22,7 +22,9 @@ function SitePagesController (
     SitePageServices.getPage(slug, vm.siteHomePage)
         .then(function (response) {
             if (response.data === null) $location.path("/error");
+            
             vm.page = response.data[0];
+            
             $scope.$emit('pageData', response.data);
         });
 }

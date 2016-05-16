@@ -1,14 +1,5 @@
 <div>
-    <h1 class="actions-list-header valign-wrapper">Menus
-
-        <a ui-sref="newMenu"
-           class="btn-floating btn-small waves-effect waves-light blue tooltipped"
-           data-position="top"
-           data-delay="50"
-           data-tooltip="Add new menu">
-            <i class="material-icons">add</i>
-        </a>
-    </h1>
+    <h1 class="actions-list-header valign-wrapper">Menus</h1>
 
     <div class="collection with-header">
         <div class="collection-header">
@@ -81,6 +72,14 @@
             </div>
         </div>
     </div>
+
+    <a ui-sref="newMenu"
+       class="add-new under-list">
+
+        <i class="material-icons">add</i>
+
+        <span>New menu</span>
+    </a>
 
     <div class="modal fade" id="modal-delete">
         <div class="modal-content">

@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
     title: 'HTML Content',
     slug: 'html-content',

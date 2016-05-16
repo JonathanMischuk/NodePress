@@ -15,15 +15,19 @@ function createSlug () {
         scope.$watch(attrs.createSlug, formatTitleString);
 
         function formatTitleString (value) {
+            var formattedTitleString;
+
             if (value) {
-                var formattedTitleString = value.toString()
+                formattedTitleString = value.toString()
                     .replace(/[^\w ]+/g, '')
                     .replace(/ +/g, '-')
                     .toLowerCase();
-
-                ctrl.$setViewValue(formattedTitleString);
-                ctrl.$render();
+            } else {
+                formattedTitleString = '';
             }
+
+            ctrl.$setViewValue(formattedTitleString);
+            ctrl.$render();
         }
     }
 }

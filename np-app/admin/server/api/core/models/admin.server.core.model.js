@@ -22,6 +22,7 @@ var db = require('../../../config/admin.server.db'),
             type: String,
             default: 'default'
         },
+        plugins: [],
         publishDate: {
             type: Date,
             required: true,

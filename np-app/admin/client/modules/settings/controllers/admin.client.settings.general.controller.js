@@ -5,7 +5,6 @@ module.exports = angular.module('settings')
 
 function AdminSettingsGeneralController (
     $rootScope,
-    $timeout,
     AdminAppSettingsService,
     AdminUtilitiesServices,
     pages,
@@ -18,13 +17,7 @@ function AdminSettingsGeneralController (
     vm.pages = pages;
     vm.themes = [];
     vm.settings = settings.data[0];
-    vm.settings.siteHomePage = convertSlugToString(vm.settings.siteHomePage);
     vm.updateAppSettings = updateAppSettings;
-
-    // set Materialize select box default value
-    $timeout(function () {
-        angular.element('.site-home-page .select-dropdown').val(vm.settings.siteHomePage);
-    }, 100);
 
     angular.forEach($rootScope.np.settings.themes, function (theme) {
         vm.themes.push({
@@ -50,11 +43,5 @@ function AdminSettingsGeneralController (
             .catch(function (error) {
                 //vm.errorTitle = error;
             });
-    }
-
-    function convertSlugToString (str) {
-        return str.replace(/-/g,' ').replace(/\w\S*/g, function(txt) {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
     }
 }

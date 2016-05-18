@@ -26,13 +26,6 @@ function AdminUpdatePageController (
     vm.categories = categories;
     vm.sidebars = sidebars;
 
-    // set Materialize select box default value
-    $timeout(function () {
-        angular.element('.site-page-category .select-dropdown').val(page.category);
-        angular.element('.site-page-sidebar-left .select-dropdown').val(page.sidebarLeft);
-        angular.element('.site-page-sidebar-right .select-dropdown').val(page.sidebarRight);
-    });
-
     // replace page body textarea with CKEditor
     CKEDITOR.replace('html-editor', { extraPlugins: 'divarea' });
 

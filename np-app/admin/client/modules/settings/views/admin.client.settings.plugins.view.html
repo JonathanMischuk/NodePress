@@ -2,7 +2,7 @@
     <h5>Available Plugins</h5>
 
     <div class="collection with-header">
-        <div class="collection-item"
+        <div class="collection-item plugin"
              ng-repeat="plugin in settings.pluginsConfig">
 
             <div class="row">
@@ -11,7 +11,12 @@
                 </div>
 
                 <div class="col s12 m12 l6">
-                    <span class="right">Activate</span>
+                    <span class="plugin-activate right"
+                          ng-click="settings.updateAppSettings($index)">
+
+                        <span ng-if="!plugin.active">Activate</span>
+                        <span ng-if="plugin.active">De-activate</span>
+                    </span>
                 </div>
             </div>
 

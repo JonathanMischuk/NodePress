@@ -44309,6 +44309,9 @@
 	                pluginsConfig: function (AdminPluginsService) {
 	                    return AdminPluginsService.getPluginConfig();
 	                },
+	                activePlugins: function (AdminPluginsService) {
+	                    return AdminPluginsService.getActivePlugins();
+	                },
 	                menus: function ($http) {
 	                    return $http.get('/api/menus').then(function (response) {
 	                        return response.data;
@@ -44323,6 +44326,9 @@
 	            resolve: {
 	                pluginsConfig: function (AdminPluginsService) {
 	                    return AdminPluginsService.getPluginConfig();
+	                },
+	                activePlugins: function (AdminPluginsService) {
+	                    return AdminPluginsService.getActivePlugins();
 	                },
 	                sidebar: function ($stateParams, AdminSidebarsAPIService) {
 	                    return AdminSidebarsAPIService.get({
@@ -44437,13 +44443,13 @@
 	    $location,
 	    $rootScope,
 	    AdminSidebarsAPIService,
-	    pluginsConfig,
+	    activePlugins,
 	    menus
 	) {
 
 	    var vm = this;
 
-	    vm.avaliableSidebarItems = pluginsConfig;
+	    vm.avaliableSidebarItems = activePlugins;
 	    vm.sidebar = {};
 	    vm.sidebarItems = [];
 	    vm.sidebarItemIds = [];
@@ -44510,7 +44516,7 @@
 	    $scope,
 	    $rootScope,
 	    AdminUtilitiesServices,
-	    pluginsConfig,
+	    activePlugins,
 	    sidebar,
 	    menus
 	) {
@@ -44519,7 +44525,7 @@
 	    var vm = this;
 
 	    vm.menus = menus;
-	    vm.avaliableSidebarItems = pluginsConfig;
+	    vm.avaliableSidebarItems = activePlugins;
 	    vm.sidebar = sidebar;
 	    vm.sidebarItems = vm.sidebar.items;
 	    vm.sidebarItemIds = [];
@@ -44668,6 +44674,13 @@
 
 	    adminPluginService.getPluginConfig = function () {
 	        return $http.get('/api/plugins').then(function (response) {
+	            return response.data;
+	        });
+	    };
+
+	    adminPluginService.getActivePlugins = function () {
+	        return $http.get('/api/plugins/active').then(function (response) {
+	            console.log(response.data);
 	            return response.data;
 	        });
 	    };

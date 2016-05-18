@@ -27,6 +27,9 @@ function adminSidebarRoutes ($stateProvider, $urlRouterProvider) {
                 pluginsConfig: function (AdminPluginsService) {
                     return AdminPluginsService.getPluginConfig();
                 },
+                activePlugins: function (AdminPluginsService) {
+                    return AdminPluginsService.getActivePlugins();
+                },
                 menus: function ($http) {
                     return $http.get('/api/menus').then(function (response) {
                         return response.data;
@@ -41,6 +44,9 @@ function adminSidebarRoutes ($stateProvider, $urlRouterProvider) {
             resolve: {
                 pluginsConfig: function (AdminPluginsService) {
                     return AdminPluginsService.getPluginConfig();
+                },
+                activePlugins: function (AdminPluginsService) {
+                    return AdminPluginsService.getActivePlugins();
                 },
                 sidebar: function ($stateParams, AdminSidebarsAPIService) {
                     return AdminSidebarsAPIService.get({

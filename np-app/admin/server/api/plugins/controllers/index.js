@@ -2,6 +2,6 @@
 
 module.exports = {
     getPlugins: require('./admin.server.plugins.getPlugins.controller'),
-    setPlugins: require('./admin.server.plugins.setPlugins.controller')
+    getActivePlugins: require('./admin.server.plugins.getActivePlugins.controller')
 };
 

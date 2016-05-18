@@ -7,7 +7,7 @@ function AdminUpdateSidebarController (
     $scope,
     $rootScope,
     AdminUtilitiesServices,
-    pluginsConfig,
+    activePlugins,
     sidebar,
     menus
 ) {
@@ -16,7 +16,7 @@ function AdminUpdateSidebarController (
     var vm = this;
 
     vm.menus = menus;
-    vm.avaliableSidebarItems = pluginsConfig;
+    vm.avaliableSidebarItems = activePlugins;
     vm.sidebar = sidebar;
     vm.sidebarItems = vm.sidebar.items;
     vm.sidebarItemIds = [];

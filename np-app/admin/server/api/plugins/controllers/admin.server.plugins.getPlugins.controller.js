@@ -2,19 +2,19 @@
 
 var fs = require('fs');
 
-// GET request: retrieve single page to edit
+// GET request: retrieve all pluginDefinitions
 module.exports = function (req, res, next) {
-    var pluginsNames = [],
-        plugins = [];
-    
+    var pluginDefinitions = [],
+        pluginDirs = [];
+
     fs.readdirSync(__dirname + '/../../../../../../np-site/plugins').forEach(function (dir) {
-        pluginsNames.push(dir);
+        pluginDirs.push(dir);
     });
 
-    pluginsNames.forEach(function (plugin, i) {
-        plugins[i] = require('../../../../../../np-site/plugins/' + plugin + '/plugin.config');
+    pluginDirs.forEach(function (plugin, i) {
+        pluginDefinitions[i] = require('../../../../../../np-site/plugins/' + plugin + '/plugin.config');
     });
-    
-    res.json(plugins);
+
+    res.json(pluginDefinitions);
 };
 

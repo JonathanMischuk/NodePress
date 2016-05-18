@@ -10,13 +10,13 @@ function AdminNewSidebarController (
     $location,
     $rootScope,
     AdminSidebarsAPIService,
-    pluginsConfig,
+    activePlugins,
     menus
 ) {
 
     var vm = this;
 
-    vm.avaliableSidebarItems = pluginsConfig;
+    vm.avaliableSidebarItems = activePlugins;
     vm.sidebar = {};
     vm.sidebarItems = [];
     vm.sidebarItemIds = [];

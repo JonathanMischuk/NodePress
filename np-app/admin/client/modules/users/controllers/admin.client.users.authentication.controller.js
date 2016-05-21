@@ -5,11 +5,12 @@ var angular = require('angular');
 module.exports = angular.module('users')
     .controller('AdminUserAuthenticationController', AdminUserAuthenticationController);
 
-function AdminUserAuthenticationController(
+function AdminUserAuthenticationController (
     $scope,
     $rootScope,
-    AdminUserAuthenticationService) {
-
+    $http,
+    AdminUserAuthenticationService
+) {
     var vm = this;
 
     AdminUserAuthenticationService();

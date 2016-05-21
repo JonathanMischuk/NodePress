@@ -12,7 +12,7 @@ module.exports = function (req, res, next) {
 
         req.login(user, function(err) {
             if (err) return res.status(400).send(err);
-            res.json(user);
+            return res.json(user);
         });
     })(req, res, next);
 };

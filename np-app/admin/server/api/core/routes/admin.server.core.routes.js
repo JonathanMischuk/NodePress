@@ -11,5 +11,5 @@ module.exports = function (app) {
     app.put('/api/settings', controller.updateCoreSettings);
 
     // load core template and settings
-    app.get('/np-admin*', controller.loadCoreTemplate);
+    app.use('/np-admin/*', controller.loadCoreTemplate);
 };

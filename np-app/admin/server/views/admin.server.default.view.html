@@ -38,79 +38,28 @@
 {% block secondaryMenu %}
 <div class="secondary-menu" ng-if="np.auth.user">
     <ul class="collapsible" data-collapsible="accordion">
+        <!--<li ng-repeat="component in np.components">
 
-        <!-- Pages section -->
-        <li>
-            <div class="collapsible-header waves-effect waves-dark">
-                <i class="material-icons">web</i> Pages
-            </div>
-            <div class="collapsible-body">
-                <ul>
-                    <li><a ui-sref="pages">All Pages</a></li>
-                    <li><a ui-sref="newPage">New Page</a></li>
-                </ul>
-            </div>
-        </li>
+            <div ui-sref="{% raw %}{{ component.state }}{% endraw %}"
+                 class="collapsible-header waves-effect waves-dark">
+                <i class="material-icons">
+                    {% raw %}{{ component.icon }}{% endraw %}
+                </i>
 
-        <!-- Categories section -->
-        <li>
-            <div class="collapsible-header waves-effect waves-dark">
-                <i class="material-icons">subtitles</i> Categories
-            </div>
-            <div class="collapsible-body">
-                <ul>
-                    <li><a ui-sref="categories">All Categories</a></li>
-                    <li><a ui-sref="newCategory">New Category</a></li>
-                </ul>
-            </div>
-        </li>
-
-        <!-- Menus section -->
-        <li>
-            <div class="collapsible-header waves-effect waves-dark">
-                <i class="material-icons">toc</i> Menus
-            </div>
-            <div class="collapsible-body">
-                <ul>
-                    <li><a ui-sref="menus">All Menus</a></li>
-                    <li><a ui-sref="newMenu">New Menu</a></li>
-                    <li><a ui-sref="manageMenus">Manage Locations</a></li>
-                </ul>
-            </div>
-        </li>
-
-        <!-- Sidebar section -->
-        <li>
-            <div class="collapsible-header waves-effect waves-dark">
-                <i class="material-icons">view_week</i> Sidebars
-            </div>
-            <div class="collapsible-body">
-                <ul>
-                    <li><a ui-sref="sidebars">All Sidebars</a></li>
-                    <li><a ui-sref="newSidebar">New Sidebar</a></li>
-                </ul>
-            </div>
-        </li>
-
-        <!-- Users section -->
-        <li>
-            <div class="collapsible-header waves-effect waves-dark">
-                <i class="material-icons">supervisor_account</i> Users
-            </div>
-            <div class="collapsible-body">
-                <ul>
-                    <li><a ui-sref="users">All Users</a></li>
-                    <li><a ui-sref="newUser">New User</a></li>
-                </ul>
-            </div>
-        </li>
-
-        <!-- Footer section -->
-        <!--<li>
-            <div ui-sref="footer" class="collapsible-header waves-effect waves-dark">
-                <i class="material-icons">view_day</i> Footer
+                {% raw %}{{ component.title }}{% endraw %}
             </div>
         </li>-->
+        {% for component in np.components %}
+            {% for section in component.sections %}
+                {% if section === 'components-menu' %}
+                    <li>
+                        <div ui-sref="{{ component.state }}" class="collapsible-header waves-effect waves-dark">
+                            <i class="material-icons">{{ component.icon }}</i> {{ component.title }}
+                        </div>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
     </ul>
 
     <script>

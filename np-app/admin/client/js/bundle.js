@@ -50,7 +50,7 @@
 
 	// main angular admin module
 	__webpack_require__(3)();
-	__webpack_require__(114);
+	__webpack_require__(116);
 
 
 
@@ -42608,7 +42608,8 @@
 	    pages,
 	    categories,
 	    menus,
-	    sidebars
+	    sidebars,
+	    $http
 	) {
 	    'use strict';
 
@@ -42632,6 +42633,11 @@
 
 	    // create host url to view front end page
 	    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
+
+	    /*$http.get('/api/components').then(function (response) {
+
+	        console.log(response.data);
+	    })*/
 	}
 
 
@@ -42863,11 +42869,12 @@
 	module.exports = angular.module('users')
 	    .controller('AdminUserAuthenticationController', AdminUserAuthenticationController);
 
-	function AdminUserAuthenticationController(
+	function AdminUserAuthenticationController (
 	    $scope,
 	    $rootScope,
-	    AdminUserAuthenticationService) {
-
+	    $http,
+	    AdminUserAuthenticationService
+	) {
 	    var vm = this;
 
 	    AdminUserAuthenticationService();
@@ -44685,6 +44692,12 @@
 	        });
 	    };
 
+	    adminPluginService.getComponents = function () {
+	        return $http.get('/api/components').then(function (response) {
+	            return response.data;
+	        });
+	    };
+
 	    return adminPluginService;
 	}
 
@@ -44700,8 +44713,8 @@
 	// angular pages module and module accessories
 	Modules.registerModule('footer');
 	__webpack_require__(112);
-	/*require('./services');
-	require('./controllers');*/
+	/*require('./services');*/
+	__webpack_require__(114);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'footer';
@@ -44710,8 +44723,6 @@
 /***/ },
 /* 112 */
 /***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
 
 	__webpack_require__(113);
 
@@ -44731,15 +44742,99 @@
 	    $urlRouterProvider.otherwise('/');
 
 	    $stateProvider
-	        .state('footer', {
-	            url: '/footer/',
-	            templateUrl: 'admin.client.footer.view.html'
+	        .state('footers', {
+	            url: '/footers/',
+	            templateUrl: 'admin.client.footers.view.html',
+	            controller: 'AdminNewFooterController as FooterCtrl'
 	        });
 	}
 
 
 /***/ },
 /* 114 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(115)
+
+
+/***/ },
+/* 115 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var angular = __webpack_require__(1);
+
+	module.exports = angular.module('menus')
+	    .controller('AdminNewFooterController', AdminNewFooterController);
+
+	function AdminNewFooterController (
+	    $scope,
+	    $location,
+	    $rootScope,
+	    AdminSidebarsAPIService,
+	    activePlugins,
+	    menus
+	) {
+
+	    var vm = this;
+
+	    vm.avaliableSidebarItems = activePlugins;
+	    vm.sidebar = {};
+	    vm.sidebarItems = [];
+	    vm.sidebarItemIds = [];
+	    vm.newSidebar = newSidebar;
+	    vm.addSidebarItem = addSidebarItem;
+	    vm.removeSidebarItem = removeSidebarItem;
+	    vm.counter = 0;
+	    vm.sortableOptions = {
+	        handle: '.sort-handle'
+	    };
+
+	    vm.data = {
+	        menus: menus
+	    };
+
+	    function addSidebarItem (index) {
+	        var sidebarItem = angular.copy(vm.avaliableSidebarItems[index]);
+
+	        vm.counter += 1;
+	        sidebarItem.id = vm.counter;
+	        vm.sidebarItems.push(sidebarItem);
+	    }
+
+	    function removeSidebarItem (sidebarItem) {
+	        var index = vm.sidebarItems.indexOf(sidebarItem);
+	        vm.sidebarItems.splice(index, 1);
+	    }
+
+	    function newSidebar () {
+	        vm.sidebar.createdBy = $rootScope.np.auth.user.username;
+	        vm.sidebar.items = vm.sidebarItems;
+
+	        if ($scope.newSidebarForm.$valid) {
+	            var Sidebar = new AdminSidebarsAPIService(vm.sidebar);
+
+	            Sidebar.$save()
+	                .then(function (sidebar) {
+
+	                    // display success dialog
+	                    Materialize.toast('Sidebar created!', 4000, 'success');
+
+	                    $location.path('/sidebars/' + sidebar._id);
+	                })
+	                .catch(function (error) {
+	                    console.log('error!');
+
+	                    //vm.errorTitle = error.data.errors.title || '';
+	                });
+	        }
+	    }
+	}
+
+
+/***/ },
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

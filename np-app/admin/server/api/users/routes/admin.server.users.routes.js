@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports = function (app) {
-    var controller = require('../controllers');
+    var controller = require('../controllers'),
+        pluginsController = require('../../plugins/controllers');
 
     app.get('/auth', controller.authorization);
     app.post('/auth/login', controller.login);

@@ -1,0 +1,129 @@
+<div class="page-gutter-right ng-cloak">
+    <h1>New Footer</h1>
+
+    <form name="newSidebarForm" ng-submit="FooterCtrl.newSidebar()" novalidate>
+
+        <div>
+            <label for="title">Footer Title</label>
+            <input type="text"
+                   ng-model="sidebar.sidebar.title"
+                   id="title"
+                   name="title"
+                   required />
+
+            <div ng-show="newSidebarForm.$submitted">
+                <div class="error" ng-show="newSidebarForm.title.$error.required">
+                    {{ FooterCtrl.errors.title.invalid }}
+                </div>
+
+                <div class="error" ng-show="FooterCtrl.errorTitle">
+                    {{ FooterCtrl.errors.title.unique }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12 m12 l6">
+                <h5 class="admin-sidebar-items-title">Available Components
+
+                    <a class="tooltipped info"
+                       data-position="top"
+                       data-delay="50"
+                       data-tooltip="Expand component for its description">
+
+                        <i class="material-icons">info</i>
+                    </a>
+                </h5>
+
+                <ul class="collapsible sidebar-items sidebar-items-container"
+                    data-collapsible="accordion">
+                    <li ng-repeat="component in FooterCtrl.avaliableSidebarItems"
+                        ng-class="{ 'last': $last }">
+
+                        <i class="material-icons add-item"
+                           ng-click="FooterCtrl.addSidebarItem($index)">add
+                        </i>
+
+                        <div class="collapsible-header">
+                            <i class="material-icons">{{ component.icon }}</i>
+                            {{ component.title }}
+                        </div>
+
+                        <div class="collapsible-body">
+                            <p>{{ component.description }}</p>
+                        </div>
+                    </li>
+
+                    <script>
+                        $(document).ready(function (){
+                            $('.sidebar-items').collapsible();
+                        });
+                    </script>
+                </ul>
+
+                <span class="btn waves-effect blue"
+                      ng-click="FooterCtrl.newSidebar()">Publish
+                </span>
+            </div>
+
+            <div class="col s12 m12 l6">
+                <h5 class="admin-sidebar-items-title">Added Sidebar Items
+
+                    <a class="tooltipped info"
+                       data-position="top"
+                       data-delay="50"
+                       data-tooltip="Expand sidebar item to change its properties">
+
+                        <i class="material-icons">info</i>
+                    </a>
+                </h5>
+
+                <ul class="collapsible sidebar-items-container-added sortable"
+                    ng-if="FooterCtrl.sidebarItems.length"
+                    data-collapsible="accordion"
+                    ng-model="FooterCtrl.sidebarItems"
+                    ui-sortable="FooterCtrl.sortableOptions">
+
+                    <li ng-repeat="component in FooterCtrl.sidebarItems track by component.id"
+                        ng-class="{ 'last': $last }"
+                        sidebar-item-id="{{ component.id }}">
+
+                        <i class="material-icons delete remove-item"
+                           ng-click="FooterCtrl.removeSidebarItem(component)">delete
+                        </i>
+
+                        <div class="collapsible-header">
+                            <i class="material-icons sort-handle">sort</i>
+                            {{ component.title }}
+                        </div>
+
+                        <div class="collapsible-body">
+                            <label>Title</label>
+                            <input ng-model="component.model.title"
+                                   type="text" />
+
+                            <label>Content Body</label>
+
+                            <sidebar-item
+                                    model="component.model.body"
+                                    slug="{{ component.directiveSlug }}"
+                                    item="component"
+                                    data="FooterCtrl.data"
+                                    index="{{ component.id }}">
+                            </sidebar-item>
+                        </div>
+                    </li>
+                    <script>
+                        $(document).ready(function (){
+                            $('.sidebar-items-container-added').collapsible();
+                        });
+                    </script>
+                </ul>
+
+                <p ng-if="!FooterCtrl.sidebarItems.length">
+                    No sidebar items added. Add some from the left column.
+                </p>
+            </div>
+        </div>
+    </form>
+</div>

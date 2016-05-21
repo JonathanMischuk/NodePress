@@ -9,8 +9,9 @@ function adminFooterRoutes ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-        .state('footer', {
-            url: '/footer/',
-            templateUrl: 'admin.client.footer.view.html'
+        .state('footers', {
+            url: '/footers/',
+            templateUrl: 'admin.client.footers.view.html',
+            controller: 'AdminNewFooterController as FooterCtrl'
         });
 }

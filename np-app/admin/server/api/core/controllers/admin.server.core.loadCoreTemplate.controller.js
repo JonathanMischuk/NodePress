@@ -2,6 +2,7 @@
 
 var fs = require('fs'),
     async = require('async'),
+    componentControllers = require('../../plugins/controllers'),
     Core = require('../../core/models').Core,
     User = require('../../users/models').User,
     Menu = require('../../menus/models').Menu;
@@ -17,12 +18,15 @@ var fs = require('fs'),
 module.exports = function (req, res, next) {
     var plugins = fs.readdirSync(__dirname + '/../../../../../../np-site/plugins');
 
+    console.log('how many times');
+
     async.series([
         getThemes,
         getSkins,
         getPluginsConfig,
         getUser,
-        getSkin
+        getSkin,
+        getComponents
     ], function (err, results) {
         var np = {
             auth: {
@@ -35,8 +39,11 @@ module.exports = function (req, res, next) {
                 skin: results[4],
                 plugins: plugins,
                 pluginsConfig: results[2]
-            }
+            },
+            components: results[5]
         };
+        
+        res.locals.np = np;
 
         res.render('admin.server.default.view.html', {
             np: np
@@ -95,34 +102,7 @@ module.exports = function (req, res, next) {
         });
     }
 
-    /*fs.readdirSync(__dirname + '/../../../../../../np-site/themes/')
-        .forEach(function (dir) {
-            if (!dir) return new Error("No directories found.");
-            themes.push(dir);
-        });
-
-    fs.readdirSync(__dirname + '/../../../../client/skins')
-        .forEach(function (dir) {
-            if (!dir) return new Error("No directories found.");
-            skins.push(dir);
-        });
-
-    plugins.forEach(function (plugin) {
-        pluginsConfig.push(require('../../../../../../np-site/plugins/' + plugin + '/plugin.config'));
-    });
-
-    User.find(function (err, user) {
-        if (err) return next(err);
-
-        var exists = user.length;
-
-        res.render('admin.server.default.view.html', {
-            user: req.user || null,
-            exists: exists,
-            themes: themes || [],
-            skins: skins || [],
-            plugins: plugins,
-            pluginsConfig: pluginsConfig
-        });
-    });*/
+    function getComponents (callback) {
+        callback(null, componentControllers.getComponents(req.user));
+    }
 };

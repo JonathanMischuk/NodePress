@@ -1,0 +1,110 @@
+<div>
+    <h1 class="actions-list-header valign-wrapper">Footers</h1>
+
+    <div class="collection with-header">
+        <div class="collection-header">
+            <div class="row">
+                <div class="col s12 m12 l2">
+                    <h5>Footer Title</h5>
+                </div>
+
+                <div class="col s12 m12 l2">
+                    <h5>Author</h5>
+                </div>
+
+                <div class="col s12 m12 l2">
+                    <h5>Publish Date</h5>
+                </div>
+
+                <div class="col s12 m12 l2">
+                    <h5>Last Modified</h5>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if=""
+             class="collection-item">
+
+            <p>No Footers.
+                <a ui-sref="newMenu">Create new footer</a>?
+            </p>
+        </div>
+
+        <div class="collection-item">
+            <span class="badge">
+                <i ng-click=""
+                   class="material-icons delete tooltipped modal-trigger"
+                   data-position="top"
+                   data-delay="50"
+                   data-tooltip="Remove menu"
+                   data-target="modal-delete"
+                   popup-trigger>delete
+                </i>
+
+                <a ng-href=""
+                   class="tooltipped"
+                   data-position="top"
+                   data-delay="50"
+                   data-tooltip="Edit menu">
+                    <i class="material-icons edit">edit</i>
+                </a>
+            </span>
+
+            <div class="row">
+                <div class="col s12 m12 l2">
+                    <p class="page-title">
+                        <a ng-href="">Footer Title
+                            <!--{{ menu.title }}-->
+                        </a>
+                    </p>
+                </div>
+
+                <div class="col s12 m12 l2">
+                    <p class="page-title">Author
+                        <!--{{ menu.createdBy }}-->
+                    </p>
+                </div>
+
+                <div class="col s12 m12 l2">
+                    <p class="page-title">Publish Date
+                        <!--{{ menu.publishDate }}-->
+                    </p>
+                </div>
+
+                <div class="col s12 m12 l2">
+                    <p class="page-title">Last Modified
+                        <!--{{ menu.modifiedDate }}-->
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a ui-sref="newMenu"
+       class="add-new under-list">
+
+        <i class="material-icons">add</i>
+
+        <span>New footer</span>
+    </a>
+
+    <div class="modal fade" id="modal-delete">
+        <div class="modal-content">
+            <h5 class="modal-title">Are you sure you want to remove the footer?
+
+                <span class="dashboard-actions">
+                    <a class="btn-floating btn-small waves-effect waves-dark pink modal-close">
+                        <i class="material-icons">close</i>
+                    </a>
+                </span>
+            </h5>
+
+            <a ng-click=""
+               class="waves-effect waves-light btn blue modal-close">Remove Footer
+            </a>
+
+            <a class="waves-effect waves-light btn blue modal-close">Cancel
+            </a>
+        </div>
+    </div>
+</div>

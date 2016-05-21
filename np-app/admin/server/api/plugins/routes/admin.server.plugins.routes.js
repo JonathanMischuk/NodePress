@@ -5,4 +5,5 @@ module.exports = function (app) {
 
     app.get('/api/plugins', controller.getPlugins);
     app.get('/api/plugins/active', controller.getActivePlugins);
+    app.get('/api/components', controller.getComponents);
 };

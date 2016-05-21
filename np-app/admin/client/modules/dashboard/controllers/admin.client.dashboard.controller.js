@@ -9,7 +9,8 @@ function AdminDashboardController (
     pages,
     categories,
     menus,
-    sidebars
+    sidebars,
+    $http
 ) {
     'use strict';
 
@@ -33,4 +34,9 @@ function AdminDashboardController (
 
     // create host url to view front end page
     vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
+
+    /*$http.get('/api/components').then(function (response) {
+
+        console.log(response.data);
+    })*/
 }

@@ -37,7 +37,8 @@
 
                 <ul class="collapsible sidebar-items sidebar-items-container"
                     data-collapsible="accordion">
-                    <li ng-repeat="sidebarItem in sidebar.avaliableSidebarItems">
+                    <li ng-repeat="sidebarItem in sidebar.avaliableSidebarItems"
+                        ng-class="{ 'last': $last }">
 
                         <i class="material-icons add-item"
                            ng-click="sidebar.addSidebarItem($index)">add
@@ -84,6 +85,7 @@
                     ui-sortable="sidebar.sortableOptions">
 
                     <li ng-repeat="sidebarItem in sidebar.sidebarItems track by sidebarItem.id"
+                        ng-class="{ 'last': $last }"
                         sidebar-item-id="{{ sidebarItem.id }}">
 
                         <i class="material-icons delete remove-item"

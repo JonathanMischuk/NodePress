@@ -99,7 +99,7 @@ label {
     top: -5px;
     margin: 0 0 20px 0;
     font-size: 12px;
-    color: red;
+    color: rgba(220, 0, 10, 0.5);
 }
 
 .dashboard-actions {
@@ -179,6 +179,12 @@ label {
 .sidebar-items-container-added {
     border: none;
 
+    li.last {
+        .collapsible-header {
+            border: none;
+        }
+    }
+
     .add-item,
     .remove-item {
         margin: 10px 25px 0 0;
@@ -202,11 +208,12 @@ label {
 
     .collapsible-header {
         color: #fff;
-        background: #3C3F41;
+        background: rgba(0,0,0,0.25);
         border-bottom: 1px solid #393939;
     }
 
     .collapsible-body {
+        background: rgba(0,0,0,0.5);
         border-bottom: 1px solid #393939;
     }
 }
@@ -324,13 +331,13 @@ label {
 
     .collection-item:hover .menu-item-add-icon,
     .collection-item:hover .menu-item-delete-icon {
-        color: #9C27B0 !important;
+        color: rgba(255, 255, 255, 1) !important;
     }
 }
 
 .menu-item-title {
     margin-left: 20px;
-    color: #ffc66d;
+    color: rgba(255, 255, 255, 0.75);
 
     &.flat-left {
         margin-left: 0;
@@ -396,6 +403,10 @@ nav {
 
 .add-new {
     &.under-list {
+        padding: 0;
+        background: transparent;
+        border: none;
+
         span {
             position: relative;
             top: -6px;
@@ -452,11 +463,15 @@ nav {
     }
 }
 
-.collection-item {
+.collection-item,
+.collapsible {
     .material-icons {
-        position: relative;
-        top: -2px;
         font-size: 24px;
+
+        &.menu-item-delete-icon,
+        &.remove-item {
+            top: 0;
+        }
     }
 }
 
@@ -518,7 +533,7 @@ nav {
     border: none;
 
     &.buttons-below {
-        margin-bottom: 25px;
+        margin-bottom: 15px;
     }
 
     &.with-header {
@@ -534,7 +549,6 @@ nav {
         .collection-item {
             padding-left: 18px;
             color: #fff;
-            background: #313335;
             border-bottom: none;
             border-right: 1px solid #1C1C1C;
             border-left: 1px solid #1C1C1C;
@@ -663,17 +677,19 @@ nav {
 }
 
 .info {
+    margin-right: 10px;
     line-height: 34px;
-    float: right;
+    float: left;
 
     i {
-        color: #9C27B0;
+        font-size: 24px;
+        color: rgba(255, 255, 255, 0.25);
     }
 }
 
 .admin-sidebar-items-title {
     margin-bottom: 25px;
-    color: #ffc66d;
+    color: rgba(255, 255, 255, 1);
 }
 
 textarea.materialize-textarea {
@@ -711,8 +727,8 @@ input[type=tel]:focus:not([readonly]),
 input[type=number]:focus:not([readonly]),
 input[type=search]:focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
-    border-bottom: 1px solid #9C27B0;
-    box-shadow: 0 1px 0 0 #9C27B0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.5);
 }
 
 input[type=text]:focus:not([readonly])+label {

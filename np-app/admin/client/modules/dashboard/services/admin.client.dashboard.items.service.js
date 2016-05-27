@@ -13,12 +13,12 @@ function AdminDashboardItemsService() {
             emptyMessage: 'No pages exist yet',
             headerLinks: [
                 {
-                    state: 'pages',
+                    state: 'np.pages',
                     message: 'All pages',
                     icon: 'view_list'
                 },
                 {
-                    state: 'newPage',
+                    state: 'np.newPage',
                     message: 'New page',
                     icon: 'add'
                 }
@@ -36,12 +36,12 @@ function AdminDashboardItemsService() {
             emptyMessage: 'No categories exist yet',
             headerLinks: [
                 {
-                    state: 'categories',
+                    state: 'np.categories',
                     message: 'All categories',
                     icon: 'view_list'
                 },
                 {
-                    state: 'newCategory',
+                    state: 'np.newCategory',
                     message: 'New category',
                     icon: 'add'
                 }
@@ -54,12 +54,12 @@ function AdminDashboardItemsService() {
             emptyMessage: 'No menus exist yet',
             headerLinks: [
                 {
-                    state: 'menus',
+                    state: 'np.menus',
                     message: 'All menus',
                     icon: 'view_list'
                 },
                 {
-                    state: 'newMenu',
+                    state: 'np.newMenu',
                     message: 'New menu',
                     icon: 'add'
                 }
@@ -68,7 +68,7 @@ function AdminDashboardItemsService() {
             extraLinks: [
                 {
                     title: 'Manage Menu Locations',
-                    state: 'manageMenus'
+                    state: 'np.manageMenus'
                 }
             ]
         },
@@ -78,12 +78,12 @@ function AdminDashboardItemsService() {
             emptyMessage: 'No sidebars exist yet',
             headerLinks: [
                 {
-                    state: 'sidebars',
+                    state: 'np.sidebars',
                     message: 'All sidebars',
                     icon: 'view_list'
                 },
                 {
-                    state: 'newSidebar',
+                    state: 'np.newSidebar',
                     message: 'New sidebar',
                     icon: 'add'
                 }

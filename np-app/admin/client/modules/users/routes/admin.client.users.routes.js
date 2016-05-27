@@ -8,32 +8,46 @@ function adminUserRoutes (
     $urlRouterProvider
 ) {
     'use strict';
-    
-    $urlRouterProvider.otherwise('/');
 
     $stateProvider
         .state('login', {
             url: '/login',
-            templateUrl: 'admin.client.usersLogin.view.html'
+            views: {
+                'content': {
+                    templateUrl: 'admin.client.usersLogin.view.html'
+                }
+            }
         })
-        .state('users', {
-            url: '/users/',
-            templateUrl: 'admin.client.users.view.html',
-            controller: 'AdminGetUsersController as users',
+        .state('np.users', {
+            url: 'users/',
+            views: {
+                'innerContent': {
+                    templateUrl: 'admin.client.users.view.html',
+                    controller: 'AdminGetUsersController as users'
+                }
+            },
             resolve: {
                 users: function (AdminUsersAPIService) {
                     return AdminUsersAPIService.query();
                 }
             }
         })
-        .state('newUser', {
-            url: '/new-user/',
-            templateUrl: 'admin.client.usersNew.view.html'
+        .state('np.newUser', {
+            url: 'new-user/',
+            views: {
+                'innerContent': {
+                    templateUrl: 'admin.client.usersNew.view.html'
+                }
+            }
         })
-        .state('user', {
-            url: '/users/:user',
-            templateUrl: 'admin.client.usersEdit.view.html',
-            controller: 'AdminUpdateUserController as user',
+        .state('np.user', {
+            url: 'users/:user',
+            views: {
+                'innerContent': {
+                    templateUrl: 'admin.client.usersEdit.view.html',
+                    controller: 'AdminUpdateUserController as user'
+                }
+            },
             resolve: {
                 user: function ($stateParams, AdminUsersAPIService) {
                     return AdminUsersAPIService.get({

@@ -13,6 +13,6 @@ module.exports = {
         'Administration'
     ],
     icon: 'supervisor_account',
-    state: 'users',
+    state: 'np.users',
     order: 6
 };

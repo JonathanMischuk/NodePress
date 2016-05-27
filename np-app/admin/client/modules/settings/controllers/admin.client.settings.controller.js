@@ -15,22 +15,22 @@ function AdminSettingsController (
             {
                 title: 'General',
                 slug: 'general',
-                state: 'settings.general'
+                state: 'np.settings.general'
             },
             {
                 title: 'Themes',
                 slug: 'themes',
-                state: 'settings.themes'
+                state: 'np.settings.themes'
             },
             {
                 title: 'Plugins',
                 slug: 'plugins',
-                state: 'settings.plugins'
+                state: 'np.settings.plugins'
             },
             {
                 title: 'Skins',
                 slug: 'skins',
-                state: 'settings.skins'
+                state: 'np.settings.skins'
             }
         ];
 
@@ -40,6 +40,6 @@ function AdminSettingsController (
     vm.currentTab = getCurrentTab();
     
     function getCurrentTab () {
-        return $state.current.name.substring(9);
+        return $state.current.name.substring(12);
     }
 }

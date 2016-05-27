@@ -18,15 +18,13 @@ var fs = require('fs'),
 module.exports = function (req, res, next) {
     var plugins = fs.readdirSync(__dirname + '/../../../../../../np-site/plugins');
 
-    console.log('how many times');
-
     async.series([
         getThemes,
         getSkins,
         getPluginsConfig,
         getUser,
-        getSkin,
-        getComponents
+        getSkin/*,
+        getComponents*/
     ], function (err, results) {
         var np = {
             auth: {
@@ -39,8 +37,7 @@ module.exports = function (req, res, next) {
                 skin: results[4],
                 plugins: plugins,
                 pluginsConfig: results[2]
-            },
-            components: results[5]
+            }
         };
         
         res.locals.np = np;
@@ -102,7 +99,7 @@ module.exports = function (req, res, next) {
         });
     }
 
-    function getComponents (callback) {
+    /*function getComponents (callback) {
         callback(null, componentControllers.getComponents(req.user));
-    }
+    }*/
 };

@@ -3,7 +3,7 @@
 var fs = require('fs');
 
 // GET request: retrieve all components
-module.exports = function (user) {
+module.exports = function (req, res, next) {
     var componentsRaw = [],
         componentsSorted,
         components;
@@ -24,13 +24,13 @@ module.exports = function (user) {
         });
 
     components = componentsSorted.filter(function (component) {
-        if (user) {
-            return component.roles.indexOf(user.role) !== -1;
+        if (req.user) {
+            return component.roles.indexOf(req.user.role) !== -1;
         } else {
             return [];
         }
     });
 
-    return components;
+    res.json(components);
 };
 

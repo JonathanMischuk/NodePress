@@ -14,6 +14,6 @@ module.exports = {
         'Editor'
     ],
     icon: 'view_week',
-    state: 'sidebars',
+    state: 'np.sidebars',
     order: 4
 };

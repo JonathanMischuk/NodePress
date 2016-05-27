@@ -12,11 +12,15 @@ function adminSettingsRoutes (
     $urlRouterProvider.otherwise('/settings');
 
     $stateProvider
-        .state('settings', {
-            url: '/settings',
+        .state('np.settings', {
+            url: 'settings',
             abstract: true,
-            templateUrl: 'admin.client.settings.view.html',
-            controller: 'AdminSettingsController as np',
+            views: {
+                'innerContent': {
+                    templateUrl: 'admin.client.settings.view.html',
+                    controller: 'AdminSettingsController as np'
+                }
+            },
             resolve: {
                 pages: function (AdminPagesAPIService) {
                     return AdminPagesAPIService.query();
@@ -26,7 +30,7 @@ function adminSettingsRoutes (
                 }
             }
         })
-        .state('settings.general', {
+        .state('np.settings.general', {
             url: '/general',
             templateUrl: 'admin.client.settings.general.view.html',
             controller: 'AdminSettingsGeneralController as settings',
@@ -39,7 +43,7 @@ function adminSettingsRoutes (
                 }
             }
         })
-        .state('settings.themes', {
+        .state('np.settings.themes', {
             url: '/themes',
             templateUrl: 'admin.client.settings.themes.view.html',
             controller: 'AdminSettingsThemesController as settings',
@@ -49,7 +53,7 @@ function adminSettingsRoutes (
                 }
             }
         })
-        .state('settings.plugins', {
+        .state('np.settings.plugins', {
             url: '/plugins',
             templateUrl: 'admin.client.settings.plugins.view.html',
             controller: 'AdminSettingsPluginsController as settings',
@@ -62,7 +66,7 @@ function adminSettingsRoutes (
                 }
             }
         })
-        .state('settings.skins', {
+        .state('np.settings.skins', {
             url: '/skins',
             templateUrl: 'admin.client.settings.skins.view.html',
             controller: 'AdminSettingsSkinsController as settings',

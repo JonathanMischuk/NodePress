@@ -14,6 +14,6 @@ module.exports = {
         'Editor'
     ],
     icon: 'view_day',
-    state: 'footers',
+    state: 'np.footers',
     order: 5
 };

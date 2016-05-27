@@ -50,7 +50,7 @@
 
 	// main angular admin module
 	__webpack_require__(3)();
-	__webpack_require__(116);
+	__webpack_require__(123);
 
 
 
@@ -30951,15 +30951,16 @@
 	        __webpack_require__(8),
 	        __webpack_require__(10),
 	        __webpack_require__(12),
-	        __webpack_require__(27),
-	        __webpack_require__(39),
+	        __webpack_require__(20),
+	        __webpack_require__(34),
 	        __webpack_require__(46),
-	        __webpack_require__(64),
-	        __webpack_require__(77),
-	        __webpack_require__(87),
-	        __webpack_require__(97),
-	        __webpack_require__(108),
-	        __webpack_require__(111)
+	        __webpack_require__(53),
+	        __webpack_require__(71),
+	        __webpack_require__(84),
+	        __webpack_require__(94),
+	        __webpack_require__(104),
+	        __webpack_require__(115),
+	        __webpack_require__(118)
 	    ];
 
 	    angular.module('admin', modules);
@@ -41544,13 +41545,14 @@
 
 	var Modules = __webpack_require__(13);
 
-	// angular utilities module and module accessories
-	Modules.registerModule('utils');
+	// angular app module and module accessories
+	Modules.registerModule('app');
 	__webpack_require__(14);
+	__webpack_require__(16);
 	__webpack_require__(18);
 
 	// exports module name as string for admin module dependency injection
-	module.exports = 'utils';
+	module.exports = 'app';
 
 
 /***/ },
@@ -41607,11 +41609,156 @@
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var angular = __webpack_require__(1);
+
+	module.exports = angular.module('app')
+	    .config(adminRoutes);
+
+	function adminRoutes (
+	    $stateProvider,
+	    $urlRouterProvider
+	) {
+	    'use strict';
+
+	    $urlRouterProvider.when('/', '/dashboard');
+
+	    $stateProvider
+	        .state('np', {
+	            url: '/',
+	            abstract: true,
+	            views: {
+	                'content': {
+	                    templateUrl: 'admin.client.innerContent.view.html'
+	                    
+	                },
+	                'secondaryMenu': {
+	                    templateUrl: 'admin.client.secondaryMenu.view.html',
+	                    controller: 'AdminSecondaryMenuController as SecondaryMenuCtrl'
+	                }
+	            },
+	            resolve: {
+	                pages: function (AdminPagesAPIService) {
+	                    return AdminPagesAPIService.query();
+	                },
+	                categories: function (AdminCategoriesAPIService) {
+	                    return AdminCategoriesAPIService.query();
+	                },
+	                users: function (AdminUsersAPIService) {
+	                    return AdminUsersAPIService.query();
+	                },
+	                menus: function (AdminMenusAPIService) {
+	                    return AdminMenusAPIService.query();
+	                },
+	                sidebars: function (AdminSidebarsAPIService) {
+	                    return AdminSidebarsAPIService.query();
+	                },
+	                activeComponents: function (AdminSecondaryMenuService) {
+	                    return AdminSecondaryMenuService.getActiveComponents();
+	                }
+	            }
+	        });
+	}
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(17);
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(1);
+
+	module.exports = angular.module('app')
+	    .factory('AdminSecondaryMenuService', AdminSecondaryMenuService);
+
+	function AdminSecondaryMenuService ($http) {
+	    'use strict';
+	    
+	    var adminSecondaryMenuService = {};
+
+	    console.log('flubber nuggets');
+
+	    adminSecondaryMenuService.getActiveComponents = function () {
+	        return $http.get('/api/components').then(function (response) {
+	            return response.data;
+	        });
+	    };
+
+	    return adminSecondaryMenuService;
+	}
+
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(19);
+
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(1);
+
+	module.exports = angular.module('app')
+	    .controller('AdminSecondaryMenuController', AdminSecondaryMenuController);
+
+	function AdminSecondaryMenuController (activeComponents) {
+	    'use strict';
+	    
+	    var vm = this;
+	    
+	    vm.activeComponents = activeComponents;
+
+	    console.log(activeComponents);
+	}
+
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Modules = __webpack_require__(13);
+
+	// angular utilities module and module accessories
+	Modules.registerModule('utils');
+	__webpack_require__(21);
+	__webpack_require__(25);
+
+	// exports module name as string for admin module dependency injection
+	module.exports = 'utils';
+
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(22);
+
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	var angular = __webpack_require__(1),
-	    NpDatesTool = __webpack_require__(16),
-	    slugs = __webpack_require__(17);
+	    NpDatesTool = __webpack_require__(23),
+	    slugs = __webpack_require__(24);
 
 	module.exports = angular.module('utils')
 	    .service('AdminUtilitiesServices', AdminUtilitiesServices);
@@ -41630,7 +41777,7 @@
 
 
 /***/ },
-/* 16 */
+/* 23 */
 /***/ function(module, exports) {
 
 	exports.createHumanReadableDate = createHumanReadableDate;
@@ -41652,7 +41799,7 @@
 	}
 
 /***/ },
-/* 17 */
+/* 24 */
 /***/ function(module, exports) {
 
 	exports.convertSlugToString = convertSlugToString;
@@ -41664,23 +41811,23 @@
 	}
 
 /***/ },
-/* 18 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(19);
-	__webpack_require__(20);
-	__webpack_require__(21);
-	__webpack_require__(22);
-	__webpack_require__(23);
-	__webpack_require__(24);
-	__webpack_require__(25);
 	__webpack_require__(26);
+	__webpack_require__(27);
+	__webpack_require__(28);
+	__webpack_require__(29);
+	__webpack_require__(30);
+	__webpack_require__(31);
+	__webpack_require__(32);
+	__webpack_require__(33);
 
 
 /***/ },
-/* 19 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41725,7 +41872,7 @@
 
 
 /***/ },
-/* 20 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41764,7 +41911,7 @@
 
 
 /***/ },
-/* 21 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41801,7 +41948,7 @@
 
 
 /***/ },
-/* 22 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41833,7 +41980,7 @@
 
 
 /***/ },
-/* 23 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41860,7 +42007,7 @@
 
 
 /***/ },
-/* 24 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41887,7 +42034,7 @@
 
 
 /***/ },
-/* 25 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41914,7 +42061,7 @@
 
 
 /***/ },
-/* 26 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -41941,7 +42088,7 @@
 
 
 /***/ },
-/* 27 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41950,25 +42097,25 @@
 
 	// angular settings module and module accessories
 	Modules.registerModule('settings');
-	__webpack_require__(28);
-	__webpack_require__(30);
-	__webpack_require__(32);
+	__webpack_require__(35);
+	__webpack_require__(37);
+	__webpack_require__(39);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'settings';
 
 
 /***/ },
-/* 28 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(29);
+	__webpack_require__(36);
 
 
 /***/ },
-/* 29 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -41985,11 +42132,15 @@
 	    $urlRouterProvider.otherwise('/settings');
 
 	    $stateProvider
-	        .state('settings', {
-	            url: '/settings',
+	        .state('np.settings', {
+	            url: 'settings',
 	            abstract: true,
-	            templateUrl: 'admin.client.settings.view.html',
-	            controller: 'AdminSettingsController as np',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.settings.view.html',
+	                    controller: 'AdminSettingsController as np'
+	                }
+	            },
 	            resolve: {
 	                pages: function (AdminPagesAPIService) {
 	                    return AdminPagesAPIService.query();
@@ -41999,7 +42150,7 @@
 	                }
 	            }
 	        })
-	        .state('settings.general', {
+	        .state('np.settings.general', {
 	            url: '/general',
 	            templateUrl: 'admin.client.settings.general.view.html',
 	            controller: 'AdminSettingsGeneralController as settings',
@@ -42012,7 +42163,7 @@
 	                }
 	            }
 	        })
-	        .state('settings.themes', {
+	        .state('np.settings.themes', {
 	            url: '/themes',
 	            templateUrl: 'admin.client.settings.themes.view.html',
 	            controller: 'AdminSettingsThemesController as settings',
@@ -42022,7 +42173,7 @@
 	                }
 	            }
 	        })
-	        .state('settings.plugins', {
+	        .state('np.settings.plugins', {
 	            url: '/plugins',
 	            templateUrl: 'admin.client.settings.plugins.view.html',
 	            controller: 'AdminSettingsPluginsController as settings',
@@ -42035,7 +42186,7 @@
 	                }
 	            }
 	        })
-	        .state('settings.skins', {
+	        .state('np.settings.skins', {
 	            url: '/skins',
 	            templateUrl: 'admin.client.settings.skins.view.html',
 	            controller: 'AdminSettingsSkinsController as settings',
@@ -42049,16 +42200,16 @@
 
 
 /***/ },
-/* 30 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(31);
+	__webpack_require__(38);
 
 
 /***/ },
-/* 31 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42086,21 +42237,21 @@
 
 
 /***/ },
-/* 32 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(33);
-	__webpack_require__(34);
-	__webpack_require__(35);
-	__webpack_require__(36);
-	__webpack_require__(37);
-	__webpack_require__(38);
+	__webpack_require__(40);
+	__webpack_require__(41);
+	__webpack_require__(42);
+	__webpack_require__(43);
+	__webpack_require__(44);
+	__webpack_require__(45);
 
 
 /***/ },
-/* 33 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -42120,22 +42271,22 @@
 	            {
 	                title: 'General',
 	                slug: 'general',
-	                state: 'settings.general'
+	                state: 'np.settings.general'
 	            },
 	            {
 	                title: 'Themes',
 	                slug: 'themes',
-	                state: 'settings.themes'
+	                state: 'np.settings.themes'
 	            },
 	            {
 	                title: 'Plugins',
 	                slug: 'plugins',
-	                state: 'settings.plugins'
+	                state: 'np.settings.plugins'
 	            },
 	            {
 	                title: 'Skins',
 	                slug: 'skins',
-	                state: 'settings.skins'
+	                state: 'np.settings.skins'
 	            }
 	        ];
 
@@ -42145,12 +42296,12 @@
 	    vm.currentTab = getCurrentTab();
 	    
 	    function getCurrentTab () {
-	        return $state.current.name.substring(9);
+	        return $state.current.name.substring(12);
 	    }
 	}
 
 /***/ },
-/* 34 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -42180,7 +42331,7 @@
 	}
 
 /***/ },
-/* 35 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -42233,7 +42384,7 @@
 
 
 /***/ },
-/* 36 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -42285,7 +42436,7 @@
 
 
 /***/ },
-/* 37 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -42339,7 +42490,7 @@
 
 
 /***/ },
-/* 38 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -42406,7 +42557,7 @@
 
 
 /***/ },
-/* 39 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42415,25 +42566,25 @@
 
 	// angular dashboard module and module accessories
 	Modules.registerModule('dashboard');
-	__webpack_require__(40);
-	__webpack_require__(42);
-	__webpack_require__(44);
+	__webpack_require__(47);
+	__webpack_require__(49);
+	__webpack_require__(51);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'dashboard';
 
 
 /***/ },
-/* 40 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(41);
+	__webpack_require__(48);
 
 
 /***/ },
-/* 41 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -42442,18 +42593,20 @@
 	    .config(adminDashboardRoutes);
 
 	function adminDashboardRoutes (
-	    $stateProvider, 
+	    $stateProvider,
 	    $urlRouterProvider
 	) {
 	    'use strict';
-	    
-	    $urlRouterProvider.otherwise('/');
 
 	    $stateProvider
-	        .state('dashboard', {
-	            url: '/',
-	            templateUrl: 'admin.client.dashboard.view.html',
-	            controller: 'AdminDashboardController as dashboard',
+	        .state('np.dashboard', {
+	            url: 'dashboard',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.dashboard.view.html',
+	                    controller: 'AdminDashboardController as dashboard'
+	                }
+	            },
 	            resolve: {
 	                pages: function (AdminPagesAPIService) {
 	                    return AdminPagesAPIService.query();
@@ -42471,21 +42624,70 @@
 	                    return AdminSidebarsAPIService.query();
 	                }
 	            }
+
 	        });
 	}
 
+	/*
+	var angular = require('angular');
+
+	module.exports = angular.module('dashboard')
+	    .config(adminDashboardRoutes);
+
+	function adminDashboardRoutes (
+	    $stateProvider, 
+	    $urlRouterProvider
+	) {
+	    'use strict';
+
+	    $urlRouterProvider.otherwise('/');
+
+	    $stateProvider
+	        .state('dashboard', {
+	            url: '/',
+	            views: {
+	                '': {
+	                    templateUrl: 'admin.client.dashboard.view.html',
+	                    controller: 'AdminDashboardController as dashboard'
+	                },
+	                'secondaryMenu': {
+	                    templateUrl: 'admin.client.secondaryMenu.view.html'
+	                }
+	            },
+	            resolve: {
+	                pages: function (AdminPagesAPIService) {
+	                    return AdminPagesAPIService.query();
+	                },
+	                categories: function (AdminCategoriesAPIService) {
+	                    return AdminCategoriesAPIService.query();
+	                },
+	                users: function (AdminUsersAPIService) {
+	                    return AdminUsersAPIService.query();
+	                },
+	                menus: function (AdminMenusAPIService) {
+	                    return AdminMenusAPIService.query();
+	                },
+	                sidebars: function (AdminSidebarsAPIService) {
+	                    return AdminSidebarsAPIService.query();
+	                }
+	            }
+
+	        });
+	}
+	*/
+
 
 /***/ },
-/* 42 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(43);
+	__webpack_require__(50);
 
 
 /***/ },
-/* 43 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42503,12 +42705,12 @@
 	            emptyMessage: 'No pages exist yet',
 	            headerLinks: [
 	                {
-	                    state: 'pages',
+	                    state: 'np.pages',
 	                    message: 'All pages',
 	                    icon: 'view_list'
 	                },
 	                {
-	                    state: 'newPage',
+	                    state: 'np.newPage',
 	                    message: 'New page',
 	                    icon: 'add'
 	                }
@@ -42526,12 +42728,12 @@
 	            emptyMessage: 'No categories exist yet',
 	            headerLinks: [
 	                {
-	                    state: 'categories',
+	                    state: 'np.categories',
 	                    message: 'All categories',
 	                    icon: 'view_list'
 	                },
 	                {
-	                    state: 'newCategory',
+	                    state: 'np.newCategory',
 	                    message: 'New category',
 	                    icon: 'add'
 	                }
@@ -42544,12 +42746,12 @@
 	            emptyMessage: 'No menus exist yet',
 	            headerLinks: [
 	                {
-	                    state: 'menus',
+	                    state: 'np.menus',
 	                    message: 'All menus',
 	                    icon: 'view_list'
 	                },
 	                {
-	                    state: 'newMenu',
+	                    state: 'np.newMenu',
 	                    message: 'New menu',
 	                    icon: 'add'
 	                }
@@ -42558,7 +42760,7 @@
 	            extraLinks: [
 	                {
 	                    title: 'Manage Menu Locations',
-	                    state: 'manageMenus'
+	                    state: 'np.manageMenus'
 	                }
 	            ]
 	        },
@@ -42568,12 +42770,12 @@
 	            emptyMessage: 'No sidebars exist yet',
 	            headerLinks: [
 	                {
-	                    state: 'sidebars',
+	                    state: 'np.sidebars',
 	                    message: 'All sidebars',
 	                    icon: 'view_list'
 	                },
 	                {
-	                    state: 'newSidebar',
+	                    state: 'np.newSidebar',
 	                    message: 'New sidebar',
 	                    icon: 'add'
 	                }
@@ -42585,16 +42787,16 @@
 
 
 /***/ },
-/* 44 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(45);
+	__webpack_require__(52);
 
 
 /***/ },
-/* 45 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -42642,7 +42844,7 @@
 
 
 /***/ },
-/* 46 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42651,26 +42853,26 @@
 
 	// angular users module and module accessories
 	Modules.registerModule('users');
-	__webpack_require__(47);
-	__webpack_require__(49);
-	__webpack_require__(55);
+	__webpack_require__(54);
+	__webpack_require__(56);
 	__webpack_require__(62);
+	__webpack_require__(69);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'users';
 
 
 /***/ },
-/* 47 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(48);
+	__webpack_require__(55);
 
 
 /***/ },
-/* 48 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -42683,32 +42885,46 @@
 	    $urlRouterProvider
 	) {
 	    'use strict';
-	    
-	    $urlRouterProvider.otherwise('/');
 
 	    $stateProvider
 	        .state('login', {
 	            url: '/login',
-	            templateUrl: 'admin.client.usersLogin.view.html'
+	            views: {
+	                'content': {
+	                    templateUrl: 'admin.client.usersLogin.view.html'
+	                }
+	            }
 	        })
-	        .state('users', {
-	            url: '/users/',
-	            templateUrl: 'admin.client.users.view.html',
-	            controller: 'AdminGetUsersController as users',
+	        .state('np.users', {
+	            url: 'users/',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.users.view.html',
+	                    controller: 'AdminGetUsersController as users'
+	                }
+	            },
 	            resolve: {
 	                users: function (AdminUsersAPIService) {
 	                    return AdminUsersAPIService.query();
 	                }
 	            }
 	        })
-	        .state('newUser', {
-	            url: '/new-user/',
-	            templateUrl: 'admin.client.usersNew.view.html'
+	        .state('np.newUser', {
+	            url: 'new-user/',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.usersNew.view.html'
+	                }
+	            }
 	        })
-	        .state('user', {
-	            url: '/users/:user',
-	            templateUrl: 'admin.client.usersEdit.view.html',
-	            controller: 'AdminUpdateUserController as user',
+	        .state('np.user', {
+	            url: 'users/:user',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.usersEdit.view.html',
+	                    controller: 'AdminUpdateUserController as user'
+	                }
+	            },
 	            resolve: {
 	                user: function ($stateParams, AdminUsersAPIService) {
 	                    return AdminUsersAPIService.get({
@@ -42721,20 +42937,20 @@
 
 
 /***/ },
-/* 49 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(50);
-	__webpack_require__(51);
-	__webpack_require__(52);
-	__webpack_require__(53);
-	__webpack_require__(54);
+	__webpack_require__(57);
+	__webpack_require__(58);
+	__webpack_require__(59);
+	__webpack_require__(60);
+	__webpack_require__(61);
 
 
 /***/ },
-/* 50 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42756,7 +42972,7 @@
 
 
 /***/ },
-/* 51 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42766,16 +42982,16 @@
 	module.exports = angular.module('users')
 	    .factory('AdminUserAuthenticationService', AdminUserAuthenticationService);
 
-	function AdminUserAuthenticationService($http, $location, $rootScope) {
+	function AdminUserAuthenticationService($http, $rootScope, $state) {
 	    return function () {
 	        return $http.get('/auth').then(function (response) {
 	            $rootScope.np.auth.user = response.data.user;
 	            $rootScope.np.auth.exists = response.data.exists;
 
 	            if (!$rootScope.np.auth.exists) {
-	                $location.path('/new-user/');
+	                $state.go('np.newUser');
 	            } else if ($rootScope.np.auth.exists && !$rootScope.np.auth.user) {
-	                $location.path('/login');
+	                $state.go('login');
 	            }
 	        });
 	    };
@@ -42783,7 +42999,7 @@
 
 
 /***/ },
-/* 52 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42805,7 +43021,7 @@
 
 
 /***/ },
-/* 53 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42827,7 +43043,7 @@
 
 
 /***/ },
-/* 54 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -42846,20 +43062,20 @@
 
 
 /***/ },
-/* 55 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(56);
-	__webpack_require__(57);
-	__webpack_require__(58);
-	__webpack_require__(60);
-	__webpack_require__(61);
+	__webpack_require__(63);
+	__webpack_require__(64);
+	__webpack_require__(65);
+	__webpack_require__(67);
+	__webpack_require__(68);
 
 
 /***/ },
-/* 56 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42886,7 +43102,7 @@
 
 
 /***/ },
-/* 57 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42900,6 +43116,7 @@
 	    $scope,
 	    $rootScope,
 	    $location,
+	    $state,
 	    AdminUsersLoginService) {
 
 	    if ($rootScope.np.auth.user) $location.path('/');
@@ -42914,7 +43131,7 @@
 	            AdminUsersLoginService.login(vm.user)
 	                .then(function (response) {
 	                    $scope.$emit('session', response.data);
-	                    $location.path('/');
+	                    $state.go('np.dashboard');
 	                })
 	                .catch(function (error) {
 	                    vm.error = error.data.message || '';
@@ -42926,7 +43143,7 @@
 
 
 /***/ },
-/* 58 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -42947,7 +43164,7 @@
 
 	    vm.roles = AdminUserRolesService;
 	    vm.newUser = newUser;
-	    vm.errors = __webpack_require__(59);
+	    vm.errors = __webpack_require__(66);
 
 	    function newUser() {
 	        if ($scope.userForm.$valid && vm.user.password === vm.user.cpassword) {
@@ -42981,7 +43198,7 @@
 
 
 /***/ },
-/* 59 */
+/* 66 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -43015,7 +43232,7 @@
 
 
 /***/ },
-/* 60 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43039,7 +43256,7 @@
 	    vm.roles = AdminUserRolesService;
 	    vm.updateUser = updateUser;
 	    vm.updateUserPassword = updateUserPassword;
-	    vm.errors = __webpack_require__(59);
+	    vm.errors = __webpack_require__(66);
 
 	    // set Materialize select box default value
 	    $timeout(function () {
@@ -43093,7 +43310,7 @@
 
 
 /***/ },
-/* 61 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43131,16 +43348,16 @@
 	}
 
 /***/ },
-/* 62 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(63);
+	__webpack_require__(70);
 
 
 /***/ },
-/* 63 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43170,7 +43387,7 @@
 
 
 /***/ },
-/* 64 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43179,25 +43396,25 @@
 
 	// angular menus module and module accessories
 	Modules.registerModule('menus');
-	__webpack_require__(65);
-	__webpack_require__(67);
-	__webpack_require__(71);
+	__webpack_require__(72);
+	__webpack_require__(74);
+	__webpack_require__(78);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'menus';
 
 
 /***/ },
-/* 65 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(66);
+	__webpack_require__(73);
 
 
 /***/ },
-/* 66 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43211,20 +43428,28 @@
 	    $urlRouterProvider.otherwise('/');
 
 	    $stateProvider
-	        .state('menus', {
-	            url: '/menus/',
-	            templateUrl: 'admin.client.menus.view.html',
-	            controller: 'AdminGetMenusController as menus',
+	        .state('np.menus', {
+	            url: 'menus/',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.menus.view.html',
+	                    controller: 'AdminGetMenusController as menus'
+	                }
+	            },
 	            resolve: {
 	                menus: function (AdminMenusAPIService) {
 	                    return AdminMenusAPIService.query();
 	                }
 	            }
 	        })
-	        .state('manageMenus', {
-	            url: '/menus/manage-menus',
-	            templateUrl: 'admin.client.menusManageLocations.view.html',
-	            controller: 'AdminManageMenuLocationsController as menus',
+	        .state('np.manageMenus', {
+	            url: 'menus/manage-menus',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.menusManageLocations.view.html',
+	                    controller: 'AdminManageMenuLocationsController as menus'
+	                }
+	            },
 	            resolve: {
 	                menus: function (AdminMenusAPIService) {
 	                    return AdminMenusAPIService.query();
@@ -43234,10 +43459,14 @@
 	                }
 	            }
 	        })
-	        .state('newMenu', {
-	            url: '/menus/new-menu/',
-	            templateUrl: 'admin.client.menusNew.view.html',
-	            controller: 'AdminNewMenuController as menu',
+	        .state('np.newMenu', {
+	            url: 'menus/new-menu/',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.menusNew.view.html',
+	                    controller: 'AdminNewMenuController as menu'
+	                }
+	            },
 	            resolve: {
 	                pages: function (AdminPagesAPIService) {
 	                    return AdminPagesAPIService.query(function (pages) {
@@ -43250,10 +43479,14 @@
 	                }
 	            }
 	        })
-	        .state('editMenu', {
-	            url: '/menus/:menuId',
-	            templateUrl: 'admin.client.menusEdit.view.html',
-	            controller: 'AdminUpdateMenuController as menu',
+	        .state('np.editMenu', {
+	            url: 'menus/:menuId',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.menusEdit.view.html',
+	                    controller: 'AdminUpdateMenuController as menu'
+	                }
+	            },
 	            resolve: {
 	                pages: function (AdminPagesAPIService) {
 	                    return AdminPagesAPIService.query(function (pages) {
@@ -43281,18 +43514,18 @@
 
 
 /***/ },
-/* 67 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(68);
-	__webpack_require__(69);
-	__webpack_require__(70);
+	__webpack_require__(75);
+	__webpack_require__(76);
+	__webpack_require__(77);
 
 
 /***/ },
-/* 68 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43314,7 +43547,7 @@
 
 
 /***/ },
-/* 69 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43353,7 +43586,7 @@
 
 
 /***/ },
-/* 70 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43380,19 +43613,19 @@
 
 
 /***/ },
-/* 71 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(72);
-	__webpack_require__(73);
-	__webpack_require__(74);
-	__webpack_require__(76);
+	__webpack_require__(79);
+	__webpack_require__(80);
+	__webpack_require__(81);
+	__webpack_require__(83);
 
 
 /***/ },
-/* 72 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43431,7 +43664,7 @@
 
 
 /***/ },
-/* 73 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43491,7 +43724,7 @@
 
 
 /***/ },
-/* 74 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43516,7 +43749,7 @@
 	    vm.addMenuItem = addMenuItem;
 	    vm.removeMenuItem = removeMenuItem;
 	    vm.newMenu = newMenu;
-	    vm.errors = __webpack_require__(75);
+	    vm.errors = __webpack_require__(82);
 
 	    function addMenuItem (menuItem) {
 	        vm.menuItems.unshift({
@@ -43556,7 +43789,7 @@
 
 
 /***/ },
-/* 75 */
+/* 82 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -43570,7 +43803,7 @@
 
 
 /***/ },
-/* 76 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43598,7 +43831,7 @@
 	    vm.addMenuItems = addMenuItems;
 	    vm.removeMenuItem = removeMenuItem;
 	    vm.updateMenu = updateMenu;
-	    vm.errors = __webpack_require__(75);
+	    vm.errors = __webpack_require__(82);
 
 	    function addMenuItemToProxy(page, menuItemId) {
 	        var index = vm.pages.indexOf(page);
@@ -43673,7 +43906,7 @@
 
 
 /***/ },
-/* 77 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43682,25 +43915,25 @@
 
 	// angular categories module and module accessories
 	Modules.registerModule('categories');
-	__webpack_require__(78);
-	__webpack_require__(80);
-	__webpack_require__(82);
+	__webpack_require__(85);
+	__webpack_require__(87);
+	__webpack_require__(89);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'categories';
 
 
 /***/ },
-/* 78 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(79);
+	__webpack_require__(86);
 
 
 /***/ },
-/* 79 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43717,24 +43950,36 @@
 	    $urlRouterProvider.otherwise('/');
 
 	    $stateProvider
-	        .state('categories', {
-	            url: '/categories/',
-	            templateUrl: 'admin.client.categories.view.html',
-	            controller: 'AdminGetCategoriesController as categories',
+	        .state('np.categories', {
+	            url: '^/categories/',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.categories.view.html',
+	                    controller: 'AdminGetCategoriesController as categories'
+	                }
+	            },            
 	            resolve: {
 	                categories: function (AdminCategoriesAPIService) {
 	                    return AdminCategoriesAPIService.query();
 	                }
 	            }
 	        })
-	        .state('newCategory', {
-	            url: '/new-category/',
-	            templateUrl: 'admin.client.categoriesNew.view.html'
+	        .state('np.newCategory', {
+	            url: '^/new-category/',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.categoriesNew.view.html'
+	                }
+	            }
 	        })
-	        .state('editCategory', {
-	            url: '/categories/:categoryId',
-	            templateUrl: 'admin.client.categoriesEdit.view.html',
-	            controller: 'AdminUpdateCategoryController as category',
+	        .state('np.editCategory', {
+	            url: '^/categories/:categoryId',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.categoriesEdit.view.html',
+	                    controller: 'AdminUpdateCategoryController as category'
+	                }
+	            },
 	            resolve: {
 	                category: function ($stateParams, AdminCategoriesAPIService) {
 	                    return AdminCategoriesAPIService.get({
@@ -43747,16 +43992,16 @@
 
 
 /***/ },
-/* 80 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(81);
+	__webpack_require__(88);
 
 
 /***/ },
-/* 81 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43778,18 +44023,18 @@
 
 
 /***/ },
-/* 82 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(83);
-	__webpack_require__(84);
-	__webpack_require__(86);
+	__webpack_require__(90);
+	__webpack_require__(91);
+	__webpack_require__(93);
 
 
 /***/ },
-/* 83 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43831,7 +44076,7 @@
 
 
 /***/ },
-/* 84 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43853,7 +44098,7 @@
 	    vm.category = {};
 	    vm.newCategory = newCategory;
 	    vm.errorTitle = null;
-	    vm.errors = __webpack_require__(85);
+	    vm.errors = __webpack_require__(92);
 
 	    AdminUserAuthenticationService();
 
@@ -43880,7 +44125,7 @@
 
 
 /***/ },
-/* 85 */
+/* 92 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -43894,7 +44139,7 @@
 
 
 /***/ },
-/* 86 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43917,7 +44162,7 @@
 
 	    vm.category = category;
 	    vm.updateCategory = updateCategory;
-	    vm.errors = __webpack_require__(85);
+	    vm.errors = __webpack_require__(92);
 
 	    function updateCategory() {
 	        if ($scope.updateCategoryForm.$valid) {
@@ -43945,7 +44190,7 @@
 
 
 /***/ },
-/* 87 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43954,25 +44199,25 @@
 
 	// angular pages module and module accessories
 	Modules.registerModule('pages');
-	__webpack_require__(88);
-	__webpack_require__(90);
-	__webpack_require__(92);
+	__webpack_require__(95);
+	__webpack_require__(97);
+	__webpack_require__(99);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'pages';
 
 
 /***/ },
-/* 88 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(89);
+	__webpack_require__(96);
 
 
 /***/ },
-/* 89 */
+/* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -43986,20 +44231,28 @@
 	    $urlRouterProvider.otherwise('/');
 
 	    $stateProvider
-	        .state('pages', {
-	            url: '/pages/',
-	            templateUrl: 'admin.client.pages.view.html',
-	            controller: 'AdminGetPagesController as pages',
+	        .state('np.pages', {
+	            url: 'pages/',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.pages.view.html',
+	                    controller: 'AdminGetPagesController as pages'
+	                }
+	            },
 	            resolve: {
 	                pages: function (AdminPagesAPIService) {
 	                    return AdminPagesAPIService.query()
 	                }
 	            }
 	        })
-	        .state('newPage', {
-	            url: '/pages/new-page/',
-	            templateUrl: 'admin.client.pagesNew.view.html',
-	            controller: 'AdminNewPageController as page',
+	        .state('np.newPage', {
+	            url: 'pages/new-page/',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.pagesNew.view.html',
+	                    controller: 'AdminNewPageController as page'
+	                }
+	            },
 	            resolve: {
 	                categories: function (AdminCategoriesAPIService) {
 	                    return AdminCategoriesAPIService.query();
@@ -44009,10 +44262,14 @@
 	                }
 	            }
 	        })
-	        .state('editPage', {
-	            url: '/pages/:pageId',
-	            templateUrl: 'admin.client.pagesEdit.view.html',
-	            controller: 'AdminUpdatePageController as page',
+	        .state('np.editPage', {
+	            url: 'pages/:pageId',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.pagesEdit.view.html',
+	                    controller: 'AdminUpdatePageController as page'
+	                }
+	            },
 	            resolve: {
 	                page: function ($stateParams, AdminPagesAPIService) {
 	                    return AdminPagesAPIService.get({
@@ -44031,16 +44288,16 @@
 
 
 /***/ },
-/* 90 */
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(91);
+	__webpack_require__(98);
 
 
 /***/ },
-/* 91 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44062,18 +44319,18 @@
 
 
 /***/ },
-/* 92 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(93);
-	__webpack_require__(94);
-	__webpack_require__(96);
+	__webpack_require__(100);
+	__webpack_require__(101);
+	__webpack_require__(103);
 
 
 /***/ },
-/* 93 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -44115,7 +44372,7 @@
 
 
 /***/ },
-/* 94 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -44143,7 +44400,7 @@
 	    vm.newPage = newPage;
 	    vm.categories = categories;
 	    vm.sidebars = sidebars;
-	    vm.errors = __webpack_require__(95);
+	    vm.errors = __webpack_require__(102);
 
 	    // create host url to view front end page
 	    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
@@ -44178,7 +44435,7 @@
 
 
 /***/ },
-/* 95 */
+/* 102 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -44192,7 +44449,7 @@
 
 
 /***/ },
-/* 96 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -44218,7 +44475,7 @@
 
 	    vm.page = page;
 	    vm.updatePage = updatePage;
-	    vm.errors = __webpack_require__(95);
+	    vm.errors = __webpack_require__(102);
 	    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
 	    vm.categories = categories;
 	    vm.sidebars = sidebars;
@@ -44256,7 +44513,7 @@
 
 
 /***/ },
-/* 97 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44265,26 +44522,26 @@
 
 	// angular sidebars module and module accessories
 	Modules.registerModule('sidebars');
-	__webpack_require__(98);
-	__webpack_require__(100);
-	__webpack_require__(102);
-	__webpack_require__(106);
+	__webpack_require__(105);
+	__webpack_require__(107);
+	__webpack_require__(109);
+	__webpack_require__(113);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'sidebars';
 
 
 /***/ },
-/* 98 */
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(99);
+	__webpack_require__(106);
 
 
 /***/ },
-/* 99 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44298,20 +44555,28 @@
 	    $urlRouterProvider.otherwise('/');
 
 	    $stateProvider
-	        .state('sidebars', {
-	            url: '/sidebars/',
-	            templateUrl: 'admin.client.sidebars.view.html',
-	            controller: 'AdminGetSidebarsController as sidebars',
+	        .state('np.sidebars', {
+	            url: 'sidebars/',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.sidebars.view.html',
+	                    controller: 'AdminGetSidebarsController as sidebars'
+	                }
+	            },
 	            resolve: {
 	                sidebars: function (AdminSidebarsAPIService) {
 	                    return AdminSidebarsAPIService.query()
 	                }
 	            }
 	        })
-	        .state('newSidebar', {
-	            url: '/sidebars/new-sidebar',
-	            templateUrl: 'admin.client.sidebarsNew.view.html',
-	            controller: 'AdminNewSidebarController as sidebar',
+	        .state('np.newSidebar', {
+	            url: 'sidebars/new-sidebar',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.sidebarsNew.view.html',
+	                    controller: 'AdminNewSidebarController as sidebar'
+	                }
+	            },
 	            resolve: {
 	                pluginsConfig: function (AdminPluginsService) {
 	                    return AdminPluginsService.getPluginConfig();
@@ -44326,10 +44591,14 @@
 	                }
 	            }
 	        })
-	        .state('editSidebar', {
-	            url: '/sidebars/:sidebarId',
-	            templateUrl: 'admin.client.sidebarsEdit.view.html',
-	            controller: 'AdminUpdateSidebarController as sidebar',
+	        .state('np.editSidebar', {
+	            url: 'sidebars/:sidebarId',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.sidebarsEdit.view.html',
+	                    controller: 'AdminUpdateSidebarController as sidebar'
+	                }
+	            },
 	            resolve: {
 	                pluginsConfig: function (AdminPluginsService) {
 	                    return AdminPluginsService.getPluginConfig();
@@ -44353,16 +44622,16 @@
 
 
 /***/ },
-/* 100 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(101);
+	__webpack_require__(108);
 
 
 /***/ },
-/* 101 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44384,18 +44653,18 @@
 
 
 /***/ },
-/* 102 */
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(103);
-	__webpack_require__(104);
-	__webpack_require__(105);
+	__webpack_require__(110);
+	__webpack_require__(111);
+	__webpack_require__(112);
 
 
 /***/ },
-/* 103 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -44435,7 +44704,7 @@
 
 
 /***/ },
-/* 104 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44511,7 +44780,7 @@
 
 
 /***/ },
-/* 105 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -44603,16 +44872,16 @@
 
 
 /***/ },
-/* 106 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(107);
+	__webpack_require__(114);
 
 
 /***/ },
-/* 107 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44641,7 +44910,7 @@
 
 
 /***/ },
-/* 108 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44650,23 +44919,23 @@
 
 	// angular sidebars module and module accessories
 	Modules.registerModule('plugins');
-	__webpack_require__(109);
+	__webpack_require__(116);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'plugins';
 
 
 /***/ },
-/* 109 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(110);
+	__webpack_require__(117);
 
 
 /***/ },
-/* 110 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44703,7 +44972,7 @@
 
 
 /***/ },
-/* 111 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44712,23 +44981,23 @@
 
 	// angular pages module and module accessories
 	Modules.registerModule('footer');
-	__webpack_require__(112);
+	__webpack_require__(119);
 	/*require('./services');*/
-	__webpack_require__(114);
+	__webpack_require__(121);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'footer';
 
 
 /***/ },
-/* 112 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(113);
+	__webpack_require__(120);
 
 
 /***/ },
-/* 113 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44742,23 +45011,27 @@
 	    $urlRouterProvider.otherwise('/');
 
 	    $stateProvider
-	        .state('footers', {
-	            url: '/footers/',
-	            templateUrl: 'admin.client.footers.view.html',
-	            controller: 'AdminNewFooterController as FooterCtrl'
+	        .state('np.footers', {
+	            url: 'footers/',
+	            views: {
+	                'innerContent': {
+	                    templateUrl: 'admin.client.footers.view.html',
+	                    controller: 'AdminNewFooterController as FooterCtrl'
+	                }
+	            }
 	        });
 	}
 
 
 /***/ },
-/* 114 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(115)
+	__webpack_require__(122)
 
 
 /***/ },
-/* 115 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44834,7 +45107,7 @@
 
 
 /***/ },
-/* 116 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

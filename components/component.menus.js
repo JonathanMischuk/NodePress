@@ -14,6 +14,6 @@ module.exports = {
         'Editor'
     ],
     icon: 'toc',
-    state: 'menus',
+    state: 'np.menus',
     order: 3
 };

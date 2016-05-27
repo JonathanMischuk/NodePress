@@ -1,0 +1,15 @@
+<div class="secondary-menu" ng-if="np.auth.user">
+    <ul class="collapsible" data-collapsible="accordion">
+        <li ng-repeat="component in SecondaryMenuCtrl.activeComponents">
+
+            <div ui-sref="{{ component.state }}"
+                 class="collapsible-header waves-effect waves-dark">
+                <i class="material-icons">
+                    {{ component.icon }}
+                </i>
+
+                {{ component.title }}
+            </div>
+        </li>
+    </ul>
+</div>

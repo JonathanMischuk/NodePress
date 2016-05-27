@@ -13,6 +13,6 @@ module.exports = {
         'Administration'
     ],
     icon: 'subtitles',
-    state: 'categories',
+    state: 'np.categories',
     order: 2
 };

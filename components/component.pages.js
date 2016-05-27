@@ -14,6 +14,6 @@ module.exports = {
         'Editor'
     ],
     icon: 'web',
-    state: 'pages',
+    state: 'np.pages',
     order: 1
 };

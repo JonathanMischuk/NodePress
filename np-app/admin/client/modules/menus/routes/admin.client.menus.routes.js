@@ -9,20 +9,28 @@ function adminMenuRoutes ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-        .state('menus', {
-            url: '/menus/',
-            templateUrl: 'admin.client.menus.view.html',
-            controller: 'AdminGetMenusController as menus',
+        .state('np.menus', {
+            url: 'menus/',
+            views: {
+                'innerContent': {
+                    templateUrl: 'admin.client.menus.view.html',
+                    controller: 'AdminGetMenusController as menus'
+                }
+            },
             resolve: {
                 menus: function (AdminMenusAPIService) {
                     return AdminMenusAPIService.query();
                 }
             }
         })
-        .state('manageMenus', {
-            url: '/menus/manage-menus',
-            templateUrl: 'admin.client.menusManageLocations.view.html',
-            controller: 'AdminManageMenuLocationsController as menus',
+        .state('np.manageMenus', {
+            url: 'menus/manage-menus',
+            views: {
+                'innerContent': {
+                    templateUrl: 'admin.client.menusManageLocations.view.html',
+                    controller: 'AdminManageMenuLocationsController as menus'
+                }
+            },
             resolve: {
                 menus: function (AdminMenusAPIService) {
                     return AdminMenusAPIService.query();
@@ -32,10 +40,14 @@ function adminMenuRoutes ($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('newMenu', {
-            url: '/menus/new-menu/',
-            templateUrl: 'admin.client.menusNew.view.html',
-            controller: 'AdminNewMenuController as menu',
+        .state('np.newMenu', {
+            url: 'menus/new-menu/',
+            views: {
+                'innerContent': {
+                    templateUrl: 'admin.client.menusNew.view.html',
+                    controller: 'AdminNewMenuController as menu'
+                }
+            },
             resolve: {
                 pages: function (AdminPagesAPIService) {
                     return AdminPagesAPIService.query(function (pages) {
@@ -48,10 +60,14 @@ function adminMenuRoutes ($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('editMenu', {
-            url: '/menus/:menuId',
-            templateUrl: 'admin.client.menusEdit.view.html',
-            controller: 'AdminUpdateMenuController as menu',
+        .state('np.editMenu', {
+            url: 'menus/:menuId',
+            views: {
+                'innerContent': {
+                    templateUrl: 'admin.client.menusEdit.view.html',
+                    controller: 'AdminUpdateMenuController as menu'
+                }
+            },
             resolve: {
                 pages: function (AdminPagesAPIService) {
                     return AdminPagesAPIService.query(function (pages) {

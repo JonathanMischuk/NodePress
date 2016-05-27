@@ -9,6 +9,7 @@ function AdminUserLoginController(
     $scope,
     $rootScope,
     $location,
+    $state,
     AdminUsersLoginService) {
 
     if ($rootScope.np.auth.user) $location.path('/');
@@ -23,7 +24,7 @@ function AdminUserLoginController(
             AdminUsersLoginService.login(vm.user)
                 .then(function (response) {
                     $scope.$emit('session', response.data);
-                    $location.path('/');
+                    $state.go('np.dashboard');
                 })
                 .catch(function (error) {
                     vm.error = error.data.message || '';

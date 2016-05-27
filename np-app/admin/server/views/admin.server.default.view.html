@@ -4,12 +4,12 @@
 <nav class="primary-menu" ng-if="np.auth.user">
     <div class="nav-wrapper">
         <a class="brand-logo tooltipped"
-           ui-sref="dashboard"
+           ui-sref="np.dashboard"
            data-position="right"
            data-delay="50"
            data-tooltip="Dashboard">NodePress</a>
 
-        <a ui-sref="settings.general"
+        <a ui-sref="np.settings.general"
            class="settings-icon">
 
             <i class="material-icons">settings</i>
@@ -36,9 +36,11 @@
 {% endblock %}
 
 {% block secondaryMenu %}
-<div class="secondary-menu" ng-if="np.auth.user">
+<div ui-view="secondaryMenu"></div>
+
+<!--<div class="secondary-menu" ng-if="np.auth.user">
     <ul class="collapsible" data-collapsible="accordion">
-        <!--<li ng-repeat="component in np.components">
+        &lt;!&ndash;<li ng-repeat="component in np.components">
 
             <div ui-sref="{% raw %}{{ component.state }}{% endraw %}"
                  class="collapsible-header waves-effect waves-dark">
@@ -48,7 +50,7 @@
 
                 {% raw %}{{ component.title }}{% endraw %}
             </div>
-        </li>-->
+        </li>&ndash;&gt;
         {% for component in np.components %}
             {% for section in component.sections %}
                 {% if section === 'components-menu' %}
@@ -67,12 +69,12 @@
             $('.collapsible').collapsible();
         });
     </script>
-</div>
+</div>-->
 {% endblock %}
 
 {% block content %}
 <div class="content">
-    <div class="view-fade-in" ui-view></div>
+    <div class="view-fade-in" ui-view="content"></div>
 </div>
 {% endblock %}
 

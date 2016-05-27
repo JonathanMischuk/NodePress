@@ -9,20 +9,28 @@ function adminPageRoutes ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-        .state('pages', {
-            url: '/pages/',
-            templateUrl: 'admin.client.pages.view.html',
-            controller: 'AdminGetPagesController as pages',
+        .state('np.pages', {
+            url: 'pages/',
+            views: {
+                'innerContent': {
+                    templateUrl: 'admin.client.pages.view.html',
+                    controller: 'AdminGetPagesController as pages'
+                }
+            },
             resolve: {
                 pages: function (AdminPagesAPIService) {
                     return AdminPagesAPIService.query()
                 }
             }
         })
-        .state('newPage', {
-            url: '/pages/new-page/',
-            templateUrl: 'admin.client.pagesNew.view.html',
-            controller: 'AdminNewPageController as page',
+        .state('np.newPage', {
+            url: 'pages/new-page/',
+            views: {
+                'innerContent': {
+                    templateUrl: 'admin.client.pagesNew.view.html',
+                    controller: 'AdminNewPageController as page'
+                }
+            },
             resolve: {
                 categories: function (AdminCategoriesAPIService) {
                     return AdminCategoriesAPIService.query();
@@ -32,10 +40,14 @@ function adminPageRoutes ($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('editPage', {
-            url: '/pages/:pageId',
-            templateUrl: 'admin.client.pagesEdit.view.html',
-            controller: 'AdminUpdatePageController as page',
+        .state('np.editPage', {
+            url: 'pages/:pageId',
+            views: {
+                'innerContent': {
+                    templateUrl: 'admin.client.pagesEdit.view.html',
+                    controller: 'AdminUpdatePageController as page'
+                }
+            },
             resolve: {
                 page: function ($stateParams, AdminPagesAPIService) {
                     return AdminPagesAPIService.get({

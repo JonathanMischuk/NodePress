@@ -4,16 +4,9 @@ var fs = require('fs');
 
 // GET request: retrieve all components
 module.exports = function (req, res, next) {
-    var componentsRaw = [],
+    var componentsRaw = require('../../../../../../components/components'),
         componentsSorted,
         components;
-    
-    fs.readdirSync(__dirname + '/../../../../../../components')
-        .forEach(function (component) {
-            componentsRaw.push(
-                require('../../../../../../components/' + component)
-            );
-        });
 
     componentsSorted = componentsRaw.sort(
         function (a, b) {

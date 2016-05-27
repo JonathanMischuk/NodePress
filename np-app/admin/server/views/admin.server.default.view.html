@@ -37,39 +37,6 @@
 
 {% block secondaryMenu %}
 <div ui-view="secondaryMenu"></div>
-
-<!--<div class="secondary-menu" ng-if="np.auth.user">
-    <ul class="collapsible" data-collapsible="accordion">
-        &lt;!&ndash;<li ng-repeat="component in np.components">
-
-            <div ui-sref="{% raw %}{{ component.state }}{% endraw %}"
-                 class="collapsible-header waves-effect waves-dark">
-                <i class="material-icons">
-                    {% raw %}{{ component.icon }}{% endraw %}
-                </i>
-
-                {% raw %}{{ component.title }}{% endraw %}
-            </div>
-        </li>&ndash;&gt;
-        {% for component in np.components %}
-            {% for section in component.sections %}
-                {% if section === 'components-menu' %}
-                    <li>
-                        <div ui-sref="{{ component.state }}" class="collapsible-header waves-effect waves-dark">
-                            <i class="material-icons">{{ component.icon }}</i> {{ component.title }}
-                        </div>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
-    </ul>
-
-    <script>
-        $(document).ready(function() {
-            $('.collapsible').collapsible();
-        });
-    </script>
-</div>-->
 {% endblock %}
 
 {% block content %}

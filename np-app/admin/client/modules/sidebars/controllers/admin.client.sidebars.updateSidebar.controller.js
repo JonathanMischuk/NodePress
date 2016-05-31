@@ -47,7 +47,7 @@ function AdminUpdateSidebarController (
 
         vm.counter += 1;
         sidebarItem.id = vm.counter;
-        vm.sidebarItems.push(sidebarItem);
+        vm.sidebarItems.unshift(sidebarItem);
     }
 
     function removeSidebarItem (sidebarItem) {

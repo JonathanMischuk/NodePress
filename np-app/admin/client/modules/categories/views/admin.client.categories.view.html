@@ -4,19 +4,23 @@
     <div class="collection with-header">
         <div class="collection-header">
             <div class="row">
-                <div class="col s12 m12 l3">
+                <div class="col s12 m12 l2">
                     <h5>Category Title</h5>
                 </div>
 
-                <div class="col s12 m12 l3">
+                <div class="col s12 m12 l2">
                     <h5>Author</h5>
                 </div>
 
-                <div class="col s12 m12 l3">
+                <div class="col s12 m12 l2">
                     <h5>Description</h5>
                 </div>
 
-                <div class="col s12 m12 l3">
+                <div class="col s12 m12 l2">
+                    <h5>Publish Date</h5>
+                </div>
+
+                <div class="col s12 m12 l2">
                     <h5>Last Modified</h5>
                 </div>
             </div>
@@ -49,7 +53,7 @@
             </span>
 
             <div class="row">
-                <div class="col s12 m12 l3">
+                <div class="col s12 m12 l2">
                     <p class="page-title">
                         <a ng-href="/np-admin/categories/{{ category._id }}">
                             {{ category.title }}
@@ -57,15 +61,19 @@
                     </p>
                 </div>
 
-                <div class="col s12 m12 l3">
+                <div class="col s12 m12 l2">
                     <p class="page-title">{{ category.createdBy }}</p>
                 </div>
 
-                <div class="col s12 m12 l3">
+                <div class="col s12 m12 l2">
                     <p class="page-title">{{ category.description || 'No description' }}</p>
                 </div>
 
-                <div class="col s12 m12 l3">
+                <div class="col s12 m12 l2">
+                    <p class="page-title">{{ category.publishDate }}</p>
+                </div>
+
+                <div class="col s12 m12 l2">
                     <p class="page-title">{{ category.modifiedDate || category.publishDate }}</p>
                 </div>
             </div>
@@ -73,6 +81,7 @@
     </div>
 
     <a ui-sref="np.newCategory"
+       ng-if="categories.categories.length"
        class="add-new under-list">
 
         <i class="material-icons">add</i>

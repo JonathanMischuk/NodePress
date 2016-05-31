@@ -9,6 +9,4 @@ function AdminSecondaryMenuController (activeComponents) {
     var vm = this;
     
     vm.activeComponents = activeComponents;
-
-    console.log(activeComponents);
 }

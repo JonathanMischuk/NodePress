@@ -17,7 +17,7 @@
 
         <ul id="dropdown-account" class="dropdown-content">
             <li><a ng-href="/np-admin/users/{% raw %}{{ np.auth.user.username }}{% endraw %}">Profile</a></li>
-            <li><a ui-sref="settings.general">Settings</a></li>
+            <li><a ui-sref="np.settings.general">Settings</a></li>
             <li><a href="/auth/logout">Logout</a></li>
         </ul>
 
@@ -44,5 +44,3 @@
     <div class="view-fade-in" ui-view="content"></div>
 </div>
 {% endblock %}
-
-

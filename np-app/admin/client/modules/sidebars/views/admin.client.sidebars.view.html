@@ -13,6 +13,10 @@
                 </div>
 
                 <div class="col s12 m12 l2">
+                    <h5>Publish Date</h5>
+                </div>
+
+                <div class="col s12 m12 l2">
                     <h5>Last Modified</h5>
                 </div>
             </div>
@@ -58,6 +62,10 @@
                 </div>
 
                 <div class="col s12 m12 l2">
+                    <p class="page-title">{{ sidebar.publishDate }}</p>
+                </div>
+
+                <div class="col s12 m12 l2">
                     <p class="page-title">{{ sidebar.modifiedDate || page.publishDate }}</p>
                 </div>
             </div>
@@ -65,6 +73,7 @@
     </div>
 
     <a ui-sref="np.newSidebar"
+       ng-if="sidebars.sidebars.length"
        class="add-new under-list">
 
         <i class="material-icons">add</i>

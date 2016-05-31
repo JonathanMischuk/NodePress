@@ -1,9 +1,11 @@
 var express = require('express'),
     session = require('express-session');
 
-module.exports = function () {
+module.exports = function (config) {
     var app = express(),
         site = require('../../../site/server/config/site.server.app')();
+
+    app.locals.np = config;
 
     // middleware
     require('./admin.server.middleware')(app);

@@ -4,14 +4,14 @@ var express = require('express'),
     fs = require('fs');
 
 module.exports = function (app) {
-    app.use('', express.static(__dirname + '/../../../../np-site/themes'));
-    app.use('', express.static(__dirname + '/../../client/skins'));
+    app.use('', express.static(app.locals.np.baseUrl + '/np-site/themes'));
+    app.use('', express.static(app.locals.np.baseUrl + '/np-app/admin/client/skins'));
 
-    app.use('/public', express.static(__dirname + '/../../client'));
-    app.use('/public', express.static(__dirname + '/../../../../bower_components'));
-    app.use('/public', express.static(__dirname + '/../../../../np-site/plugins'));
+    app.use('/public', express.static(app.locals.np.baseUrl + '/np-app/admin/client'));
+    app.use('/public', express.static(app.locals.np.baseUrl + '/bower_components'));
+    app.use('/public', express.static(app.locals.np.baseUrl + '/np-site/plugins'));
 
-    fs.readdirSync(__dirname + '/../../client/modules').forEach(function (dir) {
-        app.use('/np-admin', express.static(__dirname + '/../../client/modules/' + dir + '/views'));
+    fs.readdirSync(app.locals.np.baseUrl + '/np-app/admin/client/modules').forEach(function (dir) {
+        app.use('/np-admin', express.static(app.locals.np.baseUrl + '/np-app/admin/client/modules/' + dir + '/views'));
     });
 };

@@ -18,5 +18,6 @@ module.exports = {
         httpOnly: true,
         maxAge: null
     },
-    sessionName: 'connect.sid'
+    sessionName: 'connect.sid',
+    baseUrl: __dirname
 };

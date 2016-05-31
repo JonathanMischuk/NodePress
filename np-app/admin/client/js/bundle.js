@@ -41683,8 +41683,6 @@
 	    
 	    var adminSecondaryMenuService = {};
 
-	    console.log('flubber nuggets');
-
 	    adminSecondaryMenuService.getActiveComponents = function () {
 	        return $http.get('/api/components').then(function (response) {
 	            return response.data;
@@ -41719,8 +41717,6 @@
 	    var vm = this;
 	    
 	    vm.activeComponents = activeComponents;
-
-	    console.log(activeComponents);
 	}
 
 
@@ -44746,7 +44742,7 @@
 
 	        vm.counter += 1;
 	        sidebarItem.id = vm.counter;
-	        vm.sidebarItems.push(sidebarItem);
+	        vm.sidebarItems.unshift(sidebarItem);
 	    }
 
 	    function removeSidebarItem (sidebarItem) {
@@ -44832,7 +44828,7 @@
 
 	        vm.counter += 1;
 	        sidebarItem.id = vm.counter;
-	        vm.sidebarItems.push(sidebarItem);
+	        vm.sidebarItems.unshift(sidebarItem);
 	    }
 
 	    function removeSidebarItem (sidebarItem) {

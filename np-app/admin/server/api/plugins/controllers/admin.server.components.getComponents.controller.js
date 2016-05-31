@@ -3,7 +3,7 @@
 var fs = require('fs');
 
 // GET request: retrieve all components
-module.exports = function (req, res, next) {
+module.exports = function (req, res) {
     var componentsRaw = require('../../../../../../components/components'),
         componentsSorted,
         components;

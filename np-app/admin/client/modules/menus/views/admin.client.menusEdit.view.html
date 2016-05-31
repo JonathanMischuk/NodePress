@@ -42,17 +42,17 @@
 
                         <i class="material-icons menu-item-add-icon right">add</i>
                     </div>
-
-                    <a class="dashboard-extra-link"
-                       ng-hide="results.length === menu.pages.length"
-                       ng-click="limit = limit + 5">show more
-                    </a>
-                    <a class="dashboard-extra-link"
-                       ng-hide="results.length <= 5 && results.length !== menu.pages.length || results.length <= 5 && results.length === menu.pages.length"
-                       ng-click="limit = limit - 5">show less
-                    </a>
-
                 </div>
+
+                <a class="dashboard-extra-link"
+                   ng-hide="results.length === menu.pages.length"
+                   ng-click="limit = limit + 5">show more
+                </a>
+
+                <a class="dashboard-extra-link"
+                   ng-hide="results.length <= 5 && results.length !== menu.pages.length || results.length <= 5 && results.length === menu.pages.length"
+                   ng-click="limit = limit - 5">show less
+                </a>
 
                 <button type="submit" class="add-new under-list">
                     <i class="material-icons">done</i>

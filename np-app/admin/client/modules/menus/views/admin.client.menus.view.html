@@ -74,11 +74,20 @@
     </div>
 
     <a ui-sref="np.newMenu"
+       ng-if="menus.menus.length"
        class="add-new under-list">
 
         <i class="material-icons">add</i>
 
         <span>New menu</span>
+    </a>
+
+    <a ui-sref="np.manageMenus"
+       class="add-new under-list beside-on-right">
+
+        <i class="material-icons">mode_edit</i>
+
+        <span>Manage menus</span>
     </a>
 
     <div class="modal fade" id="modal-delete">

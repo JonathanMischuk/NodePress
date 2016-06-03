@@ -42270,6 +42270,11 @@
 	                state: 'np.settings.general'
 	            },
 	            {
+	                title: 'Skins',
+	                slug: 'skins',
+	                state: 'np.settings.skins'
+	            },
+	            {
 	                title: 'Themes',
 	                slug: 'themes',
 	                state: 'np.settings.themes'
@@ -42278,11 +42283,6 @@
 	                title: 'Plugins',
 	                slug: 'plugins',
 	                state: 'np.settings.plugins'
-	            },
-	            {
-	                title: 'Skins',
-	                slug: 'skins',
-	                state: 'np.settings.skins'
 	            }
 	        ];
 

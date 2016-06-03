@@ -1,4 +1,5 @@
 
+@positive: #76ff03;
 @negative: #ffb300;
 
 [ng\:cloak], [ng-cloak], .ng-cloak {
@@ -102,7 +103,7 @@ label {
     top: -5px;
     margin: 0 0 20px 0;
     font-size: 12px;
-    color: rgba(220, 0, 10, 0.5);
+    color: @negative;
 }
 
 .dashboard-actions {
@@ -364,18 +365,32 @@ label {
     }
 }
 
+.theme-activate,
+.theme-active {
+    span {
+        .transition();
+    }
+}
+
 .theme-activate {
-    color: #fff;
+    color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
 
     &:hover {
-        color: #9C27B0;
+        color: @positive;
     }
 }
 
 .theme-active {
-    font-weight: 600;
-    color: #9C27B0;
+    color: rgba(255, 255, 255, 1);
+
+    .material-icons {
+        color: @positive;
+
+        &:hover {
+            color: @positive;
+        }
+    }
 }
 
 nav {
@@ -462,16 +477,7 @@ button,
     }
 
     .material-icons {
-        color: #76ff03;
-
-        &.header-icon {
-            top: 0;
-            font-size: 30px;
-        }
-
-        &.content-icon {
-            font-size: 20px;
-        }
+        color: @positive;
     }
 
     &:hover {
@@ -504,6 +510,15 @@ button,
 
     &:hover {
         color: rgba(255, 255, 255, 0.75);
+    }
+
+    &.header-icon {
+        top: 0 !important;
+        font-size: 30px;
+    }
+
+    &.content-icon {
+        font-size: 20px;
     }
 }
 
@@ -550,16 +565,16 @@ button,
 
     .tab {
         a {
-            color: #fff;
+            color: rgba(255, 255, 255, 0.75);
 
             &:hover {
-                color: #9C27B0;
+                color: rgba(255, 255, 255, 1);
             }
         }
     }
 
     .indicator {
-        background-color: #9C27B0;
+        background-color: @positive;
     }
 }
 
@@ -574,7 +589,7 @@ button,
 }
 
 .modal {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.75);
     width: 40%;
 
     input[type=text],
@@ -695,7 +710,7 @@ button,
 
 .toast {
     &.success {
-        background-color: #9C27B0;
+        background-color: @positive;
 
         a {
             color: #fff;

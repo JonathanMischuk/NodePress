@@ -9,15 +9,17 @@
                 <div class="card-action">
                     <span class="theme-activate"
                           ng-if="settings.settings.skin !== skin.title"
-                          ng-click="settings.updateAppSettings(skin.title)">Activate
+                          ng-click="settings.updateAppSettings(skin.title)">
+
+                        <span>Activate</span>
                     </span>
 
                     <span class="theme-active valign-wrapper right-align"
                           ng-if="settings.settings.skin === skin.title">
 
-                        <span class="btn-floating btn-small waves-effect waves-dark pink">
-                            <i class="material-icons">done</i>
-                        </span> Activated
+                        <i class="material-icons content-icon">done</i>
+
+                        <span>Activated</span>
                     </span>
                 </div>
             </div>

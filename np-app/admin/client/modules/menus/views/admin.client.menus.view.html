@@ -1,5 +1,11 @@
 <div>
-    <h1 class="actions-list-header valign-wrapper">Menus</h1>
+    <h1 class="actions-list-header valign-wrapper">
+        <button ui-sref="np.newMenu">
+            <i class="material-icons header-icon">add</i>
+        </button>
+
+        Menus
+    </h1>
 
     <div class="collection with-header">
         <div class="collection-header">
@@ -26,7 +32,8 @@
              class="collection-item">
 
             <p>No Menus.
-                <a ui-sref="np.newMenu">Create new menu</a>?</p>
+                <a ui-sref="np.newMenu">Create new menu</a>?
+            </p>
         </div>
 
         <div ng-repeat="menu in menus.menus" class="collection-item">
@@ -73,40 +80,37 @@
         </div>
     </div>
 
-    <a ui-sref="np.newMenu"
-       ng-if="menus.menus.length"
-       class="add-new under-list">
+    <div class="button-group under-content">
+        <button ui-sref="np.manageMenus">
+            <i class="material-icons content-icon">mode_edit</i>
 
-        <i class="material-icons">add</i>
-
-        <span>New menu</span>
-    </a>
-
-    <a ui-sref="np.manageMenus"
-       class="add-new under-list beside-on-right">
-
-        <i class="material-icons">mode_edit</i>
-
-        <span>Manage menus</span>
-    </a>
+            <span>Manage menus</span>
+        </button>
+    </div>
 
     <div class="modal fade" id="modal-delete">
         <div class="modal-content">
-            <h5 class="modal-title">Are you sure you want to remove the menu?
+            <h5 class="modal-title">Are you sure you want to remove the menu?</h5>
 
-                <span class="dashboard-actions">
-                    <a class="btn-floating btn-small waves-effect waves-dark pink modal-close">
-                        <i class="material-icons">close</i>
-                    </a>
-                </span>
-            </h5>
+            <div class="button-group under-content">
+                <div class="left">
+                    <button ng-click="menus.removeMenu()"
+                            class="modal-close">
 
-            <a ng-click="menus.removeMenu()"
-               class="waves-effect waves-light btn blue modal-close">Remove Menu
-            </a>
+                        <i class="material-icons content-icon">delete</i>
 
-            <a class="waves-effect waves-light btn blue modal-close">Cancel
-            </a>
+                        <span>Delete</span>
+                    </button>
+                </div>
+
+                <div class="right">
+                    <button class="modal-close">
+                        <i class="material-icons content-icon negative">clear</i>
+
+                        <span>Cancel</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

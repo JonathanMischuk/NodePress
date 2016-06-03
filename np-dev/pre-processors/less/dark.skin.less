@@ -1,4 +1,6 @@
 
+@negative: #ffb300;
+
 [ng\:cloak], [ng-cloak], .ng-cloak {
     display: none !important;
 }
@@ -51,6 +53,7 @@ h1 {
     margin: 50px 0;
     font-size: 2.5rem;
     color: rgba(255, 255, 255, 1);
+    line-height: 0;
 
     a {
         color: rgba(255, 255, 255, 0.5);
@@ -114,7 +117,11 @@ label {
 .dashboard-extra-link {
     font-size: 14px;
     line-height: 18px;
-    color: rgba(255, 255, 255, 1);
+    color: rgba(255, 255, 255, 0.75);
+
+    &:hover {
+        color: rgba(255, 255, 255, 1);
+    }
 }
 
 .primary-menu {
@@ -172,7 +179,7 @@ label {
 
 .content {
     margin-top: 125px;
-    padding: 0 58px 0 290px;
+    padding: 0 58px 30px 290px;
 }
 
 .sidebar-items-container,
@@ -325,7 +332,7 @@ label {
         font-size: 30px;
 
         &:first-child {
-            margin-left: 15px;
+            margin-left: 0;
         }
     }
 }
@@ -414,34 +421,78 @@ nav {
     }
 }
 
-.add-new {
-    &.under-list {
-        padding: 0;
-        background: transparent;
-        border: none;
+.button-group {
+    &:after {
+        display: block;
+        height: 0;
+        content: " ";
+        font-size: 0;
+        clear: both;
+        visibility: hidden;
+    }
+}
+
+.negative {
+    color: @negative !important;
+}
+
+button,
+.button {
+    position: relative;
+    margin-right: 8px;
+    padding: 0;
+    background: transparent;
+    border: none;
+
+    &:focus,
+    &:visited,
+    &:hover,
+    &:active {
+        outline: none;
+        background-color: transparent;
+    }
+
+    * {
+        position: relative;
+        .transition();
+    }
+
+    span {
+        color: rgba(255, 255, 255, 0.75);
+    }
+
+    .material-icons {
+        color: #76ff03;
+
+        &.header-icon {
+            top: 0;
+            font-size: 30px;
+        }
+
+        &.content-icon {
+            font-size: 20px;
+        }
+    }
+
+    &:hover {
+        .material-icons {
+            color: rgba(255, 255, 255, 1);
+        }
 
         span {
-            position: relative;
-            top: -6px;
-            color: rgba(255, 255, 255, 0.75);
-            .transition();
+            color: rgba(255, 255, 255, 1);
         }
+    }
+}
 
-        .material-icons {
-            font-size: 24px;
-            color: rgba(255, 255, 255, 0.75);
-            .transition();
-        }
+.under-content {
+    margin-top: 15px;
 
-        &:hover {
-            span,
-            .material-icons {
-                color: rgba(255, 255, 255, 1);
-            }
-        }
-
-        &.beside-on-right {
-            margin-left: 15px;
+    .button,
+    button {
+        span {
+            top: -4px;
+            left: 3px;
         }
     }
 }
@@ -523,12 +574,28 @@ nav {
 }
 
 .modal {
+    background: rgba(0, 0, 0, 0.5);
     width: 40%;
+
+    input[type=text],
+    input[type=password],
+    input[type=email],
+    input[type=url],
+    input[type=time],
+    input[type=date],
+    input[type=datetime-local],
+    input[type=tel],
+    input[type=number],
+    input[type=search],
+    textarea.materialize-textarea {
+        color: rgba(255, 255, 255, 0.75);
+    }
 }
 
 .modal-content {
     h5 {
         margin-bottom: 30px;
+        color: rgba(255, 255, 255, 0.75);
     }
 }
 
@@ -565,7 +632,7 @@ nav {
         }
 
         .collection-item {
-            padding: 20px;
+            padding: 10px;
             color: #fff;
             border-bottom: none;
             border-right: 1px solid #1C1C1C;
@@ -712,6 +779,10 @@ nav {
 
 textarea.materialize-textarea {
     color: #fff;
+
+    &.last {
+        margin-bottom: 0;
+    }
 }
 
 .input-field label {

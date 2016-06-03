@@ -1,5 +1,11 @@
 <div>
-    <h1 class="actions-list-header valign-wrapper">Pages</h1>
+    <h1 class="actions-list-header valign-wrapper">
+        <button ui-sref="np.newPage">
+            <i class="material-icons header-icon">add</i>
+        </button>
+
+        Pages
+    </h1>
 
     <div class="collection with-header">
         <div class="collection-header">
@@ -86,32 +92,29 @@
         </div>
     </div>
 
-    <a ui-sref="np.newPage"
-       ng-if="pages.pages.length"
-       class="add-new under-list">
-
-        <i class="material-icons">add</i>
-
-        <span>New page</span>
-    </a>
-
     <div class="modal fade" id="modal-delete">
         <div class="modal-content">
-            <h5 class="modal-title">Are you sure you want to remove the page?
+            <h5 class="modal-title">Are you sure you want to remove the page?</h5>
 
-                <span class="dashboard-actions">
-                    <a class="btn-floating btn-small waves-effect waves-dark pink modal-close">
-                        <i class="material-icons">close</i>
-                    </a>
-                </span>
-            </h5>
+            <div class="button-group under-content">
+                <div class="left">
+                    <button ng-click="pages.removePage()"
+                            class="modal-close">
 
-            <a ng-click="pages.removePage()"
-               class="waves-effect waves-light btn blue modal-close">Remove Page
-            </a>
+                        <i class="material-icons content-icon">delete</i>
 
-            <a class="waves-effect waves-light btn blue modal-close">Cancel
-            </a>
+                        <span>Delete</span>
+                    </button>
+                </div>
+
+                <div class="right">
+                    <button class="modal-close">
+                        <i class="material-icons content-icon negative">clear</i>
+
+                        <span>Cancel</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

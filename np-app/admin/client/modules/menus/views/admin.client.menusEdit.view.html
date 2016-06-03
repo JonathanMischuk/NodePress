@@ -24,7 +24,7 @@
 
         <div class="row">
             <div class="col s12 m12 l6">
-                <div class="collection with-header menu-items buttons-below"
+                <div class="collection with-header menu-items"
                      ng-init="limit = 5">
 
                     <div class="collection-header">
@@ -44,21 +44,27 @@
                     </div>
                 </div>
 
-                <a class="dashboard-extra-link"
-                   ng-hide="results.length === menu.pages.length"
-                   ng-click="limit = limit + 5">show more
-                </a>
+                <div class="button-group under-content">
+                    <div class="left">
+                        <button type="submit">
+                            <i class="material-icons content-icon">done</i>
 
-                <a class="dashboard-extra-link"
-                   ng-hide="results.length <= 5 && results.length !== menu.pages.length || results.length <= 5 && results.length === menu.pages.length"
-                   ng-click="limit = limit - 5">show less
-                </a>
+                            <span>Update</span>
+                        </button>
+                    </div>
 
-                <button type="submit" class="add-new under-list">
-                    <i class="material-icons">done</i>
+                    <div class="right">
+                        <a class="dashboard-extra-link"
+                           ng-hide="results.length <= 5 && results.length !== menu.pages.length || results.length <= 5 && results.length === menu.pages.length"
+                           ng-click="limit = limit - 5">show less
+                        </a>
 
-                    <span>Update</span>
-                </button>
+                        <a class="dashboard-extra-link"
+                           ng-hide="results.length === menu.pages.length"
+                           ng-click="limit = limit + 5">show more
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <div class="col s12 m12 l6">

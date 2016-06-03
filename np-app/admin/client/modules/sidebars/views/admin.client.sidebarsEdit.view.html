@@ -2,9 +2,9 @@
     <h1>Edit Sidebar</h1>
 
     <form name="updateSidebarForm" ng-submit="sidebar.updateSidebar()" novalidate>
-
         <div>
             <label for="title">Sidebar Title</label>
+
             <input type="text"
                    ng-model="sidebar.sidebar.title"
                    id="title"
@@ -24,7 +24,9 @@
 
         <div class="row">
             <div class="col s12 m12 l6">
-                <h5 class="admin-sidebar-items-title">Available Sidebar Items
+                <h5 class="admin-sidebar-items-title">
+
+                    Available Sidebar Items
 
                     <a class="tooltipped info"
                        data-position="top"
@@ -61,7 +63,13 @@
                     </script>
                 </ul>
 
-                <button class="btn waves-effect blue">Update</button>
+                <div class="button-group under-content">
+                    <button type="submit">
+                        <i class="material-icons content-icon">done</i>
+
+                        <span>Update</span>
+                    </button>
+                </div>
             </div>
 
             <div class="col s12 m12 l6">

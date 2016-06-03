@@ -95,30 +95,26 @@
             <p><a class="modal-trigger" data-target="update-password">Change Password</a></p>
         </div>
 
-        <div class="input-field">
-            <button type="submit"
-                    class="waves-effect waves-light btn blue">Update
+        <div class="button-group under-content">
+            <button type="submit">
+                <i class="material-icons content-icon">done</i>
+
+                <span>Update</span>
             </button>
         </div>
     </form>
 
     <div class="modal fade" id="update-password">
         <div class="modal-content">
-            <h5 class="modal-title">Change your password
+            <h5 class="modal-title">Change your password</h5>
 
-                <span class="dashboard-actions">
-                    <a class="btn-floating btn-small waves-effect waves-dark pink modal-close">
-                        <i class="material-icons">close</i>
-                    </a>
-                </span>
-            </h5>
             <form ng-show="!user.success"
-                  role="form" name="updateUserPasswordForm"
-                  ng-submit="user.updateUserPassword()"
+                  name="updateUserPasswordForm"
                   novalidate>
 
                 <div>
                     <label for="password">New password</label>
+
                     <input type="password"
                            ng-model="user.user.password"
                            class="form-control"
@@ -136,6 +132,7 @@
 
                 <div>
                     <label for="cpassword">Confirm your password</label>
+
                     <input type="password"
                            ng-model="user.user.cpassword"
                            class="form-control"
@@ -157,10 +154,23 @@
                     </div>
                 </div>
 
-                <div class="input-field">
-                    <button type="submit"
-                            class="waves-effect waves-light btn blue">Update
-                    </button>
+                <div class="button-group under-content">
+                    <div class="left">
+                        <button ng-click="user.updateUserPassword()">
+
+                            <i class="material-icons content-icon">done</i>
+
+                            <span>Update</span>
+                        </button>
+                    </div>
+
+                    <div class="right">
+                        <a class="modal-close button">
+                            <i class="material-icons content-icon negative">clear</i>
+
+                            <span>Cancel</span>
+                        </a>
+                    </div>
                 </div>
             </form>
         </div>

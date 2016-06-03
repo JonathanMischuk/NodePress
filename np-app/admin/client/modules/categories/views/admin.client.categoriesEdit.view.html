@@ -7,6 +7,7 @@
 
         <div>
             <label for="title">Category Title</label>
+
             <input type="text"
                    ng-model="category.category.title"
                    id="title"
@@ -26,6 +27,7 @@
 
         <div>
             <label for="slug">Slug</label>
+
             <input type="text"
                    ng-model="category.category.slug"
                    id="slug"
@@ -35,16 +37,18 @@
 
         <div>
             <label for="description">Description</label>
-            <textarea class="materialize-textarea"
+
+            <textarea class="materialize-textarea last"
                       ng-model="category.category.description"
                       id="description">
             </textarea>
         </div>
 
-        <div>
-            <button
-                type="submit"
-                class="waves-effect waves-light btn blue">Update
+        <div class="button-group under-content">
+            <button type="submit">
+                <i class="material-icons content-icon">done</i>
+
+                <span>Update</span>
             </button>
         </div>
     </form>

@@ -27,7 +27,7 @@ function adminCategoryRoutes (
             }
         })
         .state('np.newCategory', {
-            url: '^/new-category/',
+            url: '^/categories/new-category/',
             views: {
                 'innerContent': {
                     templateUrl: 'admin.client.categoriesNew.view.html'

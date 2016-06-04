@@ -2,17 +2,42 @@ module.exports = {
     title: 'Categories',
     slug: 'categories',
     active: false,
+    order: 2,
     appLevels: [
         'admin',
         'site'
     ],
+    states: [],
     sections: [
-        'components-menu'
+        'components-menu',
+        'dashboard'
     ],
     roles: [
         'Administration'
     ],
-    icon: 'subtitles',
-    state: 'np.categories',
-    order: 2
+    children: {
+        'components-menu': {
+            title: 'Categories',
+            icon: 'subtitles',
+            state: 'np.categories'
+        },
+        'dashboard': {
+            title: 'Categories',
+            slug: 'categories',
+            emptyMessage: 'No categories exist yet',
+            headerLinks: [
+                {
+                    state: 'np.categories',
+                    message: 'All categories',
+                    icon: 'view_list'
+                },
+                {
+                    state: 'np.newCategory',
+                    message: 'New category',
+                    icon: 'add'
+                }
+            ],
+            items: null
+        }
+    }
 };

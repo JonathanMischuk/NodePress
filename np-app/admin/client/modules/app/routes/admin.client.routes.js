@@ -41,8 +41,8 @@ function adminRoutes (
                 sidebars: function (AdminSidebarsAPIService) {
                     return AdminSidebarsAPIService.query();
                 },
-                activeComponents: function (AdminSecondaryMenuService) {
-                    return AdminSecondaryMenuService.getActiveComponents();
+                activeComponents: function (AdminPluginsService) {
+                    return AdminPluginsService.getComponentsBySection('components-menu');
                 }
             }
         });

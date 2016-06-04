@@ -5,12 +5,11 @@ module.exports = angular.module('dashboard')
 
 function AdminDashboardController (
     AdminUtilitiesServices,
-    AdminDashboardItemsService,
     pages,
     categories,
     menus,
     sidebars,
-    $http
+    componentsMenu
 ) {
     'use strict';
 
@@ -22,11 +21,9 @@ function AdminDashboardController (
             sidebars
         ];
 
-    vm.pages = pages;
-    vm.categories = categories;
-    vm.menus = menus;
-    vm.sidebars = sidebars;
-    vm.dashboardItems = AdminDashboardItemsService;
+    vm.dashboardItems = componentsMenu.components.map(function (component) {
+        return component.children[componentsMenu.param];
+    });
 
     angular.forEach(vm.dashboardItems, function (item, i) {
         item.items = items[i];
@@ -34,9 +31,4 @@ function AdminDashboardController (
 
     // create host url to view front end page
     vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
-
-    /*$http.get('/api/components').then(function (response) {
-
-        console.log(response.data);
-    })*/
 }

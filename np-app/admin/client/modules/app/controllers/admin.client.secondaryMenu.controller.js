@@ -7,6 +7,8 @@ function AdminSecondaryMenuController (activeComponents) {
     'use strict';
     
     var vm = this;
-    
-    vm.activeComponents = activeComponents;
+
+    vm.activeComponents = activeComponents.components.map(function (component) {
+        return component.children[activeComponents.param];
+    });
 }

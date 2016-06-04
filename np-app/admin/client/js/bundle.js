@@ -41652,8 +41652,8 @@
 	                sidebars: function (AdminSidebarsAPIService) {
 	                    return AdminSidebarsAPIService.query();
 	                },
-	                activeComponents: function (AdminSecondaryMenuService) {
-	                    return AdminSecondaryMenuService.getActiveComponents();
+	                activeComponents: function (AdminPluginsService) {
+	                    return AdminPluginsService.getComponentsBySection('components-menu');
 	                }
 	            }
 	        });
@@ -41715,8 +41715,10 @@
 	    'use strict';
 	    
 	    var vm = this;
-	    
-	    vm.activeComponents = activeComponents;
+
+	    vm.activeComponents = activeComponents.components.map(function (component) {
+	        return component.children[activeComponents.param];
+	    });
 	}
 
 
@@ -42618,6 +42620,9 @@
 	                },
 	                sidebars: function (AdminSidebarsAPIService) {
 	                    return AdminSidebarsAPIService.query();
+	                },
+	                componentsMenu: function (AdminPluginsService) {
+	                    return AdminPluginsService.getComponentsBySection('dashboard');
 	                }
 	            }
 
@@ -42802,12 +42807,11 @@
 
 	function AdminDashboardController (
 	    AdminUtilitiesServices,
-	    AdminDashboardItemsService,
 	    pages,
 	    categories,
 	    menus,
 	    sidebars,
-	    $http
+	    componentsMenu
 	) {
 	    'use strict';
 
@@ -42819,11 +42823,9 @@
 	            sidebars
 	        ];
 
-	    vm.pages = pages;
-	    vm.categories = categories;
-	    vm.menus = menus;
-	    vm.sidebars = sidebars;
-	    vm.dashboardItems = AdminDashboardItemsService;
+	    vm.dashboardItems = componentsMenu.components.map(function (component) {
+	        return component.children[componentsMenu.param];
+	    });
 
 	    angular.forEach(vm.dashboardItems, function (item, i) {
 	        item.items = items[i];
@@ -42831,11 +42833,6 @@
 
 	    // create host url to view front end page
 	    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
-
-	    /*$http.get('/api/components').then(function (response) {
-
-	        console.log(response.data);
-	    })*/
 	}
 
 
@@ -44959,6 +44956,12 @@
 
 	    adminPluginService.getComponents = function () {
 	        return $http.get('/api/components').then(function (response) {
+	            return response.data;
+	        });
+	    };
+	    
+	    adminPluginService.getComponentsBySection = function (section) {
+	        return $http.get('/api/components/' + section).then(function (response) {
 	            return response.data;
 	        });
 	    };

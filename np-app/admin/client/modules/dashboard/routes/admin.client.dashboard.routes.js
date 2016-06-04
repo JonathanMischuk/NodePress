@@ -33,6 +33,9 @@ function adminDashboardRoutes (
                 },
                 sidebars: function (AdminSidebarsAPIService) {
                     return AdminSidebarsAPIService.query();
+                },
+                componentsMenu: function (AdminPluginsService) {
+                    return AdminPluginsService.getComponentsBySection('dashboard');
                 }
             }
 

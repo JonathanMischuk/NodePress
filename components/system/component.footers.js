@@ -2,10 +2,12 @@ module.exports = {
     title: 'Footers',
     slug: 'footers',
     active: false,
+    order: 5,
     appLevels: [
         'admin',
         'site'
     ],
+    states: [],
     sections: [
         'components-menu'
     ],
@@ -13,7 +15,11 @@ module.exports = {
         'Administration',
         'Editor'
     ],
-    icon: 'view_day',
-    state: 'np.footers',
-    order: 5
+    children: {
+        'components-menu': {
+            title: 'Footers',
+            icon: 'view_day',
+            state: 'np.footers'
+        }
+    }
 };

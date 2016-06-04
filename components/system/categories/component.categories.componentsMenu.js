@@ -12,7 +12,8 @@ module.exports = {
         'components-menu'
     ],
     roles: [
-        'Administration'
+        'Administration',
+        'Editor'
     ],
     attributes: {
         title: 'Categories',

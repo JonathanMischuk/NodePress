@@ -43,7 +43,7 @@ function adminRoutes (
                 },
                 componentsMenu: function (AdminComponentsService, $state) {
                     return AdminComponentsService.getComponentsByStateAndSection({
-                        state: $state.current.menu,
+                        state: $state.next.name,
                         section: 'components-menu'
                     });
                 }

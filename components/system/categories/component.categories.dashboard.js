@@ -12,7 +12,8 @@ module.exports = {
         'dashboard'
     ],
     roles: [
-        'Administration'
+        'Administration',
+        'Editor'
     ],
     attributes: {
         title: 'Categories',

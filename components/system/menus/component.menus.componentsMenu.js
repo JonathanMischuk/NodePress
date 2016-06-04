@@ -17,7 +17,6 @@ module.exports = {
     ],
     attributes: {
         title: 'Menus',
-        states: [],
         icon: 'toc',
         state: 'np.menus'
     }

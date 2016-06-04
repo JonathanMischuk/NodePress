@@ -17,7 +17,6 @@ module.exports = {
     ],
     attributes: {
         title: 'Pages',
-        states: [],
         icon: 'web',
         state: 'np.pages'
     }

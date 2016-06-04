@@ -5,11 +5,12 @@ module.exports = angular.module('dashboard')
 
 function AdminDashboardController (
     AdminUtilitiesServices,
+    AdminComponentsService,
     pages,
     categories,
     menus,
     sidebars,
-    componentsDashboard
+    components
 ) {
     'use strict';
 
@@ -19,9 +20,15 @@ function AdminDashboardController (
             categories,
             menus,
             sidebars
-        ];
+        ],
+        data = {
+            components: components,
+            section: 'dashboard'
+        };
 
-    vm.dashboardItems = componentsDashboard;
+    vm.dashboardItems = AdminComponentsService.getComponentsAttributes(
+        AdminComponentsService.getComponentsBySection(data)
+    );
 
     angular.forEach(vm.dashboardItems, function (item, i) {
         item.items = items[i];

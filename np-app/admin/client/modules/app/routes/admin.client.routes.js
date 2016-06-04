@@ -41,10 +41,9 @@ function adminRoutes (
                 sidebars: function (AdminSidebarsAPIService) {
                     return AdminSidebarsAPIService.query();
                 },
-                componentsMenu: function (AdminComponentsService, $state) {
-                    return AdminComponentsService.getComponentsByStateAndSection({
-                        state: $state.next.name,
-                        section: 'components-menu'
+                components: function (AdminComponentsService, $state) {
+                    return AdminComponentsService.getComponentsByState({
+                        state: $state.next.name
                     });
                 }
             }

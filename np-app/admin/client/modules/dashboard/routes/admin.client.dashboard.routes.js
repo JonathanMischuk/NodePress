@@ -33,10 +33,9 @@ function adminDashboardRoutes (
                 sidebars: function (AdminSidebarsAPIService) {
                     return AdminSidebarsAPIService.query();
                 },
-                componentsDashboard: function (AdminComponentsService, $state) {
-                    return AdminComponentsService.getComponentsByStateAndSection({
-                        state: $state.current.menu,
-                        section: 'dashboard'
+                components: function (AdminComponentsService, $state) {
+                    return AdminComponentsService.getComponentsByState({
+                        state: $state.next.name
                     });
                 }
             }

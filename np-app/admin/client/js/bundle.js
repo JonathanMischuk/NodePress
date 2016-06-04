@@ -41652,8 +41652,11 @@
 	                sidebars: function (AdminSidebarsAPIService) {
 	                    return AdminSidebarsAPIService.query();
 	                },
-	                activeComponents: function (AdminPluginsService) {
-	                    return AdminPluginsService.getComponentsBySection('components-menu');
+	                componentsMenu: function (AdminComponentsService, $state) {
+	                    return AdminComponentsService.getComponentsByStateAndSection({
+	                        state: $state.current.menu,
+	                        section: 'components-menu'
+	                    });
 	                }
 	            }
 	        });
@@ -41676,20 +41679,42 @@
 	var angular = __webpack_require__(1);
 
 	module.exports = angular.module('app')
-	    .factory('AdminSecondaryMenuService', AdminSecondaryMenuService);
+	    .factory('AdminComponentsService', AdminComponentsService);
 
-	function AdminSecondaryMenuService ($http) {
+	function AdminComponentsService ($http) {
 	    'use strict';
-	    
-	    var adminSecondaryMenuService = {};
 
-	    adminSecondaryMenuService.getActiveComponents = function () {
+	    var adminComponentsService = {};
+
+	    function getComponents () {
 	        return $http.get('/api/components').then(function (response) {
+	            console.log(response.data);
 	            return response.data;
+	        });
+	    }
+
+	    adminComponentsService.getComponentsByStateAndSection = function (data) {
+	        return getComponents().then(function (response) {
+	            return response.filter(function (component) {
+	                if (component.states && !component.states.length) return component;
+	                if (
+	                    component.states &&
+	                    component.states.length &&
+	                    component.states.indexOf(data.state)
+	                ) {
+	                    return component;
+	                }
+	            }).filter(function (component) {
+	                if (!component.sections.length) return component;
+
+	                return component.sections.indexOf(data.section) !== -1;
+	            }).map(function (component) {
+	                return component.attributes;
+	            });
 	        });
 	    };
 
-	    return adminSecondaryMenuService;
+	    return adminComponentsService;
 	}
 
 
@@ -41711,14 +41736,12 @@
 	module.exports = angular.module('app')
 	    .controller('AdminSecondaryMenuController', AdminSecondaryMenuController);
 
-	function AdminSecondaryMenuController (activeComponents) {
+	function AdminSecondaryMenuController (componentsMenu) {
 	    'use strict';
 	    
 	    var vm = this;
 
-	    vm.activeComponents = activeComponents.components.map(function (component) {
-	        return component.children[activeComponents.param];
-	    });
+	    vm.activeComponents = componentsMenu;
 	}
 
 
@@ -42591,8 +42614,7 @@
 	    .config(adminDashboardRoutes);
 
 	function adminDashboardRoutes (
-	    $stateProvider,
-	    $urlRouterProvider
+	    $stateProvider
 	) {
 	    'use strict';
 
@@ -42621,61 +42643,16 @@
 	                sidebars: function (AdminSidebarsAPIService) {
 	                    return AdminSidebarsAPIService.query();
 	                },
-	                componentsMenu: function (AdminPluginsService) {
-	                    return AdminPluginsService.getComponentsBySection('dashboard');
+	                componentsDashboard: function (AdminComponentsService, $state) {
+	                    return AdminComponentsService.getComponentsByStateAndSection({
+	                        state: $state.current.menu,
+	                        section: 'dashboard'
+	                    });
 	                }
 	            }
 
 	        });
 	}
-
-	/*
-	var angular = require('angular');
-
-	module.exports = angular.module('dashboard')
-	    .config(adminDashboardRoutes);
-
-	function adminDashboardRoutes (
-	    $stateProvider, 
-	    $urlRouterProvider
-	) {
-	    'use strict';
-
-	    $urlRouterProvider.otherwise('/');
-
-	    $stateProvider
-	        .state('dashboard', {
-	            url: '/',
-	            views: {
-	                '': {
-	                    templateUrl: 'admin.client.dashboard.view.html',
-	                    controller: 'AdminDashboardController as dashboard'
-	                },
-	                'secondaryMenu': {
-	                    templateUrl: 'admin.client.secondaryMenu.view.html'
-	                }
-	            },
-	            resolve: {
-	                pages: function (AdminPagesAPIService) {
-	                    return AdminPagesAPIService.query();
-	                },
-	                categories: function (AdminCategoriesAPIService) {
-	                    return AdminCategoriesAPIService.query();
-	                },
-	                users: function (AdminUsersAPIService) {
-	                    return AdminUsersAPIService.query();
-	                },
-	                menus: function (AdminMenusAPIService) {
-	                    return AdminMenusAPIService.query();
-	                },
-	                sidebars: function (AdminSidebarsAPIService) {
-	                    return AdminSidebarsAPIService.query();
-	                }
-	            }
-
-	        });
-	}
-	*/
 
 
 /***/ },
@@ -42811,7 +42788,7 @@
 	    categories,
 	    menus,
 	    sidebars,
-	    componentsMenu
+	    componentsDashboard
 	) {
 	    'use strict';
 
@@ -42823,9 +42800,7 @@
 	            sidebars
 	        ];
 
-	    vm.dashboardItems = componentsMenu.components.map(function (component) {
-	        return component.children[componentsMenu.param];
-	    });
+	    vm.dashboardItems = componentsDashboard;
 
 	    angular.forEach(vm.dashboardItems, function (item, i) {
 	        item.items = items[i];
@@ -44950,18 +44925,6 @@
 	    adminPluginService.getActivePlugins = function () {
 	        return $http.get('/api/plugins/active').then(function (response) {
 	            console.log(response.data);
-	            return response.data;
-	        });
-	    };
-
-	    adminPluginService.getComponents = function () {
-	        return $http.get('/api/components').then(function (response) {
-	            return response.data;
-	        });
-	    };
-	    
-	    adminPluginService.getComponentsBySection = function (section) {
-	        return $http.get('/api/components/' + section).then(function (response) {
 	            return response.data;
 	        });
 	    };

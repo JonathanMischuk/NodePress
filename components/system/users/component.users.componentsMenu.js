@@ -1,6 +1,6 @@
 module.exports = {
     title: 'Users',
-    slug: 'users',
+    slug: 'users-components-menu',
     active: false,
     order: 6,
     appLevels: [
@@ -14,11 +14,9 @@ module.exports = {
     roles: [
         'Administration'
     ],
-    children: {
-        'components-menu': {
-            title: 'Users',
-            icon: 'supervisor_account',
-            state: 'np.users'
-        }
+    attributes: {
+        title: 'Users',
+        icon: 'supervisor_account',
+        state: 'np.users'
     }
 };

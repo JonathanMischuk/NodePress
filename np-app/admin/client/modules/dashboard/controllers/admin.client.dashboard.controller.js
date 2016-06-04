@@ -9,7 +9,7 @@ function AdminDashboardController (
     categories,
     menus,
     sidebars,
-    componentsMenu
+    componentsDashboard
 ) {
     'use strict';
 
@@ -21,9 +21,7 @@ function AdminDashboardController (
             sidebars
         ];
 
-    vm.dashboardItems = componentsMenu.components.map(function (component) {
-        return component.children[componentsMenu.param];
-    });
+    vm.dashboardItems = componentsDashboard;
 
     angular.forEach(vm.dashboardItems, function (item, i) {
         item.items = items[i];

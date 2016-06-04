@@ -21,17 +21,5 @@ function AdminPluginsService($http) {
         });
     };
 
-    adminPluginService.getComponents = function () {
-        return $http.get('/api/components').then(function (response) {
-            return response.data;
-        });
-    };
-    
-    adminPluginService.getComponentsBySection = function (section) {
-        return $http.get('/api/components/' + section).then(function (response) {
-            return response.data;
-        });
-    };
-
     return adminPluginService;
 }

@@ -16,6 +16,9 @@ module.exports = function () {
     api.pagesAPI.routes.endPoints(app);
 
     // site core api routes
+    api.sidebarsAPI.routes.endPoints(app);
+
+    // site core api routes
     api.coreAPI.routes.endPoints(app);
 
     return app;

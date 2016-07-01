@@ -1,7 +1,7 @@
 module.exports = {
     title: 'Categories',
     slug: 'categories-components-menu',
-    active: false,
+    active: true,
     order: 2,
     appLevels: [
         'admin',

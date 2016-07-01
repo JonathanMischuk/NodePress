@@ -3,5 +3,6 @@
 // site main API module
 module.exports = {
     coreAPI: require('./core'),
-    pagesAPI: require('./pages')
+    pagesAPI: require('./pages'),
+    sidebarsAPI: require('./sidebars')
 };

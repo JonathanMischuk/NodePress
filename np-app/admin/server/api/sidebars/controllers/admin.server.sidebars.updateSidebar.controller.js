@@ -6,6 +6,7 @@ var models = require('../models');
 module.exports = function (req, res, next) {
     models.Sidebar.findByIdAndUpdate(req.params.sidebarId, req.body, function (err) {
         if (err) return next(err);
+        
         res.json(req.body);
     });
 };

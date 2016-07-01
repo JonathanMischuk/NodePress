@@ -8,7 +8,9 @@ module.exports = {
         'site'
     ],
     states: [],
-    sections: [],
+    sections: [
+        'components-menu'
+    ],
     roles: [
         'Administration',
         'Editor'

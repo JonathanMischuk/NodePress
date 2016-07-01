@@ -1,7 +1,7 @@
 module.exports = {
     title: 'Users',
     slug: 'users-components-menu',
-    active: false,
+    active: true,
     order: 6,
     appLevels: [
         'admin',

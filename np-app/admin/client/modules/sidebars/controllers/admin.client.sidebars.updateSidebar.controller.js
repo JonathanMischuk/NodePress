@@ -34,6 +34,8 @@ function AdminUpdateSidebarController (
         sidebarItems: sidebar.items
     };
 
+    console.log('sidebar items:', vm.sidebarItems);
+
     function getSidebarCount () {
         angular.forEach(vm.sidebarItems, function (sidebarItem) {
             vm.sidebarItemIds.push(sidebarItem.id);
@@ -58,6 +60,10 @@ function AdminUpdateSidebarController (
     }
 
     function updateSidebar () {
+        angular.forEach(vm.sidebarItems, function (sidebarItem) {
+            sidebarItem.content = sidebarItem.model;
+        });
+
         vm.sidebar.items = vm.sidebarItems;
 
         if ($scope.updateSidebarForm.$valid) {

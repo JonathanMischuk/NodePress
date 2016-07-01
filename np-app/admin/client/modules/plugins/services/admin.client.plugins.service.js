@@ -16,7 +16,6 @@ function AdminPluginsService($http) {
 
     adminPluginService.getActivePlugins = function () {
         return $http.get('/api/plugins/active').then(function (response) {
-            console.log(response.data);
             return response.data;
         });
     };

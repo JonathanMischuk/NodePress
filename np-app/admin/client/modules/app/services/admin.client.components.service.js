@@ -9,6 +9,42 @@ function AdminComponentsService ($http) {
     var adminComponentsService = {};
 
     /**
+     * return components with 'active'
+     * property set as true boolean value
+     *
+     * @param components
+     * @returns {Array}
+     */
+    adminComponentsService.filterActiveComponents = function (components) {
+        return components.filter(function (component) {
+            return component.active;
+        });
+    };
+
+    /**
+     * toggles a selected component's
+     * 'active' property to the opposite
+     * boolean value
+     *
+     * @param component
+     */
+    adminComponentsService.toggleComponentActiveProperty = function (component) {
+        component.active = !component.active;
+    };
+
+    /**
+     * set a selected component's
+     * 'active' property to the
+     * true or false
+     *
+     * @param component
+     * @param value
+     */
+    adminComponentsService.setComponentActiveProperty = function (component, value) {
+        component.active = value;
+    };
+
+    /**
      * scrape components directory and
      * retrieve all component.*.js files
      *
@@ -30,19 +66,21 @@ function AdminComponentsService ($http) {
      */
     adminComponentsService.getComponentsByState = function (data) {
         return adminComponentsService.getComponents().then(function (response) {
-            return response.filter(function (component) {
-                if (component.states && !component.states.length) {
-                    return component;
-                }
+            return adminComponentsService.filterActiveComponents(
+                response.filter(function (component) {
+                    if (component.states && !component.states.length) {
+                        return component;
+                    }
 
-                if (
-                    component.states &&
-                    component.states.length &&
-                    component.states.indexOf(data.state) !== -1
-                ) {
-                    return component;
-                }
-            });
+                    if (
+                        component.states &&
+                        component.states.length &&
+                        component.states.indexOf(data.state) !== -1
+                    ) {
+                        return component;
+                    }
+                })
+            );
         });
     };
 
@@ -69,7 +107,7 @@ function AdminComponentsService ($http) {
      * attributes property
      *
      * @param components
-     * @returns {*}
+     * @returns {Array}
      */
     adminComponentsService.getComponentsAttributes = function (components) {
         return components.map(function (component) {

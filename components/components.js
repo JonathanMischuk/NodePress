@@ -1,5 +1,4 @@
-var fs = require('fs'),
-    glob = require('glob');
+var glob = require('glob');
 
 module.exports = (function () {
     "use strict";

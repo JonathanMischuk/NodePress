@@ -11,6 +11,7 @@ module.exports = function (app) {
     app.use('/public', express.static(app.locals.np.baseUrl + '/bower_components'));
     app.use('/public', express.static(app.locals.np.baseUrl + '/np-site/plugins'));
 
+    // serving static angular state views
     fs.readdirSync(app.locals.np.baseUrl + '/np-app/admin/client/modules').forEach(function (dir) {
         app.use('/np-admin', express.static(app.locals.np.baseUrl + '/np-app/admin/client/modules/' + dir + '/views'));
     });

@@ -1,7 +1,7 @@
 module.exports = {
     title: 'Sidebars',
-    slug: 'sidebars-components-menu',
-    active: false,
+    slug: 'sidebars-dashboard',
+    active: true,
     order: 4,
     appLevels: [
         'admin',

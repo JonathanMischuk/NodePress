@@ -1,7 +1,7 @@
 module.exports = {
     title: 'Pages',
     slug: 'pages-dashboard',
-    active: false,
+    active: true,
     order: 1,
     appLevels: [
         'admin',

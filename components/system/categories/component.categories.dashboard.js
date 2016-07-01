@@ -1,7 +1,7 @@
 module.exports = {
     title: 'Categories',
     slug: 'categories-dashboard',
-    active: false,
+    active: true,
     order: 2,
     appLevels: [
         'admin',

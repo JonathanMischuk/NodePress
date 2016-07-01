@@ -19,9 +19,9 @@ function SiteController ($scope, $rootScope) {
             sidebarLeftItems = page[1] ? page[1].items : '',
             sidebarRightItems = page[2] ? page[2].items : '';
 
-        angular.forEach(np.sidebars.callbacks, function (sidebarItem) {
-            sidebarItem(sidebarLeftItems, vm);
-            sidebarItem(sidebarRightItems, vm);
+        angular.forEach(np.sidebars.callbacks, function (cb) {
+            cb(sidebarLeftItems, vm);
+            cb(sidebarRightItems, vm);
         });
 
         if (sidebarLeftItems && !sidebarRightItems || !sidebarLeftItems && sidebarRightItems) {

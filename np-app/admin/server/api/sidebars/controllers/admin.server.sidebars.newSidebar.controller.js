@@ -8,6 +8,7 @@ module.exports = function (req, res, next) {
 
     sidebar.save(function (err, sidebar) {
         if (err) return next(err);
+        
         res.json(sidebar);
     });
 };

@@ -46,6 +46,10 @@ function AdminNewSidebarController (
     }
 
     function newSidebar () {
+        angular.forEach(vm.sidebarItems, function (sidebarItem) {
+            sidebarItem.content = sidebarItem.model;
+        });
+
         vm.sidebar.createdBy = $rootScope.np.auth.user.username;
         vm.sidebar.items = vm.sidebarItems;
 

@@ -6,8 +6,17 @@ module.exports = angular.module('site')
     .config(siteConfig)
     .run(siteRun);
 
-function siteConfig($locationProvider) {
+function siteConfig($locationProvider, $provide) {
     $locationProvider.html5Mode(true);
+
+    $provide.decorator('$state', function($delegate, $rootScope) {
+        $rootScope.$on('$stateChangeStart', function(event, state, params) {
+            $delegate.next = state;
+            $delegate.toParams = params;
+        });
+
+        return $delegate;
+    });
 }
 
 // set global variables

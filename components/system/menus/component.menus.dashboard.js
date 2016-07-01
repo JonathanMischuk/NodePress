@@ -1,7 +1,7 @@
 module.exports = {
     title: 'Menus',
     slug: 'menus-dashboard',
-    active: false,
+    active: true,
     order: 3,
     appLevels: [
         'admin',

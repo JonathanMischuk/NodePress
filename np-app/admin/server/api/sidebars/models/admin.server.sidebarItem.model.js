@@ -25,6 +25,14 @@ var db = require('../../../config/admin.server.db'),
                 type: String
             }
         },
+        content: {
+            title: {
+                type: String
+            },
+            body: {
+                type: String
+            }
+        },
         callback: {
             type: String
         },

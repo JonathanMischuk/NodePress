@@ -2,10 +2,8 @@
 
 var fs = require('fs'),
     async = require('async'),
-    componentControllers = require('../../plugins/controllers'),
     Core = require('../../core/models').Core,
-    User = require('../../users/models').User,
-    Menu = require('../../menus/models').Menu;
+    User = require('../../users/models').User;
 
 /**
  *
@@ -23,8 +21,7 @@ module.exports = function (req, res, next) {
         getSkins,
         getPluginsConfig,
         getUser,
-        getSkin/*,
-        getComponents*/
+        getSkin
     ], function (err, results) {
         var np = {
             auth: {
@@ -98,8 +95,4 @@ module.exports = function (req, res, next) {
             callback(null, core[0].skin);
         });
     }
-
-    /*function getComponents (callback) {
-        callback(null, componentControllers.getComponents(req.user));
-    }*/
 };

@@ -41686,6 +41686,42 @@
 	    var adminComponentsService = {};
 
 	    /**
+	     * return components with 'active'
+	     * property set as true boolean value
+	     *
+	     * @param components
+	     * @returns {Array}
+	     */
+	    adminComponentsService.filterActiveComponents = function (components) {
+	        return components.filter(function (component) {
+	            return component.active;
+	        });
+	    };
+
+	    /**
+	     * toggles a selected component's
+	     * 'active' property to the opposite
+	     * boolean value
+	     *
+	     * @param component
+	     */
+	    adminComponentsService.toggleComponentActiveProperty = function (component) {
+	        component.active = !component.active;
+	    };
+
+	    /**
+	     * set a selected component's
+	     * 'active' property to the
+	     * true or false
+	     *
+	     * @param component
+	     * @param value
+	     */
+	    adminComponentsService.setComponentActiveProperty = function (component, value) {
+	        component.active = value;
+	    };
+
+	    /**
 	     * scrape components directory and
 	     * retrieve all component.*.js files
 	     *
@@ -41707,19 +41743,21 @@
 	     */
 	    adminComponentsService.getComponentsByState = function (data) {
 	        return adminComponentsService.getComponents().then(function (response) {
-	            return response.filter(function (component) {
-	                if (component.states && !component.states.length) {
-	                    return component;
-	                }
+	            return adminComponentsService.filterActiveComponents(
+	                response.filter(function (component) {
+	                    if (component.states && !component.states.length) {
+	                        return component;
+	                    }
 
-	                if (
-	                    component.states &&
-	                    component.states.length &&
-	                    component.states.indexOf(data.state) !== -1
-	                ) {
-	                    return component;
-	                }
-	            });
+	                    if (
+	                        component.states &&
+	                        component.states.length &&
+	                        component.states.indexOf(data.state) !== -1
+	                    ) {
+	                        return component;
+	                    }
+	                })
+	            );
 	        });
 	    };
 
@@ -41746,7 +41784,7 @@
 	     * attributes property
 	     *
 	     * @param components
-	     * @returns {*}
+	     * @returns {Array}
 	     */
 	    adminComponentsService.getComponentsAttributes = function (components) {
 	        return components.map(function (component) {
@@ -41864,6 +41902,7 @@
 
 	    return month + '/' + day + '/' + year + ' - ' + hour + ':' + minutes + ':' + seconds;
 	}
+
 
 /***/ },
 /* 24 */
@@ -44775,6 +44814,10 @@
 	    }
 
 	    function newSidebar () {
+	        angular.forEach(vm.sidebarItems, function (sidebarItem) {
+	            sidebarItem.content = sidebarItem.model;
+	        });
+
 	        vm.sidebar.createdBy = $rootScope.np.auth.user.username;
 	        vm.sidebar.items = vm.sidebarItems;
 
@@ -44839,6 +44882,8 @@
 	        sidebarItems: sidebar.items
 	    };
 
+	    console.log('sidebar items:', vm.sidebarItems);
+
 	    function getSidebarCount () {
 	        angular.forEach(vm.sidebarItems, function (sidebarItem) {
 	            vm.sidebarItemIds.push(sidebarItem.id);
@@ -44863,6 +44908,10 @@
 	    }
 
 	    function updateSidebar () {
+	        angular.forEach(vm.sidebarItems, function (sidebarItem) {
+	            sidebarItem.content = sidebarItem.model;
+	        });
+
 	        vm.sidebar.items = vm.sidebarItems;
 
 	        if ($scope.updateSidebarForm.$valid) {
@@ -44976,7 +45025,6 @@
 
 	    adminPluginService.getActivePlugins = function () {
 	        return $http.get('/api/plugins/active').then(function (response) {
-	            console.log(response.data);
 	            return response.data;
 	        });
 	    };

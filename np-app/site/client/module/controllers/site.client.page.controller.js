@@ -16,12 +16,16 @@ function SitePagesController (
     var vm = this,
         slug = $stateParams.page;
 
+    console.log('slug:', slug);
+
     vm.page = {};
     vm.siteHomePage = $rootScope.coreSettings[0].siteHomePage;
 
     SitePageServices.getPage(slug, vm.siteHomePage)
         .then(function (response) {
             if (response.data === null) $location.path("/error");
+
+            console.log(response.data);
             
             vm.page = response.data[0];
             

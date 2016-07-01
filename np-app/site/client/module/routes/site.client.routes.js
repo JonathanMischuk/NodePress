@@ -19,13 +19,21 @@ function siteRoutes ($stateProvider, $urlRouterProvider) {
                         );
                     }
                 },
+                
                 'sidebarLeft': {
                     templateProvider: function ($rootScope, $templateRequest) {
                         return $templateRequest(
                             $rootScope.coreSettings[0].theme + '/client/views/theme.client.sidebarLeft.view.html'
                         );
+                    },
+                    controller: 'SiteSidebarLeftController as SidebarLeftCtrl',
+                    resolve: {
+                        sidebarLeft: function (SiteSidebarItemsService, $state) {
+                            return SiteSidebarItemsService.getSidebarLeft($state.next.name);
+                        }
                     }
                 },
+                
                 'sidebarRight': {
                     templateProvider: function ($rootScope, $templateRequest) {
                         return $templateRequest(
@@ -35,14 +43,22 @@ function siteRoutes ($stateProvider, $urlRouterProvider) {
                 }
             }
         })
+        
+        
         .state('error', {
             url: '/error',
-            templateProvider: function ($rootScope, $templateRequest) {
-                return $templateRequest(
-                    $rootScope.coreSettings[0].theme + '/client/views/theme.client.404.view.html'
-                );
+            views: {
+                '': {
+                    templateProvider: function ($rootScope, $templateRequest) {
+                        return $templateRequest(
+                            $rootScope.coreSettings[0].theme + '/client/views/theme.client.404.view.html'
+                        );
+                    }
+                }
             }
         })
+        
+        
         .state('inside', {
             url: '/:page',
             views: {
@@ -53,13 +69,21 @@ function siteRoutes ($stateProvider, $urlRouterProvider) {
                         );
                     }
                 },
+                
                 'sidebarLeft': {
                     templateProvider: function ($rootScope, $templateRequest) {
                         return $templateRequest(
                             $rootScope.coreSettings[0].theme + '/client/views/theme.client.sidebarLeft.view.html'
                         );
+                    },
+                    controller: 'SiteSidebarLeftController as SidebarLeftCtrl',
+                    resolve: {
+                        sidebarLeft: function (SiteSidebarItemsService) {
+                            return SiteSidebarItemsService.getSidebarLeft();
+                        }
                     }
                 },
+                
                 'sidebarRight': {
                     templateProvider: function ($rootScope, $templateRequest) {
                         return $templateRequest(
@@ -69,13 +93,4 @@ function siteRoutes ($stateProvider, $urlRouterProvider) {
                 }
             }
         });
-
-        /*.state('inside', {
-            url: '/:page',
-            templateProvider: function ($rootScope, $templateRequest) {
-                return $templateRequest(
-                    $rootScope.coreSettings[0].theme + '/client/views/theme.client.page.view.html'
-                );
-            }
-        });*/
 }

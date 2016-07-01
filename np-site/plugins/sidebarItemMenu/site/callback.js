@@ -1,6 +1,6 @@
-'use strict';
-
 var sidebarItemMenuAugmentation = function sidebarItemMenuAugmentation (sidebarItems, vm) {
+    'use strict';
+
     sidebarItems.forEach(function (sidebarItem) {
         if (sidebarItem.type === 'menu') {
             if (sidebarItem.model.body !== '') {

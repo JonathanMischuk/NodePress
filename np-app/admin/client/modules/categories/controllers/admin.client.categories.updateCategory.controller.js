@@ -1,7 +1,10 @@
 var angular = require('angular');
 
 module.exports = angular.module('categories')
-    .controller('AdminUpdateCategoryController', AdminUpdateCategoryController);
+    .controller(
+        'AdminUpdateCategoryController',
+        AdminUpdateCategoryController
+    );
 
 function AdminUpdateCategoryController (
     $scope,
@@ -20,20 +23,24 @@ function AdminUpdateCategoryController (
     vm.updateCategory = updateCategory;
     vm.errors = require('../errors/admin.client.categories.errors');
 
-    function updateCategory() {
+    function updateCategory () {
         if ($scope.updateCategoryForm.$valid) {
 
             // create human readable date for modified date
             var date = AdminUtilitiesServices.createHumanReadableDate();
 
-            vm.category.modifiedBy   = $rootScope.np.auth.user.username;
+            vm.category.modifiedBy = $rootScope.np.auth.user.username;
             vm.category.modifiedDate = date;
 
             vm.category.$update()
                 .then(function () {
 
                     // display success dialog
-                    Materialize.toast('Category updated successfully', 4000, 'success');
+                    Materialize.toast(
+                        'Category updated successfully',
+                        4000,
+                        'success'
+                    );
 
                     $scope.updateCategoryForm.$setPristine();
                 })

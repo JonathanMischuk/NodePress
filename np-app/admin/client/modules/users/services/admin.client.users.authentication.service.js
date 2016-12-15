@@ -3,9 +3,16 @@
 var angular = require('angular');
 
 module.exports = angular.module('users')
-    .factory('AdminUserAuthenticationService', AdminUserAuthenticationService);
+    .factory(
+        'AdminUserAuthenticationService',
+        AdminUserAuthenticationService
+    );
 
-function AdminUserAuthenticationService($http, $rootScope, $state) {
+function AdminUserAuthenticationService(
+    $http,
+    $rootScope,
+    $state
+) {
     return function () {
         return $http.get('/auth').then(function (response) {
             $rootScope.np.auth.user = response.data.user;
@@ -13,7 +20,10 @@ function AdminUserAuthenticationService($http, $rootScope, $state) {
 
             if (!$rootScope.np.auth.exists) {
                 $state.go('np.newUser');
-            } else if ($rootScope.np.auth.exists && !$rootScope.np.auth.user) {
+            } else if (
+                $rootScope.np.auth.exists &&
+                !$rootScope.np.auth.user
+            ) {
                 $state.go('login');
             }
         });

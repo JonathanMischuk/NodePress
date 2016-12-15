@@ -1,7 +1,10 @@
 var angular = require('angular');
 
 module.exports = angular.module('categories')
-    .controller('AdminGetCategoriesController', AdminGetCategoriesController);
+    .controller(
+        'AdminGetCategoriesController',
+        AdminGetCategoriesController
+    );
 
 function AdminGetCategoriesController (
     AdminUserAuthenticationService,
@@ -26,7 +29,11 @@ function AdminGetCategoriesController (
             vm.selectedCategory = null;
 
             // display success dialog
-            Materialize.toast('Category removed successfully', 4000, 'success');
+            Materialize.toast(
+                'Category removed successfully',
+                4000,
+                'success'
+            );
         });
     }
 

@@ -18,6 +18,7 @@ var db = require('../../../config/admin.server.db'),
         description: {
             type: String
         },
+        children: [String],
         publishDate: {
             type: String,
             default: NpDatesTool.createHumanReadableDate

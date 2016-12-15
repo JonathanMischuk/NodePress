@@ -1,7 +1,10 @@
 var angular = require('angular');
 
 module.exports = angular.module('categories')
-    .controller('AdminNewCategoryController', AdminNewCategoryController);
+    .controller(
+        'AdminNewCategoryController',
+        AdminNewCategoryController
+    );
 
 function AdminNewCategoryController (
     $scope,

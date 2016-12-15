@@ -1,9 +1,15 @@
 var angular = require('angular');
 
 module.exports = angular.module('app')
-    .controller('AdminSecondaryMenuController', AdminSecondaryMenuController);
+    .controller(
+        'AdminSecondaryMenuController',
+        AdminSecondaryMenuController
+    );
 
-function AdminSecondaryMenuController (AdminComponentsService, components) {
+function AdminSecondaryMenuController (
+    AdminComponentsService,
+    components
+) {
     'use strict';
     
     var vm = this,
@@ -12,7 +18,8 @@ function AdminSecondaryMenuController (AdminComponentsService, components) {
             section: 'components-menu'
         };
 
-    vm.activeComponents = AdminComponentsService.getComponentsAttributes(
-        AdminComponentsService.getComponentsBySection(data)
-    );
+    vm.activeComponents =
+        AdminComponentsService.getComponentsAttributes(
+            AdminComponentsService.getComponentsBySection(data)
+        );
 }

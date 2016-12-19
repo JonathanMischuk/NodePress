@@ -2,25 +2,25 @@
     <h1>Edit Category</h1>
 
     <form name="updateCategoryForm"
-          ng-submit="category.updateCategory()"
+          ng-submit="ctrl.acus.updateCategory()"
           novalidate>
 
         <div>
             <label for="title">Category Title</label>
 
             <input type="text"
-                   ng-model="category.category.title"
+                   ng-model="ctrl.acus.category.title"
                    id="title"
                    name="title"
                    required />
 
             <div ng-show="updateCategoryForm.$submitted">
                 <div class="error" ng-show="updateCategoryForm.title.$error.required">
-                    {{ category.errors.title.invalid }}
+                    {{ ctrl.acus.errors.title.invalid }}
                 </div>
 
-                <div class="error" ng-show="category.errorTitle">
-                    {{ category.errors.title.unique }}
+                <div class="error" ng-show="ctrl.acus.errorTitle">
+                    {{ ctrl.acus.errors.title.unique }}
                 </div>
             </div>
         </div>
@@ -29,23 +29,39 @@
             <label for="slug">Slug</label>
 
             <input type="text"
-                   ng-model="category.category.slug"
+                   ng-model="ctrl.acus.category.slug"
                    id="slug"
-                   create-slug="category.category.title"
+                   create-slug="ctrl.acus.category.title"
                    readonly="readonly" />
         </div>
 
         <div>
             <label for="description">Description</label>
 
-            <textarea class="materialize-textarea last"
-                      ng-model="category.category.description"
+            <textarea class="materialize-textarea"
+                      ng-model="ctrl.acus.category.description"
                       id="description">
             </textarea>
         </div>
 
+        <div>
+            <label for="pages">Pages</label>
+
+            <select multiple
+                    id="pages"
+                    class="last browser-default"
+                    ng-if="ctrl.acus.pages.$resolved && ctrl.acus.category.$resolved"
+                    ng-model="ctrl.acus.category.children"
+                    ng-options="page as page.title for page in ctrl.acus.pages track by page.title">
+
+                <option disabled value="">Select pages to categorize</option>
+            </select>
+        </div>
+
         <div class="button-group under-content">
-            <button type="submit">
+            <button type="submit"
+                    ng-disabled="!updateCategoryForm.$valid">
+
                 <i class="material-icons content-icon">done</i>
 
                 <span>Update</span>

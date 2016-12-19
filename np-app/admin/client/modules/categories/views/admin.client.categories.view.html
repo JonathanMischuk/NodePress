@@ -32,16 +32,17 @@
             </div>
         </div>
 
-        <div ng-if="!categories.categories.length"
+        <div ng-if="!ctrl.acls.categories.length"
              class="collection-item">
 
             <p>No Categories.
-                <a ui-sref="np.newCategory">Create new category</a>?</p>
+                <a ui-sref="np.newCategory">Create new category</a>?
+            </p>
         </div>
 
-        <div ng-repeat="category in categories.categories" class="collection-item">
+        <div ng-repeat="category in ctrl.acls.categories" class="collection-item">
             <span class="badge">
-                <i ng-click="categories.setSelectedCategory(category)"
+                <i ng-click="ctrl.acls.setSelectedCategory(category)"
                    class="material-icons delete tooltipped modal-trigger"
                    data-position="top"
                    data-delay="50"
@@ -54,6 +55,7 @@
                    data-position="top"
                    data-delay="50"
                    data-tooltip="Edit category">
+
                     <i class="material-icons edit">edit</i>
                 </a>
             </span>
@@ -92,7 +94,7 @@
 
             <div class="button-group under-content">
                 <div class="left">
-                    <button ng-click="categories.removeCategory()"
+                    <button ng-click="ctrl.acls.removeCategory()"
                             class="modal-close">
 
                         <i class="material-icons content-icon">delete</i>

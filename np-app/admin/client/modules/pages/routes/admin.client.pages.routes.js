@@ -19,7 +19,7 @@ function adminPageRoutes ($stateProvider, $urlRouterProvider) {
             },
             resolve: {
                 pages: function (AdminPagesAPIService) {
-                    return AdminPagesAPIService.query()
+                    return AdminPagesAPIService.query();
                 }
             }
         })

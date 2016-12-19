@@ -8,8 +8,8 @@ fs.readdirSync(__dirname + '/np-dev/automation/gulp/admin').forEach(function (ta
     require('./np-dev/automation/gulp/admin/' + task);
 });
 
-gulp.task('watch:bundleAdmin', ['bundleAdmin'], function () {
-    gulp.watch('np-app/admin/client/modules/**/*.js', ['bundleAdmin']);
+gulp.task('watch:bundle', ['bundle'], function () {
+    gulp.watch('np-app/admin/client/modules/**/*.js', ['bundle']);
 });
 
 // Admin LESS compilation

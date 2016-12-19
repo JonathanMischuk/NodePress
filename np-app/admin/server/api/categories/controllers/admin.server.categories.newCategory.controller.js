@@ -7,6 +7,7 @@ module.exports = function (req, res) {
     var category = new models.Category({
         createdBy: req.body.createdBy,
         title: req.body.title,
+        children: req.body.children,
         slug: req.body.slug,
         description: req.body.description
     });

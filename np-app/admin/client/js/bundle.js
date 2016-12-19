@@ -50,7 +50,7 @@
 
 	// main angular admin module
 	__webpack_require__(3)();
-	__webpack_require__(123);
+	__webpack_require__(126);
 
 
 
@@ -32984,10 +32984,10 @@
 	        __webpack_require__(53),
 	        __webpack_require__(71),
 	        __webpack_require__(84),
-	        __webpack_require__(94),
-	        __webpack_require__(104),
-	        __webpack_require__(115),
-	        __webpack_require__(118)
+	        __webpack_require__(97),
+	        __webpack_require__(107),
+	        __webpack_require__(118),
+	        __webpack_require__(121)
 	    ];
 
 	    angular.module('admin', modules);
@@ -44177,10 +44177,10 @@
 	    };
 
 	    function link (scope, elem, attrs, ngModel) {
-	        $timeout(create);
-
 	        if (ngModel) {
 	            ngModel.$render = create;
+	        } else {
+	            $timeout(create);
 	        }
 
 	        function create() {
@@ -46128,7 +46128,7 @@
 	Modules.registerModule('categories');
 	__webpack_require__(85);
 	__webpack_require__(87);
-	__webpack_require__(89);
+	__webpack_require__(93);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'categories';
@@ -46149,9 +46149,6 @@
 
 	var angular = __webpack_require__(1);
 
-	module.exports = angular.module('categories')
-	    .config(adminCategoryRoutes);
-
 	function adminCategoryRoutes (
 	    $stateProvider, 
 	    $urlRouterProvider
@@ -46166,7 +46163,7 @@
 	            views: {
 	                'innerContent': {
 	                    templateUrl: 'admin.client.categories.view.html',
-	                    controller: 'AdminGetCategoriesController as categories'
+	                    controller: 'AdminGetCategoriesController as ctrl'
 	                }
 	            },            
 	            resolve: {
@@ -46179,7 +46176,13 @@
 	            url: '^/categories/new-category/',
 	            views: {
 	                'innerContent': {
-	                    templateUrl: 'admin.client.categoriesNew.view.html'
+	                    templateUrl: 'admin.client.categoriesNew.view.html',
+	                    controller: 'AdminNewCategoryController as ctrl'
+	                }
+	            },
+	            resolve: {
+	                pages: function (AdminPagesAPIService) {
+	                    return AdminPagesAPIService.query();
 	                }
 	            }
 	        })
@@ -46188,7 +46191,7 @@
 	            views: {
 	                'innerContent': {
 	                    templateUrl: 'admin.client.categoriesEdit.view.html',
-	                    controller: 'AdminUpdateCategoryController as category'
+	                    controller: 'AdminUpdateCategoryController as ctrl'
 	                }
 	            },
 	            resolve: {
@@ -46196,10 +46199,16 @@
 	                    return AdminCategoriesAPIService.get({
 	                        categoryId: $stateParams.categoryId
 	                    });
+	                },
+	                pages: function (AdminPagesAPIService) {
+	                    return AdminPagesAPIService.query();
 	                }
 	            }
 	        })
 	}
+
+	module.exports = angular.module('categories')
+	    .config(adminCategoryRoutes);
 
 
 /***/ },
@@ -46209,6 +46218,9 @@
 	'use strict';
 
 	__webpack_require__(88);
+	__webpack_require__(89);
+	__webpack_require__(90);
+	__webpack_require__(92);
 
 
 /***/ },
@@ -46235,48 +46247,32 @@
 
 /***/ },
 /* 89 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	'use strict';
+	function AdminCategoriesListService () {
+	    var sv = {};
 
-	__webpack_require__(90);
-	__webpack_require__(91);
-	__webpack_require__(93);
+	    sv.categories = null;
+	    sv.selectedCategory = null;
 
+	    sv.removeCategory = removeCategory;
+	    sv.setCategories = setCategories;
+	    sv.setSelectedCategory = setSelectedCategory;
 
-/***/ },
-/* 90 */
-/***/ function(module, exports, __webpack_require__) {
+	    function setCategories (categories) {
+	        sv.categories = categories;
+	    }
 
-	var angular = __webpack_require__(1);
-
-	module.exports = angular.module('categories')
-	    .controller(
-	        'AdminGetCategoriesController',
-	        AdminGetCategoriesController
-	    );
-
-	function AdminGetCategoriesController (
-	    AdminUserAuthenticationService,
-	    categories
-	) {
-	    'use strict';
-
-	    var vm = this;
-
-	    vm.categories = categories;
-	    vm.removeCategory = removeCategory;
-	    vm.setSelectedCategory = setSelectedCategory;
-	    vm.selectedCategory = null;
-
-	    AdminUserAuthenticationService();
+	    function setSelectedCategory (category) {
+	        sv.selectedCategory = category;
+	    }
 
 	    function removeCategory() {
-	        var index = vm.categories.indexOf(vm.selectedCategory);
-	        
-	        vm.selectedCategory.$remove(function () {
-	            vm.categories.splice(index, 1);
-	            vm.selectedCategory = null;
+	        var index = sv.categories.indexOf(sv.selectedCategory);
+
+	        sv.selectedCategory.$remove(function () {
+	            sv.categories.splice(index, 1);
+	            sv.selectedCategory = null;
 
 	            // display success dialog
 	            Materialize.toast(
@@ -46286,67 +46282,74 @@
 	            );
 	        });
 	    }
-
-	    function setSelectedCategory (category) {
-	        vm.selectedCategory = category;
-	    }
+	    
+	    return sv;
 	}
+
+	AdminCategoriesListService.$inject = [];
+
+	module.exports = angular.module('categories')
+	    .factory('AdminCategoriesListService', AdminCategoriesListService);
+
+
+/***/ },
+/* 90 */
+/***/ function(module, exports, __webpack_require__) {
+
+	function AdminCategoriesNewService (
+	    AdminCategoriesAPIService,
+	    $location,
+	    $rootScope
+	) {
+	    var sv = {};
+
+	    sv.category = {};
+	    sv.pages = null;
+	    sv.errorTitle = null;
+	    sv.errors = __webpack_require__(91);
+
+	    sv.setPages = setPages;
+	    sv.newCategory = newCategory;
+
+	    function setPages (pages) {
+	        sv.pages = pages;
+	    }
+
+	    function newCategory () {
+	        console.log(sv.category.children);
+
+	        var Category = new AdminCategoriesAPIService({
+	            title: sv.category.title,
+	            createdBy: $rootScope.np.auth.user.username,
+	            description: sv.category.description,
+	            children: sv.category.children,
+	            slug: sv.category.slug
+	        });
+
+	        Category.$save()
+	            .then(function (category) {
+	                $location.path('/categories/' + category._id);
+	            })
+	            .catch(function (error) {
+	                sv.errorTitle = error.data.errors.title;
+	            });
+	    }
+	    
+	    return sv;
+	}
+
+	AdminCategoriesNewService.$inject = [
+	    'AdminCategoriesAPIService',
+	    '$location',
+	    '$rootScope'
+	];
+
+	module.exports = angular.module('categories')
+	    .factory('AdminCategoriesNewService', AdminCategoriesNewService);
 
 
 /***/ },
 /* 91 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var angular = __webpack_require__(1);
-
-	module.exports = angular.module('categories')
-	    .controller(
-	        'AdminNewCategoryController',
-	        AdminNewCategoryController
-	    );
-
-	function AdminNewCategoryController (
-	    $scope,
-	    $location,
-	    $rootScope,
-	    AdminCategoriesAPIService,
-	    AdminUserAuthenticationService
-	) {
-	    'use strict';
-
-	    var vm = this;
-
-	    vm.category = {};
-	    vm.newCategory = newCategory;
-	    vm.errorTitle = null;
-	    vm.errors = __webpack_require__(92);
-
-	    AdminUserAuthenticationService();
-
-	    function newCategory () {
-	        if ($scope.newCategoryForm.$valid) {
-
-	            var Category = new AdminCategoriesAPIService({
-	                title: vm.category.title,
-	                createdBy: $rootScope.np.auth.user.username,
-	                description: vm.category.description,
-	                slug: vm.category.slug
-	            });
-
-	            Category.$save()
-	                .then(function (category) {
-	                    $location.path('/categories/' + category._id);
-	                })
-	                .catch(function (error) {
-	                    vm.errorTitle = error.data.errors.title;
-	                });
-	        }
-	    }
-	}
-
-
-/***/ },
-/* 92 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -46360,23 +46363,144 @@
 
 
 /***/ },
+/* 92 */
+/***/ function(module, exports, __webpack_require__) {
+
+	function AdminCategoriesUpdateService (
+	    AdminUtilitiesServices,
+	    $rootScope
+	) {
+	    var sv = {};
+
+	    sv.pages = null;
+	    sv.category = null;
+	    sv.errors = __webpack_require__(91);
+
+	    sv.setPages = setPages;
+	    sv.setCategory = setCategory;
+	    sv.updateCategory = updateCategory;
+	    sv.isSelected = isSelected;
+
+	    function setPages (pages) {
+	        console.log(pages);
+	        sv.pages = pages/*.map(function (page) {
+	            return page.title;
+	        })*/;
+	    }
+
+	    function setCategory (category) {
+	        sv.category = category;
+	    }
+
+	    function isSelected (page) {
+	        return true;
+	    }
+
+	    function updateCategory () {
+	        var date = AdminUtilitiesServices.createHumanReadableDate();
+
+	        sv.category.modifiedBy = $rootScope.np.auth.user.username;
+	        sv.category.modifiedDate = date;
+
+	        sv.category.$update()
+	            .then(function () {
+
+	                // display success dialog
+	                Materialize.toast(
+	                    'Category updated successfully',
+	                    4000,
+	                    'success'
+	                );
+	            })
+	            .catch(function (error) {
+	                sv.errorTitle = error;
+	            });
+	    }
+	    
+	    return sv;
+	}
+
+	AdminCategoriesUpdateService.$inject = [
+	    'AdminUtilitiesServices',
+	    '$rootScope'
+	];
+
+	module.exports = angular.module('categories')
+	    .factory('AdminCategoriesUpdateService', AdminCategoriesUpdateService);
+
+
+/***/ },
 /* 93 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(94);
+	__webpack_require__(95);
+	__webpack_require__(96);
+
+
+/***/ },
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
 
+	function AdminGetCategoriesController (
+	    AdminUserAuthenticationService,
+	    AdminCategoriesListService,
+	    categories
+	) {
+	    'use strict';
+
+	    var vm = this;
+
+	    AdminUserAuthenticationService();
+
+	    vm.acls = AdminCategoriesListService;
+	    vm.acls.setCategories(categories);
+	}
+
 	module.exports = angular.module('categories')
-	    .controller(
-	        'AdminUpdateCategoryController',
-	        AdminUpdateCategoryController
-	    );
+	    .controller('AdminGetCategoriesController', AdminGetCategoriesController);
+
+
+/***/ },
+/* 95 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(1);
+
+	function AdminNewCategoryController (
+	    AdminCategoriesNewService,
+	    AdminUserAuthenticationService,
+	    pages
+	) {
+	    'use strict';
+
+	    var vm = this;
+
+	    AdminUserAuthenticationService();
+
+	    vm.acns = AdminCategoriesNewService;
+	    vm.acns.setPages(pages);
+	}
+
+	module.exports = angular.module('categories')
+	    .controller('AdminNewCategoryController', AdminNewCategoryController);
+
+
+/***/ },
+/* 96 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(1);
 
 	function AdminUpdateCategoryController (
-	    $scope,
-	    $rootScope,
 	    AdminUserAuthenticationService,
-	    AdminUtilitiesServices,
-	    category
+	    AdminCategoriesUpdateService,
+	    category,
+	    pages
 	) {
 	    'use strict';
 
@@ -46384,41 +46508,17 @@
 
 	    var vm = this;
 
-	    vm.category = category;
-	    vm.updateCategory = updateCategory;
-	    vm.errors = __webpack_require__(92);
-
-	    function updateCategory () {
-	        if ($scope.updateCategoryForm.$valid) {
-
-	            // create human readable date for modified date
-	            var date = AdminUtilitiesServices.createHumanReadableDate();
-
-	            vm.category.modifiedBy = $rootScope.np.auth.user.username;
-	            vm.category.modifiedDate = date;
-
-	            vm.category.$update()
-	                .then(function () {
-
-	                    // display success dialog
-	                    Materialize.toast(
-	                        'Category updated successfully',
-	                        4000,
-	                        'success'
-	                    );
-
-	                    $scope.updateCategoryForm.$setPristine();
-	                })
-	                .catch(function (error) {
-	                    vm.errorTitle = error;
-	                });
-	        }
-	    }
+	    vm.acus = AdminCategoriesUpdateService;
+	    vm.acus.setPages(pages);
+	    vm.acus.setCategory(category);
 	}
+
+	module.exports = angular.module('categories')
+	    .controller('AdminUpdateCategoryController', AdminUpdateCategoryController);
 
 
 /***/ },
-/* 94 */
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46427,25 +46527,25 @@
 
 	// angular pages module and module accessories
 	Modules.registerModule('pages');
-	__webpack_require__(95);
-	__webpack_require__(97);
-	__webpack_require__(99);
+	__webpack_require__(98);
+	__webpack_require__(100);
+	__webpack_require__(102);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'pages';
 
 
 /***/ },
-/* 95 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(96);
+	__webpack_require__(99);
 
 
 /***/ },
-/* 96 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -46469,7 +46569,7 @@
 	            },
 	            resolve: {
 	                pages: function (AdminPagesAPIService) {
-	                    return AdminPagesAPIService.query()
+	                    return AdminPagesAPIService.query();
 	                }
 	            }
 	        })
@@ -46516,16 +46616,16 @@
 
 
 /***/ },
-/* 97 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(98);
+	__webpack_require__(101);
 
 
 /***/ },
-/* 98 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46547,18 +46647,18 @@
 
 
 /***/ },
-/* 99 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(100);
-	__webpack_require__(101);
 	__webpack_require__(103);
+	__webpack_require__(104);
+	__webpack_require__(106);
 
 
 /***/ },
-/* 100 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -46600,7 +46700,7 @@
 
 
 /***/ },
-/* 101 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -46628,7 +46728,7 @@
 	    vm.newPage = newPage;
 	    vm.categories = categories;
 	    vm.sidebars = sidebars;
-	    vm.errors = __webpack_require__(102);
+	    vm.errors = __webpack_require__(105);
 
 	    // create host url to view front end page
 	    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
@@ -46663,7 +46763,7 @@
 
 
 /***/ },
-/* 102 */
+/* 105 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -46677,7 +46777,7 @@
 
 
 /***/ },
-/* 103 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -46703,7 +46803,7 @@
 
 	    vm.page = page;
 	    vm.updatePage = updatePage;
-	    vm.errors = __webpack_require__(102);
+	    vm.errors = __webpack_require__(105);
 	    vm.frontEndURL = AdminUtilitiesServices.createHostURL('/');
 	    vm.categories = categories;
 	    vm.sidebars = sidebars;
@@ -46741,7 +46841,7 @@
 
 
 /***/ },
-/* 104 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46750,26 +46850,26 @@
 
 	// angular sidebars module and module accessories
 	Modules.registerModule('sidebars');
-	__webpack_require__(105);
-	__webpack_require__(107);
-	__webpack_require__(109);
-	__webpack_require__(113);
+	__webpack_require__(108);
+	__webpack_require__(110);
+	__webpack_require__(112);
+	__webpack_require__(116);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'sidebars';
 
 
 /***/ },
-/* 105 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(106);
+	__webpack_require__(109);
 
 
 /***/ },
-/* 106 */
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46850,16 +46950,16 @@
 
 
 /***/ },
-/* 107 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(108);
+	__webpack_require__(111);
 
 
 /***/ },
-/* 108 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46881,18 +46981,18 @@
 
 
 /***/ },
-/* 109 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(110);
-	__webpack_require__(111);
-	__webpack_require__(112);
+	__webpack_require__(113);
+	__webpack_require__(114);
+	__webpack_require__(115);
 
 
 /***/ },
-/* 110 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -46932,7 +47032,7 @@
 
 
 /***/ },
-/* 111 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47012,7 +47112,7 @@
 
 
 /***/ },
-/* 112 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -47110,16 +47210,16 @@
 
 
 /***/ },
-/* 113 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(114);
+	__webpack_require__(117);
 
 
 /***/ },
-/* 114 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47148,7 +47248,7 @@
 
 
 /***/ },
-/* 115 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47157,23 +47257,23 @@
 
 	// angular sidebars module and module accessories
 	Modules.registerModule('plugins');
-	__webpack_require__(116);
+	__webpack_require__(119);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'plugins';
 
 
 /***/ },
-/* 116 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(117);
+	__webpack_require__(120);
 
 
 /***/ },
-/* 117 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47203,7 +47303,7 @@
 
 
 /***/ },
-/* 118 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47212,23 +47312,23 @@
 
 	// angular pages module and module accessories
 	Modules.registerModule('footer');
-	__webpack_require__(119);
+	__webpack_require__(122);
 	/*require('./services');*/
-	__webpack_require__(121);
+	__webpack_require__(124);
 
 	// exports module name as string for admin module dependency injection
 	module.exports = 'footer';
 
 
 /***/ },
-/* 119 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(120);
+	__webpack_require__(123);
 
 
 /***/ },
-/* 120 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47255,14 +47355,14 @@
 
 
 /***/ },
-/* 121 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(122)
+	__webpack_require__(125)
 
 
 /***/ },
-/* 122 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47338,7 +47438,7 @@
 
 
 /***/ },
-/* 123 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

@@ -1,8 +1,5 @@
 var angular = require('angular');
 
-module.exports = angular.module('categories')
-    .config(adminCategoryRoutes);
-
 function adminCategoryRoutes (
     $stateProvider, 
     $urlRouterProvider
@@ -17,7 +14,7 @@ function adminCategoryRoutes (
             views: {
                 'innerContent': {
                     templateUrl: 'admin.client.categories.view.html',
-                    controller: 'AdminGetCategoriesController as categories'
+                    controller: 'AdminGetCategoriesController as ctrl'
                 }
             },            
             resolve: {
@@ -30,7 +27,13 @@ function adminCategoryRoutes (
             url: '^/categories/new-category/',
             views: {
                 'innerContent': {
-                    templateUrl: 'admin.client.categoriesNew.view.html'
+                    templateUrl: 'admin.client.categoriesNew.view.html',
+                    controller: 'AdminNewCategoryController as ctrl'
+                }
+            },
+            resolve: {
+                pages: function (AdminPagesAPIService) {
+                    return AdminPagesAPIService.query();
                 }
             }
         })
@@ -39,7 +42,7 @@ function adminCategoryRoutes (
             views: {
                 'innerContent': {
                     templateUrl: 'admin.client.categoriesEdit.view.html',
-                    controller: 'AdminUpdateCategoryController as category'
+                    controller: 'AdminUpdateCategoryController as ctrl'
                 }
             },
             resolve: {
@@ -47,7 +50,13 @@ function adminCategoryRoutes (
                     return AdminCategoriesAPIService.get({
                         categoryId: $stateParams.categoryId
                     });
+                },
+                pages: function (AdminPagesAPIService) {
+                    return AdminPagesAPIService.query();
                 }
             }
         })
 }
+
+module.exports = angular.module('categories')
+    .config(adminCategoryRoutes);

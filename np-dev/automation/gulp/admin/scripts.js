@@ -8,7 +8,7 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     browserify = require('gulp-browserify');
 
-gulp.task('bundleAdmin', function () {
+gulp.task('bundle', function () {
     gulp.src('np-app/admin/client/modules/index.js')
         .pipe(webpack())
         .pipe(concat('bundle.js'))

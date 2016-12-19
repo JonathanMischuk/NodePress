@@ -1,28 +1,26 @@
-<div class="page-gutter-right"
-     ng-controller="AdminNewCategoryController as category">
-
+<div class="page-gutter-right">
     <h1>New Category</h1>
 
     <form name="newCategoryForm"
-          ng-submit="category.newCategory()"
+          ng-submit="ctrl.acns.newCategory()"
           novalidate>
 
         <div>
             <label for="title">Category Title</label>
 
             <input type="text"
-                   ng-model="category.category.title"
+                   ng-model="ctrl.acns.category.title"
                    id="title"
                    name="title"
                    required />
 
             <div ng-show="newCategoryForm.$submitted">
                 <div class="error" ng-show="newCategoryForm.title.$error.required">
-                    {{ category.errors.title.invalid }}
+                    {{ ctrl.acns.errors.title.invalid }}
                 </div>
 
-                <div class="error" ng-show="category.errorTitle">
-                    {{ category.errors.title.unique }}
+                <div class="error" ng-show="ctrl.acns.errorTitle">
+                    {{ ctrl.acns.errors.title.unique }}
                 </div>
             </div>
         </div>
@@ -31,9 +29,9 @@
             <label for="slug">Slug</label>
 
             <input type="text"
-                   ng-model="category.category.slug"
+                   ng-model="ctrl.acns.category.slug"
                    id="slug"
-                   create-slug="category.category.title"
+                   create-slug="ctrl.acns.category.title"
                    readonly="readonly" />
         </div>
 
@@ -41,13 +39,29 @@
             <label for="description">Description</label>
 
             <textarea class="materialize-textarea last"
-                      ng-model="category.category.description"
+                      ng-model="ctrl.acns.category.description"
                       id="description">
             </textarea>
         </div>
 
+        <div>
+            <label for="pages">Pages</label>
+
+            <select multiple
+                    id="pages"
+                    class="last"
+                    ng-if="ctrl.acns.pages.$resolved"
+                    ng-model="ctrl.acns.category.children"
+                    ng-options="page as page.title for page in ctrl.acns.pages track by page._id">
+
+                <option disabled selected value="">Select pages to categorize</option>
+            </select>
+        </div>
+
         <div class="button-group under-content">
-            <button type="submit">
+            <button type="submit"
+                    ng-disabled="!newCategoryForm.$valid">
+
                 <i class="material-icons content-icon">done</i>
 
                 <span>Publish</span>

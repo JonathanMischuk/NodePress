@@ -13,10 +13,10 @@ function select ($timeout) {
     };
 
     function link (scope, elem, attrs, ngModel) {
-        $timeout(create);
-
         if (ngModel) {
             ngModel.$render = create;
+        } else {
+            $timeout(create);
         }
 
         function create() {

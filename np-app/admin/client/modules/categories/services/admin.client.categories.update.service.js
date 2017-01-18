@@ -11,20 +11,24 @@ function AdminCategoriesUpdateService (
     sv.setPages = setPages;
     sv.setCategory = setCategory;
     sv.updateCategory = updateCategory;
+    sv.getCategoryChildrenName = getCategoryChildrenName;
     sv.isSelected = isSelected;
 
     function setPages (pages) {
-        console.log(pages);
-        sv.pages = pages/*.map(function (page) {
-            return page.title;
-        })*/;
+        sv.pages = pages;
     }
 
     function setCategory (category) {
         sv.category = category;
     }
 
-    function isSelected (page) {
+    function getCategoryChildrenName (category) {
+        return category.children.map(function (category) {
+            return category.slug;
+        });
+    }
+
+    function isSelected () {
         return true;
     }
 
@@ -34,19 +38,19 @@ function AdminCategoriesUpdateService (
         sv.category.modifiedBy = $rootScope.np.auth.user.username;
         sv.category.modifiedDate = date;
 
-        sv.category.$update()
-            .then(function () {
-
-                // display success dialog
-                Materialize.toast(
-                    'Category updated successfully',
-                    4000,
-                    'success'
-                );
-            })
-            .catch(function (error) {
-                sv.errorTitle = error;
-            });
+        // sv.category.$update()
+        //     .then(function () {
+        //
+        //         // display success dialog
+        //         Materialize.toast(
+        //             'Category updated successfully',
+        //             4000,
+        //             'success'
+        //         );
+        //     })
+        //     .catch(function (error) {
+        //         sv.errorTitle = error;
+        //     });
     }
     
     return sv;

@@ -20,7 +20,7 @@ var db = require('../../../config/admin.server.db'),
         },
         skin: {
             type: String,
-            default: 'default'
+            default: 'dark'
         },
         plugins: [],
         publishDate: {

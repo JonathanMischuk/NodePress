@@ -1,18 +1,7 @@
+@import "../partials/all.less";
 
 @positive: #76ff03;
 @negative: #ffb300;
-
-[ng\:cloak], [ng-cloak], .ng-cloak {
-    display: none !important;
-}
-
-.ng-hide.ng-hide-animate{
-    display: none !important;
-}
-
-.ng-invalid-add-active {
-    //opacity: 0;
-}
 
 body {
     background: rgba(0, 0, 0, 0.87);
@@ -28,9 +17,20 @@ input, select, textarea {
 
 select {
     height: auto;
+    min-height: 200px;
+    background: #1C1C1C;
+    border: none;
 
     option {
-        padding: 5px;
+        padding: 10px;
+        color: #fff;
+    }
+}
+
+label {
+    &.multiple-select-label {
+        display: block;
+        margin-bottom: 15px;
     }
 }
 
@@ -133,16 +133,6 @@ label {
     }
 }
 
-.primary-menu {
-    position: fixed;
-    top: 0;
-    z-index: 1;
-
-    .nav-wrapper {
-        background-color: rgba(0, 0, 0, 0.15);
-    }
-}
-
 .secondary-menu {
     position: fixed;
     top: 0;
@@ -187,8 +177,7 @@ label {
 }
 
 .content {
-    margin-top: 125px;
-    padding: 0 58px 30px 290px;
+    padding: 70px 58px 30px 290px;
 }
 
 .sidebar-items-container,
@@ -531,14 +520,7 @@ button,
 }
 
 .nav-wrapper {
-    .settings-icon {
-        .material-icons {
-            position: absolute;
-            left: 15px;
-            width: 30px;
-            height: 30px;
-        }
-    }
+
 }
 
 .actions-list-header {
@@ -756,30 +738,6 @@ button,
     background-color: #ffc66d !important;
 }
 
-.dropdown-content {
-    background: #3C3F41;
-
-    li {
-        &:hover {
-            background: #2b2b2b;
-        }
-
-        &.selected,
-        &.active.selected {
-            background: #2b2b2b;
-        }
-
-        &.active {
-            background-color: #3C3F41;
-        }
-    }
-}
-
-.dropdown-content li > a,
-.dropdown-content li > span {
-    color: rgba(255, 255, 255, 0.75);
-}
-
 .backdrop {
     background-color: rgba(0, 0, 0, 0.15);
 }
@@ -845,132 +803,4 @@ textarea.materialize-textarea:focus:not([readonly]) {
 
 input[type=text]:focus:not([readonly])+label {
     color: #ffc66d;
-}
-
-/************************************************
- ***** CKEditor
- ***********************************************/
-
-#cke_body {
-    margin-top: 15px;
-}
-
-.cke_top {
-    background: #3C3F41 !important;
-    border-bottom: none !important;
-}
-
-.cke_toolgroup {
-    background: #2b2b2b !important;
-    border: none !important;
-}
-
-.cke_combo_button {
-    background: #2b2b2b !important;
-    border: none !important;
-}
-
-.cke_button_label {
-    color: #fff !important;
-    text-shadow: none !important;
-}
-
-.cke_combo_text {
-    color: #fff !important;
-    text-shadow: none !important;
-}
-
-.cke_contents {
-    min-height: 350px;
-}
-
-.cke_source {
-    padding: 15px 10px !important;
-    color: #fff !important;
-    background-color: #2b2b2b !important;
-}
-
-.cke_bottom {
-    background: #3C3F41 !important;
-    border-top: none !important;
-}
-
-.cke_path_item,
-.cke_path_empty {
-    color: #fff !important;
-    text-shadow: none !important;
-}
-
-.cke_wysiwyg_frame,
-.cke_wysiwyg_div {
-    background-color: #2B2B2B !important;
-}
-
-.cke_button_on {
-    background: #9C27B0 !important;
-}
-
-a.cke_button_off:hover,
-a.cke_button_off:focus,
-a.cke_button_off:active {
-    background: #3C3F41 !important;
-}
-
-/************************************************
- ***** jQuery Sortable
- ***********************************************/
-
-.sortable {
-    div {
-        cursor: move;
-    }
-}
-
-/************************************************
- ***** Mixins
- ***********************************************/
-
-.transition(@style: all, @duration: 0.15s, @effect: ease-in-out) {
-    -webkit-transition: @style @duration @effect;
-    -moz-transition: @style @duration @effect;
-    -ms-transition: @style @duration @effect;
-    -o-transition: @style @duration @effect;
-    transition: @style @duration @effect;
-}
-
-.default-clear() {
-    display: block;
-    height: 0;
-    content: " ";
-    font-size: 0;
-    clear: both;
-    visibility: hidden;
-}
-
-/************************************************
- ***** AngularJS View Transition Effects
- ***********************************************/
-
-.view-fade-in {
-    &.ng-enter {
-        position: relative;
-        opacity: 0;
-        .transition();
-
-        &.ng-enter-active {
-            top: 0; left: 0; opacity: 1;
-        }
-    }
-
-    &.ng-leave {
-        top: 0;
-        left: 0;
-        opacity: 0;
-
-        &.ng-leave-active {
-            top: 0;
-            left: 0;
-            opacity: 1;
-        }
-    }
 }

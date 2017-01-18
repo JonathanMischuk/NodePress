@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 module.exports = angular.module('utils')
-    .directive('popupTrigger', popupTrigger);
+    .directive('popupTriggeree', popupTrigger);
 
 function popupTrigger ($timeout) {
     'use strict';

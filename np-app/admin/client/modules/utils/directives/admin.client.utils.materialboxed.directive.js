@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 module.exports = angular.module('utils')
-    .directive('materialboxed', materialboxed);
+    .directive('materialboxedee', materialboxed);
 
 function materialboxed ($timeout) {
     return {

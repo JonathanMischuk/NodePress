@@ -7,7 +7,7 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('adminSkinDark', function () {
-    gulp.src('np-dev/pre-processors/less/dark.skin.less')
+    gulp.src('np-dev/pre-processors/less/skins/dark.skin.less')
         .pipe(sourcemaps.init())
         .pipe(less())
         .pipe(concatCSS('app.min.css'))

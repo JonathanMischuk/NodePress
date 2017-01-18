@@ -9,6 +9,7 @@ module.exports = function () {
         require('angular-ui-router'),
         require('angular-animate'),
         require('angular-sanitize'),
+        require('angular-material'),
         require('./app'),
         require('./utils'),
         require('./settings'),

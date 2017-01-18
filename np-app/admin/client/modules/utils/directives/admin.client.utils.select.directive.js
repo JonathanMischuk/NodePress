@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 module.exports = angular.module('utils')
-    .directive('select', select);
+    .directive('selectee', select);
 
 function select ($timeout) {
     return {
@@ -15,9 +15,9 @@ function select ($timeout) {
     function link (scope, elem, attrs, ngModel) {
         if (ngModel) {
             ngModel.$render = create;
-        } else {
-            $timeout(create);
         }
+
+        $timeout(create);
 
         function create() {
             elem.material_select();

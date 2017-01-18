@@ -6,8 +6,8 @@ var gulp = require('gulp'),
     concatCSS = require('gulp-concat-css'),
     sourcemaps = require('gulp-sourcemaps');
 
-gulp.task('adminSkinDefault', function () {
-    gulp.src('np-dev/pre-processors/less/default.skin.less')
+gulp.task('adminSkinLight', function () {
+    gulp.src('np-dev/pre-processors/less/skins/default.skin.less')
         .pipe(sourcemaps.init())
         .pipe(less())
         .pipe(concatCSS('app.min.css'))

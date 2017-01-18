@@ -1,8 +1,5 @@
 var angular = require('angular');
 
-module.exports = angular.module('app')
-    .factory('AdminComponentsService', AdminComponentsService);
-
 function AdminComponentsService ($http) {
     'use strict';
 
@@ -117,3 +114,6 @@ function AdminComponentsService ($http) {
 
     return adminComponentsService;
 }
+
+module.exports = angular.module('app')
+    .factory('AdminComponentsService', AdminComponentsService);

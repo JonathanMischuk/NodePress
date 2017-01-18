@@ -44,12 +44,13 @@ module.exports = function (req, res) {
 
             return menuLocations;
         }).then(function (menuLocations) {
-            api.menusAPI.models.Menu.findOne({ title: menuLocations[0].primary },
-                function (err, menu) {
-                    if (err) callback(err);
-                    
-                    callback(null, menu);
-                });
+            api.menusAPI.models.Menu.findOne({
+                title: menuLocations[0].primary
+            }, function (err, menu) {
+                if (err) callback(err);
+
+                callback(null, menu);
+            });
         });
     }
 

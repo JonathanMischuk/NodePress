@@ -1,38 +1,37 @@
 {% extends "templates/admin.server.default.template.html" %}
 
 {% block primaryMenu %}
-<nav class="primary-menu" ng-if="np.auth.user">
+<div class="primary-menu" ng-if="np.auth.user">
     <div class="nav-wrapper">
-        <a class="brand-logo tooltipped"
-           ui-sref="np.dashboard"
-           data-position="right"
-           data-delay="50"
-           data-tooltip="Dashboard">NodePress</a>
-
         <a ui-sref="np.settings.general"
            class="settings-icon">
 
             <i class="material-icons">settings</i>
         </a>
 
-        <ul id="dropdown-account" class="dropdown-content">
-            <li><a ng-href="/np-admin/users/{% raw %}{{ np.auth.user.username }}{% endraw %}">Profile</a></li>
-            <li><a ui-sref="np.settings.general">Settings</a></li>
-            <li><a href="/auth/logout">Logout</a></li>
-        </ul>
+        <a class="brand-logo"
+           ui-sref="np.dashboard">NodePress
+        </a>
 
-        <ul class="right">
-            <li>
-                <a class="dropdown-button"
-                   data-activates="dropdown-account">
-                    Howdy, <span ng-bind="np.auth.user.username"></span>
+        <div class="dropdown-account">
+            <ul id="dropdown-account" class="dropdown-content">
+                <li><a ng-href="/np-admin/users/{% raw %}{{ np.auth.user.username }}{% endraw %}">Profile</a></li>
+                <li><a ui-sref="np.settings.general">Settings</a></li>
+                <li><a href="/auth/logout">Logout</a></li>
+            </ul>
 
-                    <i class="material-icons right">arrow_drop_down</i>
-                </a>
-            </li>
-        </ul>
+            <ul class="right">
+                <li>
+                    <a class="dropdown-button">
+                        Howdy, <span ng-bind="np.auth.user.username"></span>
+
+                        <i class="material-icons right">arrow_drop_down</i>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-</nav>
+</div>
 {% endblock %}
 
 {% block secondaryMenu %}

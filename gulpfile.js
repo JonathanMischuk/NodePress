@@ -13,17 +13,9 @@ gulp.task('watch:bundle', ['bundle'], function () {
 });
 
 // Admin LESS compilation
-gulp.task('watch:adminSkinDefault', function () {
-    gulp.watch('np-dev/pre-processors/less/**/*.less', ['adminSkinDefault']);
-});
-
-gulp.task('watch:adminSkinDark', function () {
+gulp.task('watch:adminCSS', function () {
     gulp.watch('np-dev/pre-processors/less/**/*.less', ['adminSkinDark']);
-});
-
-gulp.task('watch:adminSkinsAll', function () {
-    gulp.watch('np-dev/pre-processors/less/**/*.less', ['adminSkinDark']);
-    gulp.watch('np-dev/pre-processors/less/**/*.less', ['adminSkinDefault']);
+    gulp.watch('np-dev/pre-processors/less/**/*.less', ['adminSkinLight']);
 });
 
 // Site Browserify bundle

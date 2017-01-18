@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 module.exports = angular.module('utils')
-    .directive('tooltipped', tooltipped);
+    .directive('tooltippedee', tooltipped);
 
 function tooltipped ($timeout) {
     return {

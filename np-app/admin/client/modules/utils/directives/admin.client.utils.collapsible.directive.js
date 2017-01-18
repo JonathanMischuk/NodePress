@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 module.exports = angular.module('utils')
-    .directive('collapsible', collapsible);
+    .directive('collapsibleee', collapsible);
 
 function collapsible ($timeout) {
     return {

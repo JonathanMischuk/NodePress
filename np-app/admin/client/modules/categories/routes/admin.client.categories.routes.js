@@ -42,17 +42,24 @@ function adminCategoryRoutes (
             views: {
                 'innerContent': {
                     templateUrl: 'admin.client.categoriesEdit.view.html',
-                    controller: 'AdminUpdateCategoryController as ctrl'
-                }
-            },
-            resolve: {
-                category: function ($stateParams, AdminCategoriesAPIService) {
-                    return AdminCategoriesAPIService.get({
-                        categoryId: $stateParams.categoryId
-                    });
-                },
-                pages: function (AdminPagesAPIService) {
-                    return AdminPagesAPIService.query();
+                    controller: 'AdminUpdateCategoryController as ctrl',
+                    resolve: {
+                        AdminCategoriesAPIService: 'AdminCategoriesAPIService',
+                        AdminCategoriesUpdateService: 'AdminCategoriesUpdateService',
+
+                        category: function ($stateParams, AdminCategoriesAPIService) {
+                            var categories = AdminCategoriesAPIService.get({
+                                categoryId: $stateParams.categoryId
+                            });
+
+                            return categories.$promise.then(function (response) {
+                                return response;
+                            });
+                        },
+                        pages: function (AdminPagesAPIService) {
+                            return AdminPagesAPIService.query();
+                        }
+                    }
                 }
             }
         })

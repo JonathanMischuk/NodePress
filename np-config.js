@@ -7,9 +7,9 @@ module.exports = {
         description: 'A simple CMS made with the MEAN stack'
     },
     db: {
-        uri: 'mongodb://localhost/nodepress-multi-apps'
+        uri: 'mongodb://localhost/nodepress-mongo'
     },
-    port: process.env.PORT || 3006,
+    port: process.env.PORT || 3000,
     templateEngine: 'swig',
     sessionSecret: 'nodepress',
     sessionCollection: 'sessions',

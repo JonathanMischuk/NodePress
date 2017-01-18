@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 module.exports = angular.module('utils')
-    .directive('dropdownButton', dropdownButton);
+    .directive('dropdownButtonee', dropdownButton);
 
 function dropdownButton ($timeout) {
     return {

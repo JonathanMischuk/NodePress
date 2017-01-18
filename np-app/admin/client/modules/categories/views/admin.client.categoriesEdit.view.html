@@ -45,17 +45,21 @@
         </div>
 
         <div>
-            <label for="pages">Pages</label>
+            <label for="pages" class="multiple-select-label">Pages</label>
 
-            <select multiple
+            <md-checkbox ng-repeat="child in ctrl.children" ng-model="ctrl.active">
+                Checkbox 1: {{ child }}
+            </md-checkbox>
+
+            <!--<select multiple
                     id="pages"
-                    class="last browser-default"
+                    class="last"
                     ng-if="ctrl.acus.pages.$resolved && ctrl.acus.category.$resolved"
-                    ng-model="ctrl.acus.category.children"
+                    ng-model="ctrl.children"
                     ng-options="page as page.title for page in ctrl.acus.pages track by page.title">
 
                 <option disabled value="">Select pages to categorize</option>
-            </select>
+            </select>-->
         </div>
 
         <div class="button-group under-content">

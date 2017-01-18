@@ -1,15 +1,4 @@
-
-[ng\:cloak], [ng-cloak], .ng-cloak {
-    display: none !important;
-}
-
-.ng-hide.ng-hide-animate{
-    display: none !important;
-}
-
-.ng-invalid-add-active {
-    //opacity: 0;
-}
+@import "../partials/all.less";
 
 table {
     margin-top: 40px;
@@ -85,16 +74,6 @@ h5 {
     line-height: 18px;
 }
 
-.primary-menu {
-    position: fixed;
-    top: 0;;
-    z-index: 1;
-
-    .nav-wrapper {
-        background: #2196F3;
-    }
-}
-
 .secondary-menu {
     position: fixed;
     top: 0;
@@ -131,8 +110,8 @@ h5 {
 }
 
 .content {
-    margin-top: 125px;
-    padding: 0 58px 0 290px;
+    margin-top: 0;
+    padding: 70px 58px 0 290px;
 }
 
 .sidebar-items-container,
@@ -574,63 +553,4 @@ textarea.materialize-textarea:focus:not([readonly]) {
 
 .cke_toolgroup {
     background-color: #aaa !important;
-}
-
-/************************************************
- ***** jQuery Sortable
- ***********************************************/
-
-.sortable {
-    div {
-        cursor: move;
-    }
-}
-
-/************************************************
- ***** Mixins
- ***********************************************/
-
-.transition(@style: all, @duration: 0.15s, @effect: ease-in-out) {
-    -webkit-transition: @style @duration @effect;
-    -moz-transition: @style @duration @effect;
-    -ms-transition: @style @duration @effect;
-    -o-transition: @style @duration @effect;
-    transition: @style @duration @effect;
-}
-
-.default-clear() {
-    display: block;
-    height: 0;
-    content: " ";
-    font-size: 0;
-    clear: both;
-    visibility: hidden;
-}
-
-/************************************************
- ***** AngularJS View Transition Effects
- ***********************************************/
-
-.view-fade-in {
-    &.ng-enter {
-        position: relative;
-        opacity: 0;
-        .transition();
-
-        &.ng-enter-active {
-            top: 0; left: 0; opacity: 1;
-        }
-    }
-
-    &.ng-leave {
-        top: 0;
-        left: 0;
-        opacity: 0;
-
-        &.ng-leave-active {
-            top: 0;
-            left: 0;
-            opacity: 1;
-        }
-    }
 }
